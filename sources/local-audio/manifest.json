@@ -1,0 +1,26 @@
+{
+  "audio_hw.c": {
+    "url": "https://android.googlesource.com/platform/hardware/libhardware/+/android-7.1.2_r39/modules/audio/audio_hw.c?format=TEXT",
+    "sha256": "c6db23cc30cade15985ecfe55d86a10a68cd6268b0031a4ead86edb8f84a89eb"
+  },
+  "Android.mk": {
+    "url": "https://android.googlesource.com/platform/hardware/libhardware/+/android-7.1.2_r39/modules/audio/Android.mk?format=TEXT",
+    "sha256": "f5b41a166bd3afa4eecd35e827d3940f0ccc3ef0a55df6e84f8ab798343af373"
+  },
+  "main_audioserver.cpp": {
+    "url": "https://android.googlesource.com/platform/frameworks/av/+/android-7.1.2_r39/media/audioserver/main_audioserver.cpp?format=TEXT",
+    "sha256": "2baccd63deecd4a88dd9b9570a6ef70ae72296afe1638a7e537c90eb2d6c936e"
+  },
+  "include/system/audio.h": {
+    "url": "https://android.googlesource.com/platform/system/media/+/android-7.1.2_r39/audio/include/system/audio.h?format=TEXT",
+    "sha256": "1e90ce93587f93e6f862a5dae4d5088a5a01baadd2fda0f10564d720285f01e4"
+  },
+  "include/system/audio_policy.h": {
+    "url": "https://android.googlesource.com/platform/system/media/+/android-7.1.2_r39/audio/include/system/audio_policy.h?format=TEXT",
+    "sha256": "cbf990bdee6833ee83405269b13d23dc9264a5d522a2fc97ad9cab7912a25267"
+  },
+  "include/system/sound_trigger.h": {
+    "url": "https://android.googlesource.com/platform/system/media/+/android-7.1.2_r39/audio/include/system/sound_trigger.h?format=TEXT",
+    "sha256": "a230c0f148317cfc9ab28d0d43cb41f1e64f5d2a13ab1fe87e7c9be0e0891a3f"
+  }
+}

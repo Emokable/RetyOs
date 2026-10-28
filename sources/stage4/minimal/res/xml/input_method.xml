@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<input-method xmlns:android="http://schemas.android.com/apk/res/android"
+    android:supportsSwitchingToNextInputMethod="true" android:isDefault="@bool/reader_ime_default">
+    <subtype android:label="简体拼音 / English" android:imeSubtypeLocale="zh_CN"
+        android:imeSubtypeMode="keyboard" android:isAsciiCapable="true" />
+    <subtype android:label="English" android:imeSubtypeLocale="en_US"
+        android:imeSubtypeMode="keyboard" android:isAsciiCapable="true" />
+</input-method>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.kindlelab.apkprobe"
+    android:versionCode="3"
+    android:versionName="1.2">
+    <uses-sdk android:minSdkVersion="25" android:targetSdkVersion="25" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <application android:label="RetyOs" android:hasCode="true"
+        android:allowBackup="false" android:debuggable="false"
+        android:hardwareAccelerated="false"
+        android:directBootAware="true"
+        android:theme="@android:style/Theme.Material.Light.NoActionBar">
+        <activity android:name=".ApkProbeActivity" android:exported="true"
+            android:directBootAware="true" android:launchMode="singleTask" android:theme="@style/ReaderDesktopTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".FilesActivity" android:exported="false" android:directBootAware="true" />
+        <activity android:name=".InputTestActivity" android:exported="true" android:directBootAware="true" />
+        <activity android:name=".AppManagerActivity" android:exported="false" android:directBootAware="true" />
+        <activity android:name=".AppPolicyActivity" android:exported="false" android:directBootAware="true" />
+        <service android:name=".ReaderInputMethod" android:label="阅读键盘"
+            android:permission="android.permission.BIND_INPUT_METHOD" android:exported="true" android:directBootAware="true">
+            <intent-filter><action android:name="android.view.InputMethod" /></intent-filter>
+            <meta-data android:name="android.view.im" android:resource="@xml/input_method" />
+        </service>
+        <provider android:name=".SharedFilesProvider" android:authorities="org.kindlelab.apkprobe.files"
+            android:exported="false" android:grantUriPermissions="true" android:directBootAware="true" />
+    </application>
+</manifest>

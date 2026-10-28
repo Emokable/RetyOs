@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "host": "windows-x86_64",
+  "androidBase": "Google APIs API25 ARMv7 r18 (external prebuilt runtime)",
+  "inputs": [
+    {
+      "path": "downloads/armeabi-v7a-25_r18.zip",
+      "url": "https://dl.google.com/android/repository/sys-img/google_apis/armeabi-v7a-25_r18.zip",
+      "kind": "api25",
+      "bytes": 952973150,
+      "sha256": "0e888e3141ec4bf55494cbbb268e91fab60de7bf5163f85a40a4bab7e31032ff"
+    },
+    {
+      "path": "downloads/android-ndk-r15c-windows-x86_64.zip",
+      "url": "https://dl.google.com/android/repository/android-ndk-r15c-windows-x86_64.zip",
+      "kind": "ndk",
+      "bytes": 849733996,
+      "sha256": "6f3785cbe7bd90dd0383e88c20aaa656b5a5e38a6cdc389e667e3b2c636bcd8d"
+    },
+    {
+      "path": "downloads/build-tools_r25.0.3-windows.zip",
+      "url": "https://dl.google.com/android/repository/build-tools_r25.0.3-windows.zip",
+      "kind": "build25",
+      "bytes": 51337442,
+      "sha256": "ad1ba5612189aaded36f31c1c73712757364d654010881a22bc6156de00c3aff"
+    },
+    {
+      "path": "downloads/build-tools_r37_windows.zip",
+      "url": "https://dl.google.com/android/repository/build-tools_r37_windows.zip",
+      "kind": "build37",
+      "bytes": 61077164,
+      "sha256": "68075aa319ed8a01cf1a565ed1e61a3c1a801dd49191c35851248dc293c33b1a"
+    },
+    {
+      "path": "downloads/platform-25_r03.zip",
+      "url": "https://dl.google.com/android/repository/platform-25_r03.zip",
+      "kind": "platform25",
+      "bytes": 85424763,
+      "sha256": "9b742d34590fe73fb7229e34835ecffb1846ca389d9f924f0b2a37de525dc6b8"
+    },
+    {
+      "path": "toolchains/zig.zip",
+      "url": "https://ziglang.org/download/0.13.0/zig-windows-x86_64-0.13.0.zip",
+      "kind": "zig",
+      "bytes": 79163968,
+      "sha256": "d859994725ef9402381e557c60bb57497215682e355204d754ee3df75ee3c158"
+    },
+    {
+      "path": "toolchains/r8-8.3.37.jar",
+      "url": "https://dl.google.com/dl/android/maven2/com/android/tools/r8/8.3.37/r8-8.3.37.jar",
+      "kind": "r8",
+      "bytes": 16628796,
+      "sha256": "59753e70a74f918389cc87f1b7d66b5c0862932559167425708ded159e3de439"
+    },
+    {
+      "path": "toolchains/apktool-3.0.3.jar",
+      "url": "https://github.com/iBotPeaches/Apktool/releases/download/v3.0.3/apktool_3.0.3.jar",
+      "kind": "apktool",
+      "bytes": 15478013,
+      "sha256": "dbf930b076c6b9be08d57c449cacefc3bdd6b71ebd59b3066fc0e1f5b14f9423"
+    },
+    {
+      "path": "downloads/slirp4netns-v1.3.4-armv7l",
+      "url": "https://github.com/rootless-containers/slirp4netns/releases/download/v1.3.4/slirp4netns-armv7l",
+      "kind": "slirp",
+      "bytes": 1409428,
+      "sha256": "2ceda3b0909d8533d9301a7d2d6f2ed3d8cf0bbe19e22c8be5cd63d47b1fef38"
+    },
+    {
+      "path": "downloads/rustc-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "url": "https://static.rust-lang.org/dist/2026-10-15/rustc-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "kind": "rust",
+      "sha256": "a48f186defb3d57538b34e14a24a94f6e29906f191630b627dcb091198bae438",
+      "bytes": 103333792
+    },
+    {
+      "path": "downloads/cargo-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "url": "https://static.rust-lang.org/dist/2026-10-15/cargo-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "kind": "rust",
+      "sha256": "e4b9107e9f655d37200c884294e74930829f236a3e81982fc678e9fc56ae9a6b",
+      "bytes": 12532508
+    },
+    {
+      "path": "downloads/rust-std-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "url": "https://static.rust-lang.org/dist/2026-10-15/rust-std-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "kind": "rust",
+      "sha256": "b17e3bc962ff24b3bc47a750d838defed85b280746250e3a3ad029e6c1a29dd7",
+      "bytes": 28394660
+    },
+    {
+      "path": "downloads/rust-std-1.99.1-armv7-unknown-linux-musleabihf.tar.xz",
+      "url": "https://static.rust-lang.org/dist/2026-10-15/rust-std-1.99.1-armv7-unknown-linux-musleabihf.tar.xz",
+      "kind": "rust",
+      "sha256": "edccfaef9195cb74b5c33541e587629f92433f59fb5e4bbb7b8293f966ecd60a",
+      "bytes": 28525568
+    },
+    {
+      "path": "downloads/rust-mingw-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "url": "https://static.rust-lang.org/dist/2026-10-15/rust-mingw-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "kind": "rust",
+      "sha256": "1dca8e0d253565dbf21296eabc3e8d6e06e607e92c59dc00e3ecff902fe3d5ae",
+      "bytes": 5490496
+    }
+  ]
+}

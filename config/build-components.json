@@ -1,0 +1,169 @@
+{
+  "prepare.py": {
+    "purpose": "Binder source preparation",
+    "output": "build/service_manager.c",
+    "consumedBy": "build-graphics-guard.py"
+  },
+  "adapt-abi8.py": {
+    "purpose": "Binder ABI 8 adaptation",
+    "output": "build/binder.c",
+    "consumedBy": "build-android-native.py"
+  },
+  "build-android-native.py": {
+    "purpose": "Namespace helpers and Binder client",
+    "output": "rootfs-min/system/bin/init-client-helper"
+  },
+  "build-bionic-probe.py": {
+    "purpose": "Startup linker self-check",
+    "output": "rootfs-min/system/bin/bionic-probe"
+  },
+  "build-ashmem.py": {
+    "purpose": "Startup shared-memory self-check",
+    "output": "rootfs-min/system/bin/ashmem-test"
+  },
+  "build-container-init.py": {
+    "purpose": "Container init",
+    "output": "rootfs-min/system/bin/init-container"
+  },
+  "build-libbinder.py": {
+    "purpose": "Binder runtime",
+    "output": "rootfs-min/system/lib/libbinder.so"
+  },
+  "build-container-installd.py": {
+    "purpose": "Application installation service",
+    "output": "artifacts/installd-container"
+  },
+  "build-headless-battery.py": {
+    "purpose": "Battery service",
+    "output": "artifacts/headless-battery"
+  },
+  "build-graphics-guard.py": {
+    "purpose": "Runtime guard, service manager and ashmem compatibility",
+    "output": "artifacts/art-guard-graphics"
+  },
+  "build-headless-gles.ps1": {
+    "purpose": "Software GLES and intermediate PixelFlinger link library",
+    "output": "artifacts/libGLES_android-headless.so"
+  },
+  "build-mock-hwcomposer.ps1": {
+    "purpose": "Framebuffer compositor HAL",
+    "output": "artifacts/hwcomposer-headless.so"
+  },
+  "build-headless-surfaceflinger.ps1": {
+    "purpose": "SurfaceFlinger",
+    "output": "artifacts/surfaceflinger-headless"
+  },
+  "build-r12-pixelflinger.py": {
+    "purpose": "Runtime optimized PixelFlinger",
+    "output": "artifacts/r12-pixelflinger/libpixelflinger-headless.so"
+  },
+  "build-null-audio.py": {
+    "purpose": "Null audio HAL",
+    "output": "artifacts/audio.primary.default.so"
+  },
+  "build-swiftshader-arm.ps1": {
+    "purpose": "Software GLES compatibility for installed apps",
+    "output": "build/swiftshader-arm-safe/libGLESv2_swiftshader.so"
+  },
+  "prepare-webview-api25.py": {
+    "purpose": "Framework resource input",
+    "output": "artifacts/webview-api25/system/framework/framework-res.apk",
+    "consumedBy": "prepare-minimal-framework-config.py"
+  },
+  "build-apk-probe.py": {
+    "purpose": "Desktop, files, applications and keyboard",
+    "output": "artifacts/apk-probe/kindle-apk-probe.apk"
+  },
+  "prepare-minimal-framework-config.py": {
+    "purpose": "Container framework resources",
+    "output": "artifacts/minimal-framework/framework-res.apk"
+  },
+  "prepare-ca-certificates.py": {
+    "purpose": "HTTPS trust store",
+    "output": "artifacts/ca-certificates/NOTICE.txt"
+  },
+  "build-netd-exit-trace.py": {
+    "purpose": "Container netd compatibility",
+    "output": "artifacts/libnetd-exit-trace.so"
+  },
+  "build-system-controls.py": {
+    "purpose": "System controls and UI bridge",
+    "output": "artifacts/system-controls/classes.dex"
+  },
+  "build-zygote-namespace-enter.py": {
+    "purpose": "Zygote namespace entry",
+    "output": "artifacts/zygote-namespace-enter"
+  },
+  "build-apk-probe-runner.py": {
+    "purpose": "Install and launch coordinator",
+    "output": "artifacts/apk-probe-runner"
+  },
+  "build-stage5-hwtcon-gralloc.ps1": {
+    "purpose": "HWTCON display pipeline",
+    "output": "artifacts/stage5/gralloc.hwtcon.so"
+  },
+  "build-stage5-exclusive-input.ps1": {
+    "purpose": "Exclusive touch input",
+    "output": "artifacts/libinputflinger-exclusive-touch.so"
+  },
+  "build-stage5-hwtcon-probe.ps1": {
+    "purpose": "Framebuffer recovery helper",
+    "output": "artifacts/stage5/hwtcon-frame-probe"
+  },
+  "build-fuse-mount-broker.py": {
+    "purpose": "Shared files mount broker",
+    "output": "artifacts/fuse-mount-broker"
+  },
+  "build-sdcard.py": {
+    "purpose": "Android shared storage",
+    "output": "artifacts/sdcard-android7"
+  },
+  "build-getsockname-trace.py": {
+    "purpose": "Container socket compatibility",
+    "output": "artifacts/libgetsockname-trace.so"
+  },
+  "build-userxattr-compat.py": {
+    "purpose": "Data filesystem compatibility",
+    "output": "artifacts/libkindle-userxattr-compat.so"
+  },
+  "build-session-maintenance.py": {
+    "purpose": "Application maintenance",
+    "output": "artifacts/session-maintenance/classes.dex"
+  },
+  "build-alarm-fallback-fix.py": {
+    "purpose": "Alarm compatibility",
+    "output": "artifacts/alarm-fallback/kindle-alarm-fallback.jar"
+  },
+  "build-package-service-dump.py": {
+    "purpose": "Package manager bridge",
+    "output": "artifacts/package-service-dump.jar"
+  },
+  "build-session-freezer.py": {
+    "purpose": "Warm-session freeze and thaw",
+    "output": "artifacts/session-freezer"
+  },
+  "build-session-power-guard.py": {
+    "purpose": "Session power management",
+    "output": "artifacts/session-power-guard"
+  },
+  "build-session-preflight.py": {
+    "purpose": "Native Binder preflight",
+    "output": "artifacts/session-preflight"
+  },
+  "build-native-frame-probe.py": {
+    "purpose": "Native-home display verification",
+    "output": "artifacts/native-frame-probe"
+  },
+  "build-session-controller.py": {
+    "purpose": "Session controller and native frame restoration",
+    "output": "artifacts/session-controller"
+  },
+  "build-isolated-network-tool-shim.py": {
+    "purpose": "Isolated network tool compatibility",
+    "output": "artifacts/isolated-network-tool-noop"
+  },
+  "build-runtime-java.py": {
+    "purpose": "SystemServer bootstrap and boot helpers",
+    "output": "artifacts/systemserver-bootstrap/classes.dex"
+  }
+}

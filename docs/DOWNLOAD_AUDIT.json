@@ -1,0 +1,207 @@
+{
+  "date": "2026-10-28",
+  "fixedDownloadBytes": 2291503744,
+  "pythonWheelBytes": 231993,
+  "manualExampleBytes": 565821161,
+  "downloads": [
+    {
+      "path": "downloads/armeabi-v7a-25_r18.zip",
+      "url": "https://dl.google.com/android/repository/sys-img/google_apis/armeabi-v7a-25_r18.zip",
+      "bytes": 952973150,
+      "sha256": "0e888e3141ec4bf55494cbbb268e91fab60de7bf5163f85a40a4bab7e31032ff",
+      "localExists": true,
+      "localHashVerified": true,
+      "httpStatus": 200,
+      "contentLength": "952973150",
+      "rangeSupported": "bytes"
+    },
+    {
+      "path": "downloads/android-ndk-r15c-windows-x86_64.zip",
+      "url": "https://dl.google.com/android/repository/android-ndk-r15c-windows-x86_64.zip",
+      "bytes": 849733996,
+      "sha256": "6f3785cbe7bd90dd0383e88c20aaa656b5a5e38a6cdc389e667e3b2c636bcd8d",
+      "localExists": true,
+      "localHashVerified": true,
+      "httpStatus": 200,
+      "contentLength": "849733996",
+      "rangeSupported": "bytes"
+    },
+    {
+      "path": "downloads/build-tools_r25.0.3-windows.zip",
+      "url": "https://dl.google.com/android/repository/build-tools_r25.0.3-windows.zip",
+      "bytes": 51337442,
+      "sha256": "ad1ba5612189aaded36f31c1c73712757364d654010881a22bc6156de00c3aff",
+      "localExists": true,
+      "localHashVerified": true,
+      "httpStatus": 200,
+      "contentLength": "51337442",
+      "rangeSupported": "bytes"
+    },
+    {
+      "path": "downloads/build-tools_r37_windows.zip",
+      "url": "https://dl.google.com/android/repository/build-tools_r37_windows.zip",
+      "bytes": 61077164,
+      "sha256": "68075aa319ed8a01cf1a565ed1e61a3c1a801dd49191c35851248dc293c33b1a",
+      "localExists": true,
+      "localHashVerified": true,
+      "httpStatus": 200,
+      "contentLength": "61077164",
+      "rangeSupported": "bytes"
+    },
+    {
+      "path": "downloads/platform-25_r03.zip",
+      "url": "https://dl.google.com/android/repository/platform-25_r03.zip",
+      "bytes": 85424763,
+      "sha256": "9b742d34590fe73fb7229e34835ecffb1846ca389d9f924f0b2a37de525dc6b8",
+      "localExists": true,
+      "localHashVerified": true,
+      "httpStatus": 200,
+      "contentLength": "85424763",
+      "rangeSupported": "bytes"
+    },
+    {
+      "path": "toolchains/zig.zip",
+      "url": "https://ziglang.org/download/0.13.0/zig-windows-x86_64-0.13.0.zip",
+      "bytes": 79163968,
+      "sha256": "d859994725ef9402381e557c60bb57497215682e355204d754ee3df75ee3c158",
+      "localExists": true,
+      "localHashVerified": true,
+      "httpStatus": 200,
+      "contentLength": "79163968",
+      "rangeSupported": "bytes"
+    },
+    {
+      "path": "toolchains/r8-8.3.37.jar",
+      "url": "https://dl.google.com/dl/android/maven2/com/android/tools/r8/8.3.37/r8-8.3.37.jar",
+      "bytes": 16628796,
+      "sha256": "59753e70a74f918389cc87f1b7d66b5c0862932559167425708ded159e3de439",
+      "localExists": true,
+      "localHashVerified": true,
+      "httpStatus": 200,
+      "contentLength": "16628796",
+      "rangeSupported": "bytes"
+    },
+    {
+      "path": "toolchains/apktool-3.0.3.jar",
+      "url": "https://github.com/iBotPeaches/Apktool/releases/download/v3.0.3/apktool_3.0.3.jar",
+      "bytes": 15478013,
+      "sha256": "dbf930b076c6b9be08d57c449cacefc3bdd6b71ebd59b3066fc0e1f5b14f9423",
+      "localExists": true,
+      "localHashVerified": true,
+      "httpStatus": 200,
+      "contentLength": "15478013",
+      "rangeSupported": "bytes"
+    },
+    {
+      "path": "downloads/slirp4netns-v1.3.4-armv7l",
+      "url": "https://github.com/rootless-containers/slirp4netns/releases/download/v1.3.4/slirp4netns-armv7l",
+      "bytes": 1409428,
+      "sha256": "2ceda3b0909d8533d9301a7d2d6f2ed3d8cf0bbe19e22c8be5cd63d47b1fef38",
+      "localExists": true,
+      "localHashVerified": true,
+      "httpStatus": 200,
+      "verification": "Full network download, byte count and SHA-256 verified",
+      "previousUrlReturned404": true
+    },
+    {
+      "path": "downloads/rustc-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "url": "https://static.rust-lang.org/dist/2026-10-15/rustc-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "bytes": 103333792,
+      "sha256": "a48f186defb3d57538b34e14a24a94f6e29906f191630b627dcb091198bae438",
+      "localExists": true,
+      "localHashVerified": true,
+      "httpStatus": 200,
+      "contentLength": "103333792",
+      "rangeSupported": "bytes"
+    },
+    {
+      "path": "downloads/cargo-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "url": "https://static.rust-lang.org/dist/2026-10-15/cargo-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "bytes": 12532508,
+      "sha256": "e4b9107e9f655d37200c884294e74930829f236a3e81982fc678e9fc56ae9a6b",
+      "localExists": true,
+      "localHashVerified": true,
+      "httpStatus": 200,
+      "contentLength": "12532508",
+      "rangeSupported": "bytes"
+    },
+    {
+      "path": "downloads/rust-std-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "url": "https://static.rust-lang.org/dist/2026-10-15/rust-std-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "bytes": 28394660,
+      "sha256": "b17e3bc962ff24b3bc47a750d838defed85b280746250e3a3ad029e6c1a29dd7",
+      "localExists": true,
+      "localHashVerified": true,
+      "httpStatus": 200,
+      "contentLength": "28394660",
+      "rangeSupported": "bytes"
+    },
+    {
+      "path": "downloads/rust-std-1.99.1-armv7-unknown-linux-musleabihf.tar.xz",
+      "url": "https://static.rust-lang.org/dist/2026-10-15/rust-std-1.99.1-armv7-unknown-linux-musleabihf.tar.xz",
+      "bytes": 28525568,
+      "sha256": "edccfaef9195cb74b5c33541e587629f92433f59fb5e4bbb7b8293f966ecd60a",
+      "localExists": true,
+      "localHashVerified": true,
+      "httpStatus": 200,
+      "contentLength": "28525568",
+      "rangeSupported": "bytes"
+    },
+    {
+      "path": "downloads/rust-mingw-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "url": "https://static.rust-lang.org/dist/2026-10-15/rust-mingw-1.99.1-x86_64-pc-windows-gnu.tar.xz",
+      "bytes": 5490496,
+      "sha256": "1dca8e0d253565dbf21296eabc3e8d6e06e607e92c59dc00e3ecff902fe3d5ae",
+      "localExists": true,
+      "localHashVerified": true,
+      "httpStatus": 200,
+      "contentLength": "5490496",
+      "rangeSupported": "bytes"
+    }
+  ],
+  "manualToolExamples": [
+    {
+      "name": "Python 3.9.13 x64",
+      "url": "https://www.python.org/ftp/python/3.9.13/python-3.9.13-amd64.exe",
+      "status": 200,
+      "bytes": 29235432
+    },
+    {
+      "name": "JDK8 Temurin 8u504-b01",
+      "url": "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u504-b01/OpenJDK8U-jdk_x64_windows_hotspot_8u504b01.zip",
+      "status": 200,
+      "bytes": 106457258
+    },
+    {
+      "name": "JDK21 Temurin jdk-21.0.9+10",
+      "url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.9%2B10/OpenJDK21U-jdk_x64_windows_hotspot_21.0.9_10.zip",
+      "bytes": 204962060,
+      "status": 200,
+      "verification": "Official release metadata and HEAD Content-Length verified"
+    },
+    {
+      "name": "PowerShell 7.6.5 x64",
+      "url": "https://github.com/PowerShell/PowerShell/releases/download/v7.6.5/PowerShell-7.6.5-win-x64.msi",
+      "status": 200,
+      "bytes": 113750016
+    },
+    {
+      "name": "CMake 3.29.1 x64",
+      "url": "https://github.com/Kitware/CMake/releases/download/v3.29.1/cmake-3.29.1-windows-x86_64.zip",
+      "status": 200,
+      "bytes": 45786761
+    },
+    {
+      "name": "Ninja 1.11.1",
+      "url": "https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip",
+      "status": 200,
+      "bytes": 285922
+    },
+    {
+      "name": "Git for Windows 2.55.0.windows.5 (includes OpenSSL)",
+      "url": "https://github.com/git-for-windows/git/releases/download/v2.55.0.windows.5/Git-2.55.0.5-64-bit.exe",
+      "status": 200,
+      "bytes": 65343712
+    }
+  ]
+}

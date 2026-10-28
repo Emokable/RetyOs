@@ -1,0 +1,3 @@
+dissect.extfs==3.14
+dissect.cstruct==4.6
+dissect.util==3.22

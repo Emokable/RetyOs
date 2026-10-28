@@ -1,0 +1,34 @@
+service lab_sm /system/bin/servicemanager-bionic
+    disabled
+    oneshot
+
+service lab_provider /system/bin/sm-client-bionic publish
+    disabled
+    oneshot
+
+service lab_client /system/bin/init-client-helper echo
+    disabled
+    oneshot
+
+service lab_absent /system/bin/init-client-helper absent
+    disabled
+    oneshot
+
+on boot
+    setprop sys.kindletest.started 1
+    start lab_sm
+
+on property:init.svc.lab_sm=running
+    start lab_provider
+
+on property:init.svc.lab_provider=running
+    start lab_client
+
+on property:init.svc.lab_client=stopped
+    stop lab_provider
+
+on property:init.svc.lab_provider=stopped
+    start lab_absent
+
+on property:init.svc.lab_absent=stopped
+    setprop sys.kindletest.finished 1

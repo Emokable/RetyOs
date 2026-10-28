@@ -1,0 +1,5869 @@
+{
+  "schema": 1,
+  "entries": [
+    {
+      "path": "rootfs/art.marker",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/art.marker"
+    },
+    {
+      "path": "rootfs/default.prop",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/default.prop"
+    },
+    {
+      "path": "rootfs/dev/binder",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/dev/binder"
+    },
+    {
+      "path": "rootfs/dev/null",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/dev/null"
+    },
+    {
+      "path": "rootfs/dev/random",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/dev/random"
+    },
+    {
+      "path": "rootfs/dev/urandom",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/dev/urandom"
+    },
+    {
+      "path": "rootfs/dev/vndbinder",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/dev/vndbinder"
+    },
+    {
+      "path": "rootfs/dev/zero",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/dev/zero"
+    },
+    {
+      "path": "rootfs/fstab.kindlelab",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/fstab.kindlelab"
+    },
+    {
+      "path": "rootfs/property_contexts",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/property_contexts"
+    },
+    {
+      "path": "rootfs/system/app/DownloadProviderUi/DownloadProviderUi.apk",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/app/DownloadProviderUi/DownloadProviderUi.apk",
+      "sha256": "4b00d932aac7a215c3fd9cfe66df06f2a481aa8d20064dacbb3d2af8b0a0d5e9"
+    },
+    {
+      "path": "rootfs/system/app/DownloadProviderUi/oat/arm/DownloadProviderUi.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/app/DownloadProviderUi/oat/arm/DownloadProviderUi.odex",
+      "sha256": "c1e3c72f1d78f9de4a8f474148870b33d8059b7f9d2b5624e1dae1ce15752f52"
+    },
+    {
+      "path": "rootfs/system/app/GoogleExtShared/GoogleExtShared.apk",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/app/GoogleExtShared/GoogleExtShared.apk",
+      "sha256": "098066b0b31716ed44d5b6824583aabc177480708c0247ce1c18843044bb167f"
+    },
+    {
+      "path": "rootfs/system/app/GoogleExtShared/oat/arm/GoogleExtShared.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/app/GoogleExtShared/oat/arm/GoogleExtShared.odex",
+      "sha256": "ace437d532df5459c880822e74ea9185928bf1dc5fb856b93901f96a6a1f0b5f"
+    },
+    {
+      "path": "rootfs/system/app/WebViewGoogle/WebViewGoogle.apk",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/app/WebViewGoogle/WebViewGoogle.apk",
+      "sha256": "ee944775f5fc35de152690c805f1e49eed1f6caeb417149613974a242fad6cdc"
+    },
+    {
+      "path": "rootfs/system/app/WebViewGoogle/oat/arm/WebViewGoogle.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/app/WebViewGoogle/oat/arm/WebViewGoogle.odex",
+      "sha256": "e8e72bd8c50c39dfd2edcfdbf078b0c9c57f21a1f64b60a23dfcc66b3d9f08c2"
+    },
+    {
+      "path": "rootfs/system/bin/apk-probe-runner",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/apk-probe-runner"
+    },
+    {
+      "path": "rootfs/system/bin/app_process32",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/bin/app_process32",
+      "sha256": "3175e923230f6bcf2d43431ab1ec6c6e0cab8b37bfd2436a375cfc95d1e027c9"
+    },
+    {
+      "path": "rootfs/system/bin/art-guard",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/art-guard-graphics"
+    },
+    {
+      "path": "rootfs/system/bin/ashmem-test",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "rootfs-min/system/bin/ashmem-test"
+    },
+    {
+      "path": "rootfs/system/bin/audioserver",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/bin/audioserver",
+      "sha256": "7333e674f1001b472c021edf66f66958de94192e4db8dc6ebf17d7f13eb5c981"
+    },
+    {
+      "path": "rootfs/system/bin/bionic-probe",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "rootfs-min/system/bin/bionic-probe"
+    },
+    {
+      "path": "rootfs/system/bin/controls-client",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/system-controls/controls-client"
+    },
+    {
+      "path": "rootfs/system/bin/dalvikvm32",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/bin/dalvikvm32",
+      "sha256": "fa7844eacbb8162329152ad34fd8503509be1d85ab7d56f4c04506bdbd573c7e"
+    },
+    {
+      "path": "rootfs/system/bin/dex2oat",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/bin/dex2oat",
+      "sha256": "944fb777f0f6846c97b8abc01b75e9ce8b122481cdff41199685219c2dc7112a"
+    },
+    {
+      "path": "rootfs/system/bin/headless-battery",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/headless-battery"
+    },
+    {
+      "path": "rootfs/system/bin/init-client-helper",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "rootfs-min/system/bin/init-client-helper"
+    },
+    {
+      "path": "rootfs/system/bin/init-container",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "rootfs-min/system/bin/init-container"
+    },
+    {
+      "path": "rootfs/system/bin/installd",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/installd-container"
+    },
+    {
+      "path": "rootfs/system/bin/ip",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/isolated-network-tool-noop"
+    },
+    {
+      "path": "rootfs/system/bin/ip6tables",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/isolated-network-tool-noop"
+    },
+    {
+      "path": "rootfs/system/bin/ip6tables-restore",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/isolated-network-tool-noop"
+    },
+    {
+      "path": "rootfs/system/bin/iptables",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/isolated-network-tool-noop"
+    },
+    {
+      "path": "rootfs/system/bin/iptables-restore",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/isolated-network-tool-noop"
+    },
+    {
+      "path": "rootfs/system/bin/keystore",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/bin/keystore",
+      "sha256": "d47275d3dcf54f9a6cfde073c5fcdd6a931e9fa8580f2cf4faf9aa7600e312e1"
+    },
+    {
+      "path": "rootfs/system/bin/kindlelab-fuse-mount-broker",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/fuse-mount-broker"
+    },
+    {
+      "path": "rootfs/system/bin/libbinder-client",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "rootfs-min/system/bin/libbinder-client"
+    },
+    {
+      "path": "rootfs/system/bin/linker",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/bin/linker",
+      "sha256": "5ca617a5371ca22a8f455950dd154aa2075e420bb2a4d3c997f440b6912af380"
+    },
+    {
+      "path": "rootfs/system/bin/mediacodec",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/bin/mediacodec",
+      "sha256": "d88ec3f094bdebf65c105f3c90545027a9e5b2a66f1f53d175ad307a310373a5"
+    },
+    {
+      "path": "rootfs/system/bin/mediaserver",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/bin/mediaserver",
+      "sha256": "a41c45104f372ca8ed02345e07d1086f0da46d440810369937e2bb1c924a4b91"
+    },
+    {
+      "path": "rootfs/system/bin/ndc",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/bin/ndc",
+      "sha256": "a7287a1d05a33838a70418ea8da24c7d032a67701a910c2d8fb4c9433d675a87"
+    },
+    {
+      "path": "rootfs/system/bin/netd",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/bin/netd",
+      "sha256": "c58de4c3fa3336188584f7f656042a0f3ac241b10212923058e57e7b06ab0201"
+    },
+    {
+      "path": "rootfs/system/bin/patchoat",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/bin/patchoat",
+      "sha256": "13ab3e8d48cc5a209510c9d60acda063a3a12c8f7ce2684700c8e2513cefa56d"
+    },
+    {
+      "path": "rootfs/system/bin/sdcard",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/sdcard-android7"
+    },
+    {
+      "path": "rootfs/system/bin/servicemanager-bionic",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/servicemanager-system"
+    },
+    {
+      "path": "rootfs/system/bin/session-run-as",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/session-maintenance/session-run-as"
+    },
+    {
+      "path": "rootfs/system/bin/sf-service-check",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/service-check"
+    },
+    {
+      "path": "rootfs/system/bin/sm-client-bionic",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "rootfs-min/system/bin/sm-client-bionic"
+    },
+    {
+      "path": "rootfs/system/bin/surfaceflinger-headless",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/surfaceflinger-headless"
+    },
+    {
+      "path": "rootfs/system/bin/toybox",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/bin/toybox",
+      "sha256": "0b3fec98528f28c31b2351fab9cb54d0caf053b52c7c503646d3a8ca4b0870a1"
+    },
+    {
+      "path": "rootfs/system/bin/vold",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/bin/vold",
+      "sha256": "607bbb8eac6a32c8287ec15181fa5378ec5596714fe07d016a19c370030b5e5c"
+    },
+    {
+      "path": "rootfs/system/bin/zygote-namespace-enter",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/zygote-namespace-enter"
+    },
+    {
+      "path": "rootfs/system/build.prop",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/build.prop",
+      "sha256": "5339de598e1c6a0dcadca1aebac173e384c410f648b5e700413401ae1840533e"
+    },
+    {
+      "path": "rootfs/system/etc/audio_effects.conf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/system/etc/audio_effects.conf"
+    },
+    {
+      "path": "rootfs/system/etc/audio_policy.conf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/system/etc/audio_policy.conf"
+    },
+    {
+      "path": "rootfs/system/etc/event-log-tags",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/event-log-tags",
+      "sha256": "4bc3dcc4e84b4b154218fe474082c399a7e0b02a1990fe2e8357613642055eaf"
+    },
+    {
+      "path": "rootfs/system/etc/fonts.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/fonts.xml",
+      "sha256": "46cc13a3fcd249793b5bdeec469b3818bf65440adf66fb01bd8e1a40ddfa51d3"
+    },
+    {
+      "path": "rootfs/system/etc/kindlelab-apk-probe.apk",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/apk-probe/kindle-apk-probe.apk"
+    },
+    {
+      "path": "rootfs/system/etc/media_codecs.xml",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/media_codecs.xml",
+      "sha256": "3a0ac1fd6c74d0b2ea913de1e74604c15c501e6c1ddc9d1938153f67e2c4eb8b"
+    },
+    {
+      "path": "rootfs/system/etc/media_codecs_google_audio.xml",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/media_codecs_google_audio.xml",
+      "sha256": "0def1dc598872fe1c9761345f18536b9a4bb7ab24f5a4905ebc012ec2559329e"
+    },
+    {
+      "path": "rootfs/system/etc/media_codecs_google_telephony.xml",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/media_codecs_google_telephony.xml",
+      "sha256": "d0ebc3f9b6739d22f140e1a3acae6d92874736c89c53f82779e2e754032ed085"
+    },
+    {
+      "path": "rootfs/system/etc/media_codecs_google_video.xml",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/media_codecs_google_video.xml",
+      "sha256": "e999e0ab623012dcb07981e3f549231e7a36248810bdc42e04baf6426803348a"
+    },
+    {
+      "path": "rootfs/system/etc/media_codecs_performance.xml",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/media_codecs_performance.xml",
+      "sha256": "cb134f80d24bee99a85b53e514929e8ac58a80f6d6a86238f5a43b56f95c7ac2"
+    },
+    {
+      "path": "rootfs/system/etc/permissions/android.hardware.camera.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/permissions/android.hardware.camera.xml",
+      "sha256": "21149c1d0b5512455dedf2ad154a6f33707dd412cb0d4de6d599d12f2d1216d1"
+    },
+    {
+      "path": "rootfs/system/etc/permissions/android.hardware.fingerprint.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/permissions/android.hardware.fingerprint.xml",
+      "sha256": "2a71ae806bdc70e7f0f72c1ac010cae49fcb520efc4b10de52aaed57fe365662"
+    },
+    {
+      "path": "rootfs/system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml",
+      "sha256": "9fb2b20e77f0104e5b1d01630f8af69e1d6b24baae47a1a5ca91e9c0f0aee30c"
+    },
+    {
+      "path": "rootfs/system/etc/permissions/android.hardware.wifi.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/permissions/android.hardware.wifi.xml",
+      "sha256": "c1315743359a2c41344582074fd6238ce22600c0b28183e2901d9075585ff0a2"
+    },
+    {
+      "path": "rootfs/system/etc/permissions/android.software.live_wallpaper.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/permissions/android.software.live_wallpaper.xml",
+      "sha256": "055df9cecfb48a0d39dd572f695db812d032d81f68c83e76a8bab16b274caf7a"
+    },
+    {
+      "path": "rootfs/system/etc/permissions/android.software.webview.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/permissions/android.software.webview.xml",
+      "sha256": "2e293ff6ea02063ea3835e42e7a5c17fc5a15a46fff0af486c19dcb5b92fe821"
+    },
+    {
+      "path": "rootfs/system/etc/permissions/com.android.location.provider.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/permissions/com.android.location.provider.xml",
+      "sha256": "9ccb80158de3aa3d3b0385d320b537526328530cf62522564ab1c56c97f67e74"
+    },
+    {
+      "path": "rootfs/system/etc/permissions/com.android.media.remotedisplay.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/permissions/com.android.media.remotedisplay.xml",
+      "sha256": "4aab4f7a0d722018682d71e0696715b00648433dcfdd4174cb10245ee8302d80"
+    },
+    {
+      "path": "rootfs/system/etc/permissions/com.android.mediadrm.signer.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/permissions/com.android.mediadrm.signer.xml",
+      "sha256": "d1f05b025acc4a39e8139a3f71a277e13edc05f4dbc3e14b5c2197b1651b0d93"
+    },
+    {
+      "path": "rootfs/system/etc/permissions/com.google.android.maps.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/permissions/com.google.android.maps.xml",
+      "sha256": "51110dd5c9b92983c5d36684fb0539642bc27e1d67f81d36e4698eddd5405eef"
+    },
+    {
+      "path": "rootfs/system/etc/permissions/com.google.android.media.effects.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/permissions/com.google.android.media.effects.xml",
+      "sha256": "06ca9066d58da30bcf9b3570a801a6a24a256c213581b0c7633396715420b281"
+    },
+    {
+      "path": "rootfs/system/etc/permissions/handheld_core_hardware.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/permissions/handheld_core_hardware.xml",
+      "sha256": "9bdc01dd5583ae117c1edf3eb0652a1a209630a23de2d79ebe43f97d6856fd62"
+    },
+    {
+      "path": "rootfs/system/etc/permissions/platform.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/permissions/platform.xml",
+      "sha256": "3a4f914c3eb64f924a05098764b50f5666256b4eff392ef9f746c55c2980cfe4"
+    },
+    {
+      "path": "rootfs/system/etc/preloaded-classes",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/preloaded-classes",
+      "sha256": "80acf31798fc280b2751dc6e3a987ae3d03d715b894596c14705b5771defc310"
+    },
+    {
+      "path": "rootfs/system/etc/public.libraries.txt",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/public.libraries.txt",
+      "sha256": "938e997adae69f5969fc64312737a78a5dbc7de4e2ed62208064c5e90429c2c0"
+    },
+    {
+      "path": "rootfs/system/etc/security/CA-NOTICE.txt",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/NOTICE.txt"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/01419da9.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/01419da9.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/04f60c28.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/04f60c28.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/073bfcc5.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/073bfcc5.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/0d69c7e1.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/0d69c7e1.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/10531352.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/10531352.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/128f4b91.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/128f4b91.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/17882578.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/17882578.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/1b0f7e5c.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/1b0f7e5c.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/1df5a75f.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/1df5a75f.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/1e1eab7c.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/1e1eab7c.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/1e44ef15.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/1e44ef15.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/1e8e7201.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/1e8e7201.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/1f58a078.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/1f58a078.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/252252d2.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/252252d2.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/2add47b6.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/2add47b6.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/2c63f966.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/2c63f966.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/2cc2056d.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/2cc2056d.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/2d21b73c.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/2d21b73c.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/2d9dafe4.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/2d9dafe4.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/302904dd.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/302904dd.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/304d27c3.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/304d27c3.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/31188b5e.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/31188b5e.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/33ee480d.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/33ee480d.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/3428dc64.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/3428dc64.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/35105088.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/35105088.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/3afde786.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/3afde786.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/3c899c73.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/3c899c73.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/3c9a4d3b.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/3c9a4d3b.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/41a3f684.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/41a3f684.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/47b283f6.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/47b283f6.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/48a195d8.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/48a195d8.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/4be590e0.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/4be590e0.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/4c3982f2.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/4c3982f2.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/52b525c7.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/52b525c7.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/53a1b57a.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/53a1b57a.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/583ac115.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/583ac115.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/583d0756.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/583d0756.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/5acf816d.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/5acf816d.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/5f47b495.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/5f47b495.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/5f9a69fa.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/5f9a69fa.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/5fdd185d.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/5fdd185d.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/60afe812.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/60afe812.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/6187b673.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/6187b673.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/64316a39.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/64316a39.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/6b03dec0.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/6b03dec0.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/6b483515.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/6b483515.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/6c85d883.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/6c85d883.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/7892ad52.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/7892ad52.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/7a7c655d.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/7a7c655d.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/7e067d03.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/7e067d03.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/82223c44.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/82223c44.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/83e9984f.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/83e9984f.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/85cde254.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/85cde254.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/8761519c.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/8761519c.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/8794b4e3.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/8794b4e3.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/88950faa.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/88950faa.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/89c02a45.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/89c02a45.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/8b4600ae.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/8b4600ae.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/8d6437c3.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/8d6437c3.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/8d81b251.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/8d81b251.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/8f6cd7bb.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/8f6cd7bb.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/9282e51c.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/9282e51c.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/93851c9e.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/93851c9e.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/9479c8c3.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/9479c8c3.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/9576d26b.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/9576d26b.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/9591a472.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/9591a472.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/95aff9e3.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/95aff9e3.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/985c1f52.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/985c1f52.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/98aaf404.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/98aaf404.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/99e1b953.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/99e1b953.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/a2c66da8.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/a2c66da8.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/a716d4ed.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/a716d4ed.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/a81e292b.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/a81e292b.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/a9d40e02.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/a9d40e02.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/ab59055e.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/ab59055e.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/b0ed035a.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/b0ed035a.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/b30d5fda.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/b30d5fda.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/b7b40cb7.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/b7b40cb7.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/b7db1890.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/b7db1890.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/b92fd57f.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/b92fd57f.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/b936d1c6.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/b936d1c6.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/bb055c90.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/bb055c90.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/bc3f2570.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/bc3f2570.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/bd43e1dd.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/bd43e1dd.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/c44cc0c0.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/c44cc0c0.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/c491639e.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/c491639e.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/c7f1359b.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/c7f1359b.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/c90bc37d.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/c90bc37d.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/cb1c3204.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/cb1c3204.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/cbb3f32b.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/cbb3f32b.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/d06393bb.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/d06393bb.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/d16a5865.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/d16a5865.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/d18e9066.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/d18e9066.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/d39b0a2c.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/d39b0a2c.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/d41b5e2a.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/d41b5e2a.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/d4c339cb.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/d4c339cb.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/d59297b8.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/d59297b8.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/d7746a63.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/d7746a63.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/d96b65e2.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/d96b65e2.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/da7377f6.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/da7377f6.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/dc99f41e.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/dc99f41e.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/dfc0fe80.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/dfc0fe80.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/e071171e.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/e071171e.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/e13665f9.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/e13665f9.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/e442e424.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/e442e424.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/e7c037b4.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/e7c037b4.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/e8651083.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/e8651083.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/ed39abd0.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/ed39abd0.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/ee035825.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/ee035825.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/ee37c333.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/ee37c333.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/ee532fd5.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/ee532fd5.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/f013ecaf.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/f013ecaf.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/f058632f.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/f058632f.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/f459871d.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/f459871d.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/f8fc53da.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/f8fc53da.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/fb5fa911.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/fb5fa911.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/fd08c599.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/fd08c599.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/cacerts/ffa7f1eb.0",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/ca-certificates/system/etc/security/cacerts/ffa7f1eb.0"
+    },
+    {
+      "path": "rootfs/system/etc/security/mac_permissions.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/security/mac_permissions.xml",
+      "sha256": "94cc111b69bcd66871cb20d5405a4ada011d01e829a91c2b000e6eb580cea7cc"
+    },
+    {
+      "path": "rootfs/system/etc/sysconfig/google.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/sysconfig/google.xml",
+      "sha256": "cd7cc504165128ac4e79f1b2f716ef928ee9391222c4080987ebdbc2c32d4746"
+    },
+    {
+      "path": "rootfs/system/etc/sysconfig/google_build.xml",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/etc/sysconfig/google_build.xml",
+      "sha256": "14389b111fd01ac3425b36cef4ad86479efb2b8cb092a127a41226cb4ab6fe18"
+    },
+    {
+      "path": "rootfs/system/fonts/AndroidClock.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/AndroidClock.ttf",
+      "sha256": "3f5d601c8dae846fabc9f0a9459429e6d7a1e16e1dd8462f39347f70573727f9"
+    },
+    {
+      "path": "rootfs/system/fonts/CarroisGothicSC-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/CarroisGothicSC-Regular.ttf",
+      "sha256": "a101d90b51a9e23e4cc2b8084a74e7755df47066bfe929c7cbfe21132fbcb76d"
+    },
+    {
+      "path": "rootfs/system/fonts/ComingSoon.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/ComingSoon.ttf",
+      "sha256": "1c7a44d75a7e130a89ca46bf6ece6d34b0085cd82291d745fae5a9844bd9a615"
+    },
+    {
+      "path": "rootfs/system/fonts/CutiveMono.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/CutiveMono.ttf",
+      "sha256": "ef9633aae944f29d936f5da3d757fa6b00cad4948fe8891a093788c2f3524bba"
+    },
+    {
+      "path": "rootfs/system/fonts/DancingScript-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/DancingScript-Bold.ttf",
+      "sha256": "52202e0b47a0348fb6050afbb961d205ff3ea1a0ceb2c949722ac30d945561bf"
+    },
+    {
+      "path": "rootfs/system/fonts/DancingScript-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/DancingScript-Regular.ttf",
+      "sha256": "ffbffad38d0278dbfdb2b21a206e939eb126af1552b5067da9ab5c04e003b316"
+    },
+    {
+      "path": "rootfs/system/fonts/DroidSans-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/DroidSans-Bold.ttf",
+      "sha256": "07f290a54edccc055cda5fb5f763777c9ebc613f8e54c745300ba7657531922e"
+    },
+    {
+      "path": "rootfs/system/fonts/DroidSans.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/DroidSans.ttf",
+      "sha256": "b0cb45cf234d13dcdd3560c39f527e791554440e93c5811103a8d70ecfeb77b2"
+    },
+    {
+      "path": "rootfs/system/fonts/DroidSansMono.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/DroidSansMono.ttf",
+      "sha256": "db19a1fdaba41cc4a2fec0330e5c15e71c6dd68a3ef074f4f28268828b45c862"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoColorEmoji.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoColorEmoji.ttf",
+      "sha256": "01622aacda2e101522fd9c58ba12f20e2208852c4296fcf788061d4b3e2ed895"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoNaskhArabic-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoNaskhArabic-Bold.ttf",
+      "sha256": "0021c32617839151d91ac7e9754f6d40d6b7826ac428a41a0a7d333feafb6403"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoNaskhArabic-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoNaskhArabic-Regular.ttf",
+      "sha256": "bc3c3bc093447f7d43c344b90fc54e0eef512c8a0e6787b2a41ea3cb76552106"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoNaskhArabicUI-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoNaskhArabicUI-Bold.ttf",
+      "sha256": "33976c5f07842c9e973ec61860f3b1e925f39150025c2f1adde0aca4794f3172"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoNaskhArabicUI-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoNaskhArabicUI-Regular.ttf",
+      "sha256": "eb2c34e70742075e2b7f9d9af8274defa5a2299a0e78c042e5aab05799541389"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansArmenian-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansArmenian-Bold.ttf",
+      "sha256": "6d64cfec160e64321020fd6e0608fe68d5d06738f249c8aec869b31b14b10174"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansArmenian-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansArmenian-Regular.ttf",
+      "sha256": "dc59ee9f8e28a60dfe7db077737868e4d1b5667175b73527b1e1f4eba08379ad"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansBalinese-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansBalinese-Regular.ttf",
+      "sha256": "409da69bdfe93e4bece9c4695b2b74498fbbc3a8dff76145baf7784dcb52a2c5"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansBamum-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansBamum-Regular.ttf",
+      "sha256": "28aef8dfc96b81afdb6385e8a23c47f01d1ad3111dd849c917c3693201aebb77"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansBatak-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansBatak-Regular.ttf",
+      "sha256": "536462a433183ea120090ce8acae20c0f6ca6970c9b65444e053fa04f454e4b4"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansBengali-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansBengali-Bold.ttf",
+      "sha256": "cf4cef8463c80c11db546b18dff57e8f129cb08f04458dae9272fa4377ae0b52"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansBengali-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansBengali-Regular.ttf",
+      "sha256": "1e23693fd12c9568e7e765ff75b7c4bd5fa99511afabbeb880027d0470d97c54"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansBengaliUI-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansBengaliUI-Bold.ttf",
+      "sha256": "736ff249ec34c85d4e7ad2a53fd167996fb16420ad80b6c98a454bfe997424a3"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansBengaliUI-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansBengaliUI-Regular.ttf",
+      "sha256": "b9d38e083f96057f6e80779c76ab51cd7c68bfb3fe07dd214613174f6e87040d"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansBuginese-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansBuginese-Regular.ttf",
+      "sha256": "50dfd5dd744f7c3059ca39408676e13634077beffb41d765bc7cdcd113d0ba62"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansBuhid-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansBuhid-Regular.ttf",
+      "sha256": "d7c9275ab99c4947d7080f399318e33df66a6b1b08086fd49766b5acba0b037a"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansCJK-Regular.ttc",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansCJK-Regular.ttc",
+      "sha256": "a4e43d2dfbc0bc4daaae2b79a441df2d6270be3b4a183bf2cc1037fb2d819644"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansCanadianAboriginal-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansCanadianAboriginal-Regular.ttf",
+      "sha256": "26ab4c76e5cda1e010ff4e07de224ed4254c9a197d8ea574bffd0f3ab1038e9a"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansCham-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansCham-Bold.ttf",
+      "sha256": "8621575e81279b82bc0a42f11e8e257f1c9319419efdcbe671b8a596d29afae1"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansCham-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansCham-Regular.ttf",
+      "sha256": "ab0fab673bc45667a15a351c34553f1a27b1a30f6b422933e5c2e775c2ba4cba"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansCherokee-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansCherokee-Regular.ttf",
+      "sha256": "85de65d49f2b54ad9b53d5eca1e2ddfbac8a75cddddf0b9789d919306f20209b"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansCoptic-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansCoptic-Regular.ttf",
+      "sha256": "7b4fb37ecfad8f340d027cff2eb25a2aab4dc5258495ffff2fa94a3ed05b5902"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansDevanagari-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansDevanagari-Bold.ttf",
+      "sha256": "23ff65cbc4ff946fde36e9e2eb0c99c21b8b6a2a3de294df1658cad642f7788f"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansDevanagari-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansDevanagari-Regular.ttf",
+      "sha256": "4d230e5ac6ebf24e64fa2f1d0d9fa6c194f4127ac71594dcbf53c8c248422984"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansDevanagariUI-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansDevanagariUI-Bold.ttf",
+      "sha256": "65e27802d0d9f1d56b1ef60963281221324c5e99721e57ceeb12139454115942"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansDevanagariUI-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansDevanagariUI-Regular.ttf",
+      "sha256": "b019fb840603db9fa5c5de37130d4848b5f969919fa20853a85332775ae79e31"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansEthiopic-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansEthiopic-Bold.ttf",
+      "sha256": "e99f42fa8c118d0151d296cf23227d313f470e1f1260b4ec69ec233a39f0b1e0"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansEthiopic-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansEthiopic-Regular.ttf",
+      "sha256": "2e41abe6a082dd2ba127b8bf70bcf5cb39bcc995a20c360de338d3f912411140"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansGeorgian-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansGeorgian-Bold.ttf",
+      "sha256": "7560ea64f20ef3dfe401224fa8f93e95b2a3ddcba4e8d4418d8c8527d8e39808"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansGeorgian-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansGeorgian-Regular.ttf",
+      "sha256": "4e13bec8e0a949e39e5de78cbde4e5382cbca0c6d84d6027fd8aeaec2e1f2ad4"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansGlagolitic-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansGlagolitic-Regular.ttf",
+      "sha256": "303f3cb7ce9fabc2c46f907d12dd1015b80e84b78fa7f0c3c587e3215f47a497"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansGujarati-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansGujarati-Bold.ttf",
+      "sha256": "0ef97965e6516d434db064968d2e36a729ca8a1cb4420fdf01eeb3477332af36"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansGujarati-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansGujarati-Regular.ttf",
+      "sha256": "d56563ea8e43d107d2c591f8babdf53cc6b248cbbc0e0c47aeae678e5e990d6d"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansGujaratiUI-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansGujaratiUI-Bold.ttf",
+      "sha256": "3a4168fb5628bf9fcd71e5d9a571b02e5e5a2fa7ab0a6b4418cb003f83b416a2"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansGujaratiUI-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansGujaratiUI-Regular.ttf",
+      "sha256": "9bc3db073c526cc05548e9fc33367b6ed0b0dc49b6c5cf09bad620caeb622aaf"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansGurmukhi-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansGurmukhi-Bold.ttf",
+      "sha256": "608ac835d99a897d966e735dbaf902373be9b4284e5168618b8b98acbdda29cd"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansGurmukhi-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansGurmukhi-Regular.ttf",
+      "sha256": "b31f9f885eef5145626bd9eeff4da5399ab6ac44c8413db2bd7b77c787c061fa"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansGurmukhiUI-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansGurmukhiUI-Bold.ttf",
+      "sha256": "512e3780eacc69a7f9098e4b01670f1545ba5f13d8c73b8613a2cf0b69132fc8"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansGurmukhiUI-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansGurmukhiUI-Regular.ttf",
+      "sha256": "d63f7765fe9a32be2e960d56c998278d2c874ca20b6a0f09a32c6453083d5bfb"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansHanunoo-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansHanunoo-Regular.ttf",
+      "sha256": "177c0d32f3e8e4b12f84a4c5ff6b11045cf828d2ab1e3b3ab35c8242ad565d0a"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansHebrew-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansHebrew-Bold.ttf",
+      "sha256": "138a49ada08b30f301660e1da4d0004825297fc083aea344e613b90c172d5d59"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansHebrew-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansHebrew-Regular.ttf",
+      "sha256": "ef877e0e136f7942900b7ec8c866c180562d45def425b8bfe2dc0a992e3c2fd7"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansJavanese-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansJavanese-Regular.ttf",
+      "sha256": "2b9f290880e8eed237b5f0f714f32d6b64df6e9b15f52e76c77119a905d21589"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansKannada-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansKannada-Bold.ttf",
+      "sha256": "287e2b4c39af7cd4f504eebb7119246752591b14cf460b92ab3ba18ae8682348"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansKannada-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansKannada-Regular.ttf",
+      "sha256": "81789b6cfe0556fadc528aff8325781f8f2a362e6dff1fd1bc966e318eec880d"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansKannadaUI-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansKannadaUI-Bold.ttf",
+      "sha256": "7d10b6b9e633b2ee7064876d617cebeb166c4ee04f086cfd74dbdfaf5208db36"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansKannadaUI-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansKannadaUI-Regular.ttf",
+      "sha256": "a80c0f97bf7c34007643b82b66843b82ff7fa161ac575ea57f20ea912ba77747"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansKayahLi-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansKayahLi-Regular.ttf",
+      "sha256": "34bf0532d7f36e0a93e35f97b40437ae6b95618b3ff11485b4f6e09ab0383b0a"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansKhmer-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansKhmer-Bold.ttf",
+      "sha256": "7c6c8a0e33cda1a94bc6ad444068c56e3d396c6bde52a2c6287722a97299f825"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansKhmer-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansKhmer-Regular.ttf",
+      "sha256": "4ee43d96eb4607232377f50fac13cf01b49cc3a9d4e32f5d30cd16c6d667c03a"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansKhmerUI-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansKhmerUI-Bold.ttf",
+      "sha256": "72cbfe46e5182d253f6cd5e72da97f751ec7ddcdc9b95d8beacd70587c027479"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansKhmerUI-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansKhmerUI-Regular.ttf",
+      "sha256": "1a311c88696789bbf513f7e698292904c1af031a5ca89529ef5b60666b8d78d9"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansLao-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansLao-Bold.ttf",
+      "sha256": "871dd148eeb093340140f8f601303cbfaa98bde7a8ecdb2f156a24c9699e0474"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansLao-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansLao-Regular.ttf",
+      "sha256": "df8f154afdf94f26dc0932b98bc4a826e22ced3fa2c874859f7d78203f68f35b"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansLaoUI-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansLaoUI-Bold.ttf",
+      "sha256": "20272f7387c0532501485cc439309f7ced0b4c7693104621e38b940e7dca265f"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansLaoUI-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansLaoUI-Regular.ttf",
+      "sha256": "5ca99ed9c26068c082e6c11d673030b16e3a4940b409a1c412e3da06f4ef653e"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansLepcha-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansLepcha-Regular.ttf",
+      "sha256": "9adb88daecec85f6d2172b6358e55ba73e222cc6940820fa7c9c450af73f809c"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansLimbu-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansLimbu-Regular.ttf",
+      "sha256": "49408ea319c9182b62f90ca2671f0244d59fb70bf7f26eef4d2fea32975822a1"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansLisu-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansLisu-Regular.ttf",
+      "sha256": "384bc4a7e096210da21a2e1eaff0d814a79f5b5054372cfb442bdfedf6ef0d63"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansMalayalam-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansMalayalam-Bold.ttf",
+      "sha256": "fdf8478342898f2be395ee4b272200c50e45fb1e9bfdbea470c969b596b67bd0"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansMalayalam-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansMalayalam-Regular.ttf",
+      "sha256": "1aa68d183a6f5089d2305bf73d14df77ffac6ee56564781467288ed57a84bd2b"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansMalayalamUI-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansMalayalamUI-Bold.ttf",
+      "sha256": "b9baac62d44ffd10535fd67ca5de94396d1bf013cc8ee2e52f1716038011d681"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansMalayalamUI-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansMalayalamUI-Regular.ttf",
+      "sha256": "2056b5d8a6f3c7c32d49dcfca9472dbc08044856af3605d636531468b2c2943b"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansMandaic-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansMandaic-Regular.ttf",
+      "sha256": "f2fb404c8c997168f1f474792590fe0111e2747cc3258fd966bcb66e00ecb1c5"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansMeeteiMayek-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansMeeteiMayek-Regular.ttf",
+      "sha256": "c7f2b1600fa33a569de0e7b81903e925a86640194662572c10b0d7f44719a889"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansMongolian-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansMongolian-Regular.ttf",
+      "sha256": "c85851bf399c809089cdbd7c04eb134a740ac1ae34fada5bd8332979e4d3ba87"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansMyanmar-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansMyanmar-Bold.ttf",
+      "sha256": "22c14b84158c349d4aa7512e9d21295fd2e3944f4438a827089d4fc90c9f476b"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansMyanmar-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansMyanmar-Regular.ttf",
+      "sha256": "45d4c9be46e5e2fa4f9a0811057f733fa2369c9d76fb389c353f66d99ab2becc"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansMyanmarUI-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansMyanmarUI-Bold.ttf",
+      "sha256": "a420e55a8d29f34d4e6ad10ef49473a2e9a3d6bada99cfd66b2fba894e274801"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansMyanmarUI-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansMyanmarUI-Regular.ttf",
+      "sha256": "70f5c325ce5698598e13f35b7cdf27c4940e89b165e34e8ab68957188c463074"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansNKo-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansNKo-Regular.ttf",
+      "sha256": "c8eb3d3dcda221063df51d779d6f3badd3dd47afa0f093f3be55e7dc2a8d2c5d"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansNewTaiLue-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansNewTaiLue-Regular.ttf",
+      "sha256": "a168215bb0c8c0caf33716f623b359901cddb8c23f237ace3090c80ffced7d20"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansOlChiki-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansOlChiki-Regular.ttf",
+      "sha256": "489d623e07230435f1741dda015c5fdf973f8a698f3fb7f1b3f92510bba47f1c"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansOriya-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansOriya-Bold.ttf",
+      "sha256": "c33847f6a0c653089ba998a0a3dd4ac32b5a6f717778bf372add044ae5c4c33a"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansOriya-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansOriya-Regular.ttf",
+      "sha256": "4f3781f7ea2c59206504a2f62091b76fc5e4e28655abdd36417e5a5fa5f00b9f"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansOriyaUI-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansOriyaUI-Bold.ttf",
+      "sha256": "6c5e04572e7c6262817a29daafde56ed7d84e84c18eb35d0befd9097d916fbf2"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansOriyaUI-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansOriyaUI-Regular.ttf",
+      "sha256": "6a8ce0b7d097d63a9736f7f5083e31994e6626bd5d44db075c7f412a0233d328"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansRejang-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansRejang-Regular.ttf",
+      "sha256": "5f804a055eca82f6aeb52e5ddcdbb2f1157f85bb57f27b2ba3d550f4159600c5"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansSaurashtra-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansSaurashtra-Regular.ttf",
+      "sha256": "606b9eb9e9c05af5b54c3c95f299e832d5cbf4b92dadadae8ca9b88a3f99174a"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansSinhala-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansSinhala-Bold.ttf",
+      "sha256": "86a2c7c9d558f5902cb3be3522c2ca054e2d6a6e38e2a7ee01b814ef9b45c3fd"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansSinhala-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansSinhala-Regular.ttf",
+      "sha256": "1c7666651284b20c38e6a8b9efa2adddaf3fe810b1036f4bc69ff47445f24d9a"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansSundanese-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansSundanese-Regular.ttf",
+      "sha256": "8be5e1edb34e530638017b989d29dc72fdd762d72ccfa7f7b37507ee9af8e2a6"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansSylotiNagri-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansSylotiNagri-Regular.ttf",
+      "sha256": "47c30dad7d5b60deac26ae5ad658453032d154c2a223c8fb5dfe0d1f226f69b7"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansSymbols-Regular-Subsetted.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansSymbols-Regular-Subsetted.ttf",
+      "sha256": "3139d9b1256b5d2396bba10bf1f501b50d212944f1103958bf96301d909bf82f"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansSymbols-Regular-Subsetted2.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansSymbols-Regular-Subsetted2.ttf",
+      "sha256": "8157d2180df10790beffeaae68463a22de65f98188c2c0a3cb7ddd6334ebb63b"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansSyriacEstrangela-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansSyriacEstrangela-Regular.ttf",
+      "sha256": "a599db65d2c30e432f914f714ca60f1102faf6237246bd623d964e2eb2d37f9f"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansTagbanwa-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansTagbanwa-Regular.ttf",
+      "sha256": "23d60952c37225d9bc87d6b2cf9cde252b01060a78c8fdd2de52c11d284180a0"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansTaiLe-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansTaiLe-Regular.ttf",
+      "sha256": "ad829e43d12c6a190a0e760006a048accb2bf55675b47e95c0e3f2d023178659"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansTaiTham-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansTaiTham-Regular.ttf",
+      "sha256": "b4e0103d3cc5e91a1159c8af62cd1a0beb8587b38240f34029ced6416fe61cd7"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansTaiViet-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansTaiViet-Regular.ttf",
+      "sha256": "846d077bd93d7ba0025c18271b063cff3b7a2f759c710097767c18e65a804a04"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansTamil-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansTamil-Bold.ttf",
+      "sha256": "64348fbddb35db960a515748d003ef62d250c8bf6ac7d18b5364bbe35ca9e2f6"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansTamil-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansTamil-Regular.ttf",
+      "sha256": "504ed54819b9aacf361ab5bd901b9af47123cf2d82e3494bff96ec01325106e9"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansTamilUI-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansTamilUI-Bold.ttf",
+      "sha256": "7693961ea8d03f2c4f75dc8b109e6eaf932945ebf65656ceec1125e66b27523b"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansTamilUI-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansTamilUI-Regular.ttf",
+      "sha256": "272041b606af35be489e7ef8485f3d9822229b53bc75a3e12092a26951d81a8a"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansTelugu-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansTelugu-Bold.ttf",
+      "sha256": "5051ddaf531b1cf9393e55459ed0f358d7c1f79906f1f89735fb82b2f19009cd"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansTelugu-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansTelugu-Regular.ttf",
+      "sha256": "4df19a238ae0bd97f2fc61529c39576d1c989144cf6625517cdec2d08f9a9f67"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansTeluguUI-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansTeluguUI-Bold.ttf",
+      "sha256": "7469d58f3e79cc635ec6c19655dd3a2de0c5e12eced5e88e42b232bfdd1032f6"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansTeluguUI-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansTeluguUI-Regular.ttf",
+      "sha256": "53cb673e73c8dcbf2490195bd8d3a2fc73654a704a1352108193b014e5e99180"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansThaana-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansThaana-Bold.ttf",
+      "sha256": "420f1d666b2a04da1b96e6c6e518f57c9215f939cb6c2f253e86b4ab434e1217"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansThaana-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansThaana-Regular.ttf",
+      "sha256": "9fdec733de67f60aa1c1a5117c891c3943d66712cc17ab22955f7478ad4050f9"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansThai-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansThai-Bold.ttf",
+      "sha256": "cb0c042aa09133898650ac487ce4866956b105bf1474ee82648832c500ff3c35"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansThai-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansThai-Regular.ttf",
+      "sha256": "0dc4e81ac4fe236db1a1d8a9cdb28971b9c136de08f2e6328e365e11c76410de"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansThaiUI-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansThaiUI-Bold.ttf",
+      "sha256": "172960599004a03e6399ea0d73c4a00462063a495dd61a0d9e00c0bb44f33d70"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansThaiUI-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansThaiUI-Regular.ttf",
+      "sha256": "2d197a017cba9b2df168558bccd224e44da38d1abf95b0997eb92bd0a05fa196"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansTibetan-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansTibetan-Bold.ttf",
+      "sha256": "7f1bae5589f7216e4015eb37a8df23a90c9717917930858b00e0ec580c2883a2"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansTibetan-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansTibetan-Regular.ttf",
+      "sha256": "ad4691beb085aa009e85c4317052f4f2fe1d18deed4b2daa49c7e916771ee1da"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansTifinagh-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansTifinagh-Regular.ttf",
+      "sha256": "94d5613817d1cf945cbfbe28b95cc62f37bab6023dbba5c8c48be68fb8715aaf"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansVai-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansVai-Regular.ttf",
+      "sha256": "0eb963a6f1f731a7bb440ce66a7e7602008f6bd78521c87dbb7ce146b703e069"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSansYi-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSansYi-Regular.ttf",
+      "sha256": "578b6b033f959350e3434df207eefd307a990f4907e317b228959de81194f066"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSerif-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSerif-Bold.ttf",
+      "sha256": "f5d2c073fd01b7c19ca2874bae0d661cd3a2645e9a967dad597690f4ec64d929"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSerif-BoldItalic.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSerif-BoldItalic.ttf",
+      "sha256": "dc95af7411f8b15d584f5fd25906410da5b11f90c90b36b07078ddd133f6cd24"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSerif-Italic.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSerif-Italic.ttf",
+      "sha256": "01b2c1ceb9442b0f76ec9646ab8c1e46e651bd3ccc0dde46957ccd12e6185d13"
+    },
+    {
+      "path": "rootfs/system/fonts/NotoSerif-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/NotoSerif-Regular.ttf",
+      "sha256": "def39dd0e5ae2081b80fd865deae0ee0e3bca3ad950b109a2065a39866984132"
+    },
+    {
+      "path": "rootfs/system/fonts/Roboto-Black.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/Roboto-Black.ttf",
+      "sha256": "08073f623d559f16fab52433e3d8512accd6c56be425b07f90cc83105730dbbb"
+    },
+    {
+      "path": "rootfs/system/fonts/Roboto-BlackItalic.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/Roboto-BlackItalic.ttf",
+      "sha256": "54184a533faa4cf8a3aea7573997f9aa5c2df533612ed0d5b569b688a1f93304"
+    },
+    {
+      "path": "rootfs/system/fonts/Roboto-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/Roboto-Bold.ttf",
+      "sha256": "0b3ee483b741c7c3f0fb5f64ae0260682aaddf5f2c53b1b7d0fdcebb2f876528"
+    },
+    {
+      "path": "rootfs/system/fonts/Roboto-BoldItalic.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/Roboto-BoldItalic.ttf",
+      "sha256": "6c8b79d6863cb0b6864b0f0f26f81d8f43dabc0b8f507591bdc314d758e22c66"
+    },
+    {
+      "path": "rootfs/system/fonts/Roboto-Italic.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/Roboto-Italic.ttf",
+      "sha256": "c59df91a4a2c31588033c8504a2461e08d57c9fa0eb37ecb57f188518678f306"
+    },
+    {
+      "path": "rootfs/system/fonts/Roboto-Light.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/Roboto-Light.ttf",
+      "sha256": "10f39b895f196fbc2b3929def5dc9a2aa8ff8be2c15bb04ef132cc658bd0b57b"
+    },
+    {
+      "path": "rootfs/system/fonts/Roboto-LightItalic.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/Roboto-LightItalic.ttf",
+      "sha256": "b03cfff8a7c702e2d8a8b6844318dfc1a01a949987cd4df6540cd39057bca642"
+    },
+    {
+      "path": "rootfs/system/fonts/Roboto-Medium.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/Roboto-Medium.ttf",
+      "sha256": "fd2601360c6058e57a2ff586ba367ef9636efb6c838a0366665a0be620a4ad3f"
+    },
+    {
+      "path": "rootfs/system/fonts/Roboto-MediumItalic.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/Roboto-MediumItalic.ttf",
+      "sha256": "50bfafef3ab8d1778d8580e50a2dffc333d2c8cdaee81d4e38e13d0bc1f5d60d"
+    },
+    {
+      "path": "rootfs/system/fonts/Roboto-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/Roboto-Regular.ttf",
+      "sha256": "adc783b7976cac002d489aae9362be33b7d048ff3a8cb63bad2a93fe96c4d548"
+    },
+    {
+      "path": "rootfs/system/fonts/Roboto-Thin.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/Roboto-Thin.ttf",
+      "sha256": "9df2214d7fb12b2868de6b6caf2d424bb9ab4fb3af09197672d8fa2b9a18d8b5"
+    },
+    {
+      "path": "rootfs/system/fonts/Roboto-ThinItalic.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/Roboto-ThinItalic.ttf",
+      "sha256": "f5b9b5c2958755a5c9ec64f5b07edb16052217350c814a73bd9a763bb28cf538"
+    },
+    {
+      "path": "rootfs/system/fonts/RobotoCondensed-Bold.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/RobotoCondensed-Bold.ttf",
+      "sha256": "c61c1bb9c1cc31134b2a203f4f671d0e5fc4bf44802ea2c3d359079952f06e5d"
+    },
+    {
+      "path": "rootfs/system/fonts/RobotoCondensed-BoldItalic.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/RobotoCondensed-BoldItalic.ttf",
+      "sha256": "13a5968155e5afe56e1ccc2b5c4ab5b689b0b11b176219b613efd40e45b73373"
+    },
+    {
+      "path": "rootfs/system/fonts/RobotoCondensed-Italic.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/RobotoCondensed-Italic.ttf",
+      "sha256": "0683e8ad0142582312591784f2941fdbbd86929800a3237c46ac2f9f4cd043b7"
+    },
+    {
+      "path": "rootfs/system/fonts/RobotoCondensed-Light.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/RobotoCondensed-Light.ttf",
+      "sha256": "8e8fc341104306e20d71c4b54ae08de00f165c74d29d1869061b42a8627a327e"
+    },
+    {
+      "path": "rootfs/system/fonts/RobotoCondensed-LightItalic.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/RobotoCondensed-LightItalic.ttf",
+      "sha256": "84d6cad2a54836b78cf714ffb5a76235a74bb10219ce0d421bcfef97d78f97a2"
+    },
+    {
+      "path": "rootfs/system/fonts/RobotoCondensed-Regular.ttf",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/fonts/RobotoCondensed-Regular.ttf",
+      "sha256": "4c804d58f34f3eba12311e4dd886c2b88f06be665d1281ea1da3cf28862bf51d"
+    },
+    {
+      "path": "rootfs/system/framework/am.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/am.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/android.test.runner.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/android.test.runner.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/apache-xml.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/apache-xml.jar",
+      "sha256": "6825a877c1a8d98f105b2db3abd11497da4869a4c24998fbe41a8d4f64754013"
+    },
+    {
+      "path": "rootfs/system/framework/appwidget.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/appwidget.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-apache-xml.art",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-apache-xml.art",
+      "sha256": "edd56a38d3dc29141d55b898dba46575b9ec7f252ee42176248060b5d0afa7d9"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-apache-xml.oat",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-apache-xml.oat",
+      "sha256": "656f8d85dba11975ad413bc5dc46747bca0c1aa5a5ce6763daaaff99d615e70a"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-bouncycastle.art",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-bouncycastle.art",
+      "sha256": "d156bd29421748a869590fc505dad919e693635113fba0a999fb88128bbd13ab"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-bouncycastle.oat",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-bouncycastle.oat",
+      "sha256": "32b6448a55e5b7c1e09117b6acb0f3509f9206379c9e66bc29ed29937fefeb79"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-conscrypt.art",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-conscrypt.art",
+      "sha256": "81ecc1d7d53688908987c06536d57bc346a94dc83cf5a78f1ec0fd58f431db20"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-conscrypt.oat",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-conscrypt.oat",
+      "sha256": "4b16421e7785be9f2dc154b20ea6ec6ef0919dc0b0634a02f3a47542ac33159c"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-core-junit.art",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-core-junit.art",
+      "sha256": "e54fc81fff3a0076bd747e6ce509b7a46e780f97031713d6a82cfb06e18fc138"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-core-junit.oat",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-core-junit.oat",
+      "sha256": "52fc6eed5614feb88b1cbdcda2cc542664e10bae4040d720ba6377eb3408f1cd"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-core-libart.art",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-core-libart.art",
+      "sha256": "38d9ad02d598bb27e9c967f92532255bd9930ea2b6748a3f5fb02a090f211049"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-core-libart.oat",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-core-libart.oat",
+      "sha256": "b4b34eba04291e2ecda68d52c21d4a12deb8354da92af1ed77ab2f77eb1635ec"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-ext.art",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-ext.art",
+      "sha256": "779fbeae327cc6f267d34d471ab92c3541be5e4b3ba3e239f8261f0663a034de"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-ext.oat",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-ext.oat",
+      "sha256": "dcb9afd9ea4713ce7988156d23a9563cf18ea1bfebc7962f24bb62f0284934a6"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-framework.art",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-framework.art",
+      "sha256": "c6c37fad6ecf62751cca4d803891984ed4bd28278fe3ca00404fd4dea3eb9c35"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-framework.oat",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-framework.oat",
+      "sha256": "b0dd55dc3d3bd992c45c7ca3faeafe3b79905935ff39934b57c0cbb97fbf1c73"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-ims-common.art",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-ims-common.art",
+      "sha256": "585a8de3c6cea79dafb006fee039973d63f183ab7e0ebb083e71bbe55bd7faa0"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-ims-common.oat",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-ims-common.oat",
+      "sha256": "3488a91d2dc2bd519a0750a582026b4129cf151f0f50c26cac3974ff1010b86f"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-okhttp.art",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-okhttp.art",
+      "sha256": "325077924f1c68517f34f16bc4e96856a17b5ee81ff7905e5fa917be3efe2a82"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-okhttp.oat",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-okhttp.oat",
+      "sha256": "2eb93ce22efa04918738c2aee29f68473dcf7aa8d54d8999b8fcedd39be0671f"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-org.apache.http.legacy.boot.art",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-org.apache.http.legacy.boot.art",
+      "sha256": "78711ee39a98baf3d22b0c91a856ae53a7c17924b06f97e151d64be08a7ea146"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-org.apache.http.legacy.boot.oat",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-org.apache.http.legacy.boot.oat",
+      "sha256": "1d93d6eda171ee1a550dfe3dd7a51ecb2ad9d08c8b449af72464dc7331dbc973"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-telephony-common.art",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-telephony-common.art",
+      "sha256": "1cb570d182f865de9240debe46c4dd56d7ce37380005b8764f2b710d9f59a592"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-telephony-common.oat",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-telephony-common.oat",
+      "sha256": "7980dc56262deb181c58a9b63489e196540740fe9616bc5e0ad242b9df37afe4"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-voip-common.art",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-voip-common.art",
+      "sha256": "6b2dc92c264d5c4523e70b834a6c6bb839cd6e4118b65968e8417da77ef745db"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot-voip-common.oat",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot-voip-common.oat",
+      "sha256": "a484655b17fd79c61ab893bb346195685941827e7d299c76b9715ad17232d73e"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot.art",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot.art",
+      "sha256": "c34dfb56d2af54b96168f862b641848a4f22d7af4b7df841ab7111735b7d519d"
+    },
+    {
+      "path": "rootfs/system/framework/arm/boot.oat",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/arm/boot.oat",
+      "sha256": "422a4389eec05dbbd4d2060bf95cc991a13549ecd472adf8087fa772132f95f3"
+    },
+    {
+      "path": "rootfs/system/framework/bmgr.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/bmgr.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/bouncycastle.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/bouncycastle.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/bu.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/bu.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/com.android.future.usb.accessory.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/com.android.future.usb.accessory.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/com.android.location.provider.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/com.android.location.provider.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/com.android.media.remotedisplay.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/com.android.media.remotedisplay.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/com.android.mediadrm.signer.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/com.android.mediadrm.signer.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/com.google.android.maps.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/com.google.android.maps.jar",
+      "sha256": "b1ef53afdff586b10b42284b31d550c73cbe95f2be660b03a4e24b6c6e7bf6c9"
+    },
+    {
+      "path": "rootfs/system/framework/com.google.android.media.effects.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/com.google.android.media.effects.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/conscrypt.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/conscrypt.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/content.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/content.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/core-junit.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/core-junit.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/core-libart.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/core-libart.jar",
+      "sha256": "4c62a93c6f4b34acd529feb0712cef797edede7877ef2f92dae0413162ca3539"
+    },
+    {
+      "path": "rootfs/system/framework/core-oj.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/core-oj.jar",
+      "sha256": "3e75a69c855acd63657175af85f706be691f238a948dacd2b8eba74e1f23552f"
+    },
+    {
+      "path": "rootfs/system/framework/dpm.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/dpm.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/ethernet-service.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/ethernet-service.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/ext.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/ext.jar",
+      "sha256": "c835a9d3c0200f5e0b0cfe4cf063c458475c299a1441788e44f0d7199e5163ec"
+    },
+    {
+      "path": "rootfs/system/framework/framework-res.apk",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/minimal-framework/framework-res.apk"
+    },
+    {
+      "path": "rootfs/system/framework/framework.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/framework.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/hid.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/hid.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/ime.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/ime.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/ims-common.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/ims-common.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/input.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/input.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/javax.obex.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/javax.obex.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/kindle-alarm-fallback.jar",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/alarm-fallback/kindle-alarm-fallback.jar"
+    },
+    {
+      "path": "rootfs/system/framework/kindle-session-maintenance.dex",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/session-maintenance/classes.dex"
+    },
+    {
+      "path": "rootfs/system/framework/kindle-system-controls.dex",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/system-controls/classes.dex"
+    },
+    {
+      "path": "rootfs/system/framework/kindlelab-package-dump.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/package-service-dump.jar"
+    },
+    {
+      "path": "rootfs/system/framework/media_cmd.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/media_cmd.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/monkey.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/monkey.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/am.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/am.odex",
+      "sha256": "362abd872f8c3be1d33e27225f2c16ac4c0703c75fde391c0b0c7069cbb994ef"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/android.test.runner.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/android.test.runner.odex",
+      "sha256": "0f3ed66bf4e7c3ca942e1049e2b11427804b346e3f2101f97384be97c261b073"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/appwidget.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/appwidget.odex",
+      "sha256": "e6dc1abcc8dea7f682585603434c26329176ed289bc9f24244856d562546cf63"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/bmgr.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/bmgr.odex",
+      "sha256": "8e540b22de90eda9ec53d2807a13e66318d1124a452de7e86627fd0d3fb2372a"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/bu.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/bu.odex",
+      "sha256": "b69ef9fe117b9ea1279ab743f53456aa2967868b55232ef88aed0adf5b82ff02"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/com.android.future.usb.accessory.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/com.android.future.usb.accessory.odex",
+      "sha256": "44340d0db6cf102192a3ba63e7ea1df7af60f0ec507f3d125fad71246eb428da"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/com.android.location.provider.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/com.android.location.provider.odex",
+      "sha256": "9e1d35344ce74cf9f0cd5e3a86528e6811987ba5494f14ad005032fcc751898d"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/com.android.media.remotedisplay.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/com.android.media.remotedisplay.odex",
+      "sha256": "7204f7bb735c0ca0a24638c1a9a8e591e44b981325ab20806679e8f7d7d6dc79"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/com.android.mediadrm.signer.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/com.android.mediadrm.signer.odex",
+      "sha256": "e27c2e0740b68103ad036fd337a03dca386e6e93f6e85b60644a623340e9bca4"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/com.google.android.maps.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/com.google.android.maps.odex",
+      "sha256": "594a51e37b7feb2f4e5949675d9742f44732a98dce6c2eb35a55c0b52084a3d2"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/com.google.android.media.effects.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/com.google.android.media.effects.odex",
+      "sha256": "ae1fc0f98cd78e07cda43e80ad011adde55d2719b4a9fe28c13d6169ce9c7dde"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/content.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/content.odex",
+      "sha256": "1d0991791b228212c6c9dfd874cc179759992c2ac69801634e7fcefaa0993c41"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/dpm.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/dpm.odex",
+      "sha256": "4fd45f51eb0efdb7dbcc3eb5d7078ed2ba40540006edf43b73ad705c3d2ececa"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/ethernet-service.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/ethernet-service.odex",
+      "sha256": "61297214c2e9f0526d179a4d472da8c10cee8027c6b7315c26298f085878a758"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/hid.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/hid.odex",
+      "sha256": "1730209fd7c3a9ca621a933728180bda13100e298de4a883e6145484484ab751"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/ime.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/ime.odex",
+      "sha256": "bf915a03b9ea4b4831dd81ae14886b3082b7c935ac6e20a01f1a09b9d7ae5a3c"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/input.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/input.odex",
+      "sha256": "8333d10d467a14d421021c2b8a4c3e653678d85bc6752106e2895c8ed5d720e4"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/javax.obex.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/javax.obex.odex",
+      "sha256": "cd7b8a377791ac154732630547e18d680099ec0c0ffdd61c792de9d0d7eef8e2"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/media_cmd.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/media_cmd.odex",
+      "sha256": "6ec22e8dfe72e8edbef130252c16a3d2050900001fa5fae2535ae8456e43bdd2"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/monkey.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/monkey.odex",
+      "sha256": "03584e9d57b3464e28cb5c7da3995ef59f6f17eacc05e7178dd37b52693b3915"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/pm.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/pm.odex",
+      "sha256": "65a32a2d7d4d0b1b1c7c13ac78490ff73bf6d20e526426d058dc975830441b81"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/requestsync.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/requestsync.odex",
+      "sha256": "e40839dd926d2245213c6e15f2bc22fd0b7ddf788f76a0a420723c1184187c14"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/services.odex",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/services.odex",
+      "sha256": "24d9033c71e874a89827dd58b7531b29e6ca9338406b9f96873319e13faf9568"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/settings.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/settings.odex",
+      "sha256": "3b3afcda894dc829171e2383fd723f6096520de2a906f8c375ce738dbbad93dd"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/sm.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/sm.odex",
+      "sha256": "cc5fa2ae7901e30372ee7d9cc1d675e51cae713d940935e4582f8ada8e41b872"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/svc.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/svc.odex",
+      "sha256": "cd52102a484597849cc93e2e915c819bb681a32f474ef5f85ce98cf80c4cd537"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/telecom.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/telecom.odex",
+      "sha256": "e1c2a872a825a94d84a78bd8115ccbb599e79ac990102bae7e38c8c5ec15bfe9"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/uiautomator.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/uiautomator.odex",
+      "sha256": "9b573b7689ae437627ea9543471d755635133d0c5f17c25f4fab0b755e7071fa"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/wifi-service.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/wifi-service.odex",
+      "sha256": "6f4b849a35e0de1bcc820c04dd986fe274fa8b84fe4c9fca3c1188523ebb2957"
+    },
+    {
+      "path": "rootfs/system/framework/oat/arm/wm.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/oat/arm/wm.odex",
+      "sha256": "f3a4194d08c405a40675fb193ee2e644339de69698b782157dc34a492ee02b2d"
+    },
+    {
+      "path": "rootfs/system/framework/okhttp.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/okhttp.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/org.apache.http.legacy.boot.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/org.apache.http.legacy.boot.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/pm.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/pm.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/requestsync.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/requestsync.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/services.jar",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/services.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/settings.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/settings.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/sm.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/sm.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/svc.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/svc.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/telecom.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/telecom.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/telephony-common.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/telephony-common.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/uiautomator.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/uiautomator.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/voip-common.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/voip-common.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/wifi-service.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/wifi-service.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/framework/wm.jar",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/framework/wm.jar",
+      "sha256": "f3138919ea6814497788528caba50f8d9ec3033f9f217f433dd171fa51c0cede"
+    },
+    {
+      "path": "rootfs/system/lib/egl/libEGL_swiftshader.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "build/swiftshader-arm-safe/libEGL_swiftshader.so"
+    },
+    {
+      "path": "rootfs/system/lib/egl/libGLES_android.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/libGLES_android-headless.so"
+    },
+    {
+      "path": "rootfs/system/lib/egl/libGLESv1_CM_swiftshader.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "build/swiftshader-arm-safe/libGLESv1_CM_swiftshader.so"
+    },
+    {
+      "path": "rootfs/system/lib/egl/libGLESv2_swiftshader.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "build/swiftshader-arm-safe/libGLESv2_swiftshader.so"
+    },
+    {
+      "path": "rootfs/system/lib/hw/audio.primary.default.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/audio.primary.default.so"
+    },
+    {
+      "path": "rootfs/system/lib/hw/gralloc.default.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/stage5/gralloc.hwtcon.so"
+    },
+    {
+      "path": "rootfs/system/lib/hw/hwcomposer.default.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/hwcomposer-headless.so"
+    },
+    {
+      "path": "rootfs/system/lib/hw/keystore.default.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/hw/keystore.default.so",
+      "sha256": "f2e9e413268804fafc51d5d5880d496ea9627c41dbfd3477bd15ad7f83d4c290"
+    },
+    {
+      "path": "rootfs/system/lib/libEGL.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libEGL.so",
+      "sha256": "9d9d4359727bc2684205e090c7d6c4ceacddda8b58defebb0d656915c2a95da9"
+    },
+    {
+      "path": "rootfs/system/lib/libETC1.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libETC1.so",
+      "sha256": "c6c1daf039354cf57adcb37ab2efded05a6ba7f9999f9d022a5fa681260027d0"
+    },
+    {
+      "path": "rootfs/system/lib/libGLESv1_CM.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libGLESv1_CM.so",
+      "sha256": "a1f4ad70aaaf128353aa856df487e39180a68e57ce00d1f5fbda71e4d9448af1"
+    },
+    {
+      "path": "rootfs/system/lib/libGLESv2.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libGLESv2.so",
+      "sha256": "1ec7a1392a5217455a9fb606998f59706de1cb3f5bf808452b0e8f08acbb7552"
+    },
+    {
+      "path": "rootfs/system/lib/libGLESv3.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libGLESv3.so",
+      "sha256": "a47be287dd6f3fbd7771e1d146ea1f24a690df03b2c92cd4c166e0b0baac0512"
+    },
+    {
+      "path": "rootfs/system/lib/libLLVM.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libLLVM.so",
+      "sha256": "8335cbde1c890d13ffe4954eb3356d2737fec3ecb9f17bca5e35bb02ebd69ad9"
+    },
+    {
+      "path": "rootfs/system/lib/libOpenMAXAL.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libOpenMAXAL.so",
+      "sha256": "f010f76cf80a2d19ef3a1c70f917b66deadc0304b0fdcf4de93c575c1d6bac82"
+    },
+    {
+      "path": "rootfs/system/lib/libOpenSLES.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libOpenSLES.so",
+      "sha256": "1cc3864012547ba4dba97588d8db0e9ede712d83850bb9cba06b04a156185877"
+    },
+    {
+      "path": "rootfs/system/lib/libRS.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libRS.so",
+      "sha256": "7de18acc41514f78b76e5e7d46b500abf3a7b3fc70b7ba4e2070144a669deeba"
+    },
+    {
+      "path": "rootfs/system/lib/libRSCpuRef.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libRSCpuRef.so",
+      "sha256": "0a82fad8372a96bc1d3fd22ce33cc63a7af349edbaa0a092503fa12828f4141c"
+    },
+    {
+      "path": "rootfs/system/lib/libRSDriver.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libRSDriver.so",
+      "sha256": "4febf0583baec26d14a239ceb1654aff925358fa07b88ba450690568649de753"
+    },
+    {
+      "path": "rootfs/system/lib/libRS_internal.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libRS_internal.so",
+      "sha256": "202ab24a608278105c481940ed86bf66ab406b50a9738df1d1c4a07d8b9044ee"
+    },
+    {
+      "path": "rootfs/system/lib/libRScpp.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libRScpp.so",
+      "sha256": "265baff2c56ce15ec45d9e3e952d7ace9e3adc0d9154e789e90778d595137e41"
+    },
+    {
+      "path": "rootfs/system/lib/libandroid.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libandroid.so",
+      "sha256": "bf56c324e315ee5b503e81287eb8903ce02941c9d049a355e1ad12ab7ced8e28"
+    },
+    {
+      "path": "rootfs/system/lib/libandroid_runtime.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libandroid_runtime.so",
+      "sha256": "35ee6a11af3d28abbcd6b4174acd69e598885cb473b01137acf1d02ce406665a"
+    },
+    {
+      "path": "rootfs/system/lib/libandroid_servers.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libandroid_servers.so",
+      "sha256": "0dff9a9830002b98e054a91e02480f66c7a9c993fb43ea39b5ca8e5da16aa97e"
+    },
+    {
+      "path": "rootfs/system/lib/libandroidfw.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libandroidfw.so",
+      "sha256": "77699f348de33cabbaea5c68871cb2ce400b21895ff99f4bf69fdaf7b905e6fa"
+    },
+    {
+      "path": "rootfs/system/lib/libart-compiler.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libart-compiler.so",
+      "sha256": "385958d99ac9a2f81ff234c94520febee1bf4cd765a97cccdb0f4ef5eecf9d3e"
+    },
+    {
+      "path": "rootfs/system/lib/libart.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libart.so",
+      "sha256": "b8df49c436312f35b18d08e7929718f0e6ac4923ab124ae000b9acedaf341b24"
+    },
+    {
+      "path": "rootfs/system/lib/libaudioflinger.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libaudioflinger.so",
+      "sha256": "1b5d3e044eae78aac59043eb0b44d216067ffe5b622b03494992dbbbd3a3ec66"
+    },
+    {
+      "path": "rootfs/system/lib/libaudiopolicyenginedefault.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libaudiopolicyenginedefault.so",
+      "sha256": "641e1ae4b864c174e3d2873c79a980df333fc70a4e7ce880eba76db016466567"
+    },
+    {
+      "path": "rootfs/system/lib/libaudiopolicymanager.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libaudiopolicymanager.so",
+      "sha256": "5c623786781e8f93fbd6ea25b3c912067910f7288ae56f4f1648559c84e04423"
+    },
+    {
+      "path": "rootfs/system/lib/libaudiopolicymanagerdefault.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libaudiopolicymanagerdefault.so",
+      "sha256": "38a1fc85f1cfd60028eb368263c7f2bc66b97f6ca17c72f10e1df7184f233075"
+    },
+    {
+      "path": "rootfs/system/lib/libaudiopolicyservice.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libaudiopolicyservice.so",
+      "sha256": "ef5f99c81d7cc9d75e22325bb1df279f418055e9badc3361c7acb70681c66008"
+    },
+    {
+      "path": "rootfs/system/lib/libaudioresampler.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libaudioresampler.so",
+      "sha256": "d477fb5734d9b06a460e0380590d3c5f040f0c0e0ada8199c7b63ab73af04823"
+    },
+    {
+      "path": "rootfs/system/lib/libaudiospdif.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libaudiospdif.so",
+      "sha256": "bf26720cf4d7d49efce5320d60e1ad55a7fbc501b607f99ae7247f47c7bce372"
+    },
+    {
+      "path": "rootfs/system/lib/libaudioutils.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libaudioutils.so",
+      "sha256": "de333e35f1fb269d1cc4cbc3ae31cf808ec8777af60c7598ecfd3e78ec8555ce"
+    },
+    {
+      "path": "rootfs/system/lib/libbacktrace.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libbacktrace.so",
+      "sha256": "a1d49c7e6c60f8ae033655167117225143cfe2e063436a3e889328d9ba29e046"
+    },
+    {
+      "path": "rootfs/system/lib/libbase.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libbase.so",
+      "sha256": "1b1d1702460fc9b2e068259742b7acab05d4c000609af780ec9bf4a6863a183b"
+    },
+    {
+      "path": "rootfs/system/lib/libbcc.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libbcc.so",
+      "sha256": "7e17d1730709d7efc5072497bef396bd70a378538b18f07888074ad6c6fa32bb"
+    },
+    {
+      "path": "rootfs/system/lib/libbcinfo.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libbcinfo.so",
+      "sha256": "dd538354d1e2f29fd26c5d1cb6b82933e52547728fc6b113a31e6996753eda49"
+    },
+    {
+      "path": "rootfs/system/lib/libbinary_parse.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libbinary_parse.so",
+      "sha256": "7cad877fcd2d0e31ea21ca258a41e3fd24c993364ef6d8121460a96cb1b0b3f1"
+    },
+    {
+      "path": "rootfs/system/lib/libbinder.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "rootfs-min/system/lib/libbinder.so"
+    },
+    {
+      "path": "rootfs/system/lib/libblas.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libblas.so",
+      "sha256": "ded9f318d394aa8090b03f874b9c148a1c5c70667ab35886d976ecc1ee54f8cf"
+    },
+    {
+      "path": "rootfs/system/lib/libc++.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libc++.so",
+      "sha256": "ff4503006faf60cd5d20017a38d007dd9451ff35d15ce4b35fcb34e3d4c6e223"
+    },
+    {
+      "path": "rootfs/system/lib/libc.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libc.so",
+      "sha256": "4d40a9aee7fddf17a377d548c0c324e32f35320896b7babee144fe326df2c433"
+    },
+    {
+      "path": "rootfs/system/lib/libcamera2ndk.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libcamera2ndk.so",
+      "sha256": "6f8a2c0dd0a420b889a251c8a13e0dffbdd1a37062899f898ab81cd9334783a9"
+    },
+    {
+      "path": "rootfs/system/lib/libcamera_client.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libcamera_client.so",
+      "sha256": "a393c4fd27b1b502a07c6b364ee78d49b95aa0d5907c3a87c8ba034130e9d64a"
+    },
+    {
+      "path": "rootfs/system/lib/libcamera_metadata.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libcamera_metadata.so",
+      "sha256": "e066d66ae8e04d9d362f2dd3e231555ffaa1f5f17af110ce13901e45706cec8c"
+    },
+    {
+      "path": "rootfs/system/lib/libcameraservice.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libcameraservice.so",
+      "sha256": "c0c2db1ba4cfa873c874f6dce3ebd16f79a28a96eb92ced89c3b7eea549c80fe"
+    },
+    {
+      "path": "rootfs/system/lib/libcap.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libcap.so",
+      "sha256": "2fb4436bde99234d4ed71856b7862e669480bdff800b819a4bc110deeb0db956"
+    },
+    {
+      "path": "rootfs/system/lib/libclcore.bc",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libclcore.bc",
+      "sha256": "32e74dbdb08f768e38425421da05bf9c52e00d48bc27ade638b235944e2172ea"
+    },
+    {
+      "path": "rootfs/system/lib/libclcore_debug.bc",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libclcore_debug.bc",
+      "sha256": "d11253fbb2f6abbea08bc66b3ad7839df3b2c62e5bd753af0a99eacaf1dfaa0a"
+    },
+    {
+      "path": "rootfs/system/lib/libclcore_g.bc",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libclcore_g.bc",
+      "sha256": "88179c9da66cc298262ffb1cdd96cc64969f5c70efd5f0058cdc5ed09d2c50fd"
+    },
+    {
+      "path": "rootfs/system/lib/libcompiler_rt.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libcompiler_rt.so",
+      "sha256": "212d033264423f461a855586f98cf64c035d77c7d94e21cd5995680861df297a"
+    },
+    {
+      "path": "rootfs/system/lib/libcrypto.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libcrypto.so",
+      "sha256": "873d53048887187c4914e3193e9655c15786019dec1c2e6d72f7f2bd4c406212"
+    },
+    {
+      "path": "rootfs/system/lib/libcutils.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libcutils.so",
+      "sha256": "4cb6c95b64a06ce449db9736e3bc64802ba7bca012a7b72d78ac913b6bc67f70"
+    },
+    {
+      "path": "rootfs/system/lib/libdiskconfig.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libdiskconfig.so",
+      "sha256": "e7518c0293f22a30f1f0a83618b9a143190509ef6f797253740c5e79d0e5953c"
+    },
+    {
+      "path": "rootfs/system/lib/libdl.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libdl.so",
+      "sha256": "02aa0cd72ba7554266c3b0162ac35df24daf011efc60d109ca0538c871a1c696"
+    },
+    {
+      "path": "rootfs/system/lib/libdng_sdk.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libdng_sdk.so",
+      "sha256": "729339a4b08aaa0b0fd9259d8b6b1b8f805ca2858cd08451734140a55409a6b4"
+    },
+    {
+      "path": "rootfs/system/lib/libdrmframework.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libdrmframework.so",
+      "sha256": "85d7b89853c84a8cf19abe8af59f488a6903e655199d51c38f1124882173dbd0"
+    },
+    {
+      "path": "rootfs/system/lib/libeffects.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libeffects.so",
+      "sha256": "5f59c3c3725908ac6418ec60660137e754b7ff22d24bf9d02c41c27fafd19400"
+    },
+    {
+      "path": "rootfs/system/lib/libegl-software-properties.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/libegl-software-properties.so"
+    },
+    {
+      "path": "rootfs/system/lib/libexif.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libexif.so",
+      "sha256": "4a2beb05ca97fa267c806bfb2a9b552ad7be22eabc98cf0c2a95af69bab97b24"
+    },
+    {
+      "path": "rootfs/system/lib/libexpat.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libexpat.so",
+      "sha256": "fc5c6b1c266d1cf652e45374b46a348fce204b0316d3cff2da67ecc71c2d543e"
+    },
+    {
+      "path": "rootfs/system/lib/libext2_uuid.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libext2_uuid.so",
+      "sha256": "c00c66b0e958f3944623c0b29189c6d62f99b34fe3a9b2b499b1bb3c642eaef3"
+    },
+    {
+      "path": "rootfs/system/lib/libext4_utils.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libext4_utils.so",
+      "sha256": "255e21e3b18ad2657ba4e1689c6c0ec699db51582c8793802632e39ca9a9601a"
+    },
+    {
+      "path": "rootfs/system/lib/libf2fs_sparseblock.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libf2fs_sparseblock.so",
+      "sha256": "e5ef73a769bfb4ffc884b44c8b121b0533d88eaeae32794f691fe5a5f3cb8b0e"
+    },
+    {
+      "path": "rootfs/system/lib/libft2.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libft2.so",
+      "sha256": "7cdd4008334ce31d21a6bdba772af82de6387ed67b5588313394d0a643f8973f"
+    },
+    {
+      "path": "rootfs/system/lib/libgetsockname-trace.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/libgetsockname-trace.so"
+    },
+    {
+      "path": "rootfs/system/lib/libgui.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libgui.so",
+      "sha256": "0d056e9c3957b3b12cabf25e561a680ed9bff3bb423857d23dc95af442029aed"
+    },
+    {
+      "path": "rootfs/system/lib/libhardware.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libhardware.so",
+      "sha256": "1ea3a05b21526a6ece66dbc7953d360a72e6302aaf7c4235afa1d457204de725"
+    },
+    {
+      "path": "rootfs/system/lib/libhardware_legacy.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libhardware_legacy.so",
+      "sha256": "46fb0c2bd8566f4433d78c847b9d178c9b6d961c312ec2e99525a35094e8bde0"
+    },
+    {
+      "path": "rootfs/system/lib/libharfbuzz_ng.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libharfbuzz_ng.so",
+      "sha256": "3adfc97bcdc2917be30d6f26672e7606a755a14eb30d0956ad481f999d311c59"
+    },
+    {
+      "path": "rootfs/system/lib/libheadlesslog.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/libheadlesslog.so"
+    },
+    {
+      "path": "rootfs/system/lib/libhwui.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libhwui.so",
+      "sha256": "f5176efce7a31cbc8954dd31a2953f6de566b9932acf0dbfcb5bee105830befd"
+    },
+    {
+      "path": "rootfs/system/lib/libicui18n.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libicui18n.so",
+      "sha256": "6516af10f1ff8124cf8f5997fd3a441ed47fc748f36e9824593fce18f89a4e75"
+    },
+    {
+      "path": "rootfs/system/lib/libicuuc.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libicuuc.so",
+      "sha256": "f9f78ea2d8ec207b57d2ed30a7ca0677a1fb3b76291ebbc0afa47e2f846a0fba"
+    },
+    {
+      "path": "rootfs/system/lib/libimage_type_recognition.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libimage_type_recognition.so",
+      "sha256": "dd12cf36c7d852c65830b8967fb50ee45600c11cb637e102370bffda8e27312f"
+    },
+    {
+      "path": "rootfs/system/lib/libimg_utils.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libimg_utils.so",
+      "sha256": "034c0ba4b694a3f5b3401509543254b5b424f27c8d3ff2c388f435ab3cf93213"
+    },
+    {
+      "path": "rootfs/system/lib/libinput.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libinput.so",
+      "sha256": "cc797a8b4fcce54b49c4eb8c18d910fbb2ea410d382ac6b34ebffa8cdb6a3cdf"
+    },
+    {
+      "path": "rootfs/system/lib/libinputflinger.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/libinputflinger-exclusive-touch.so"
+    },
+    {
+      "path": "rootfs/system/lib/libinputservice.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libinputservice.so",
+      "sha256": "556af0e6d73c0f754c507f2d27909ac1d09491dd497fc247fe7d64c7d0537598"
+    },
+    {
+      "path": "rootfs/system/lib/libjavacore.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libjavacore.so",
+      "sha256": "12dedfc4bee51d93efc48875a743e4f3ef50db84bc8a0a93468debe1b90f9c5c"
+    },
+    {
+      "path": "rootfs/system/lib/libjavacrypto.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libjavacrypto.so",
+      "sha256": "0f61b22adf68d606a6a7bd1dd65fa75d9ed9d3ef81039e73148715c53f8b3776"
+    },
+    {
+      "path": "rootfs/system/lib/libjnigraphics.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libjnigraphics.so",
+      "sha256": "d6ea9a7680ecb5cd2eadabd2c751040df23e99fdbef9f409599f210e8f0b87cd"
+    },
+    {
+      "path": "rootfs/system/lib/libjpeg.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libjpeg.so",
+      "sha256": "8809b6f28a7236b458f162570730286d78760f4c990ae36aaf21606740a40a67"
+    },
+    {
+      "path": "rootfs/system/lib/libkeymaster1.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libkeymaster1.so",
+      "sha256": "3204c121d0893b47f7df3d33236bdc9a69f52f554be4d717886707e6844a52dd"
+    },
+    {
+      "path": "rootfs/system/lib/libkeymaster_messages.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libkeymaster_messages.so",
+      "sha256": "9e41865b752c2b9952438c2508b1b41c22d90994bf5106d12c6090672593eba6"
+    },
+    {
+      "path": "rootfs/system/lib/libkeystore-engine.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libkeystore-engine.so",
+      "sha256": "832f19a75c13c701e03f2b4d9e7f97f8c582f7a976a5976c6d5e42c9442ef01b"
+    },
+    {
+      "path": "rootfs/system/lib/libkeystore_binder.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libkeystore_binder.so",
+      "sha256": "35fd0408ebb0f8117edb6bd6d6f161304889ba99187cfe8db5dcabc54ec30b1d"
+    },
+    {
+      "path": "rootfs/system/lib/libkindle-userxattr-compat.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/libkindle-userxattr-compat.so"
+    },
+    {
+      "path": "rootfs/system/lib/libkindleashmem.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/libkindleashmem-framework.so"
+    },
+    {
+      "path": "rootfs/system/lib/liblog.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/liblog.so",
+      "sha256": "5efd0db22151bfd2afe76f31a361bfd303a7908e026217063917271ec60da877"
+    },
+    {
+      "path": "rootfs/system/lib/liblogwrap.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/liblogwrap.so",
+      "sha256": "8177e0401c154ead4bd8b6ce0e1854413939dfe623fa1fbe43b0759d22fd23fe"
+    },
+    {
+      "path": "rootfs/system/lib/liblz4.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/liblz4.so",
+      "sha256": "b7d79b473beca5e75ef2c07e84d1b5ef234d9a67c7d84ccc61e872b919dd4515"
+    },
+    {
+      "path": "rootfs/system/lib/liblzma.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/liblzma.so",
+      "sha256": "703bb6186c0b6c6fae3cb0c96082663bb5214530dc993a0360bfd5402f9a73d1"
+    },
+    {
+      "path": "rootfs/system/lib/libm.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libm.so",
+      "sha256": "95dfc3ada1b8642be1520822bf60b802156e98c20e9155490d536e89c639eb09"
+    },
+    {
+      "path": "rootfs/system/lib/libmdnssd.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libmdnssd.so",
+      "sha256": "9bfb3ce02266b750fd3d7dc66b360b89cfc81336598ae8336a964edb5cc00ba4"
+    },
+    {
+      "path": "rootfs/system/lib/libmedia.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libmedia.so",
+      "sha256": "0f86972dbb6bee2f3da15c10926a0068dde6003298922c5b712f945e55e37d0e"
+    },
+    {
+      "path": "rootfs/system/lib/libmedia_jni.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libmedia_jni.so",
+      "sha256": "5314319aea4b93943900d46b4a1477df693ec6b00f3bbacb6e87e3f20187dfd8"
+    },
+    {
+      "path": "rootfs/system/lib/libmediacodecservice.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libmediacodecservice.so",
+      "sha256": "e572c8a9878ff6dad2427c2eab31ce61991e8acc66a76222d4b563224d9da739"
+    },
+    {
+      "path": "rootfs/system/lib/libmediadrm.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libmediadrm.so",
+      "sha256": "2fbdb9c53a7c9372e4ebcdb6774b6cfc861f20e378608a17ca833c2bc33b947c"
+    },
+    {
+      "path": "rootfs/system/lib/libmedialogservice.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libmedialogservice.so",
+      "sha256": "1761e01cf07dcfb4203291a8819e5e7f8ce54d166011c9df9d758c21a768cf6a"
+    },
+    {
+      "path": "rootfs/system/lib/libmediandk.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libmediandk.so",
+      "sha256": "cd8a3bf91c1825df9410ae136e1701dd27e2a9a2928e6c3e59ce147c34552db6"
+    },
+    {
+      "path": "rootfs/system/lib/libmediaplayerservice.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libmediaplayerservice.so",
+      "sha256": "846dcaf36d11e9c11b1828e02e6591bab7b7df90f4605f9d47866c995ca597f5"
+    },
+    {
+      "path": "rootfs/system/lib/libmediautils.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libmediautils.so",
+      "sha256": "dcdce2722280a17357a87c3fd942780a61f0b93847a6d34d4cf90fe4f0208efa"
+    },
+    {
+      "path": "rootfs/system/lib/libmemtrack.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libmemtrack.so",
+      "sha256": "54c688b6bae2d7738859e141717541a5d4fb9ba310a261d8d3259dda07b3fdde"
+    },
+    {
+      "path": "rootfs/system/lib/libmemunreachable.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libmemunreachable.so",
+      "sha256": "244b0dc00d79f74f06cc4a227a0c5e612445ebe9b00d1b94e23d42a552c2d7d7"
+    },
+    {
+      "path": "rootfs/system/lib/libminijail.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libminijail.so",
+      "sha256": "ca2a96248a7cedcc0cc17a004b6d0b9ea15628084e9054131d6197f8c067ebc8"
+    },
+    {
+      "path": "rootfs/system/lib/libminikin.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libminikin.so",
+      "sha256": "3aaecb1f43e2354c33754dbdaae1febea4a10614e5f1d020fba7d55178b613ce"
+    },
+    {
+      "path": "rootfs/system/lib/libmtp.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libmtp.so",
+      "sha256": "dfc3f3f4d5aec06f63aae395d72784e35062f90f220f1095136430ba8782c193"
+    },
+    {
+      "path": "rootfs/system/lib/libnativebridge.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libnativebridge.so",
+      "sha256": "8c42efd39e85c4ffbb943428fc716f26806614bd9a734464fbc689a950a99f55"
+    },
+    {
+      "path": "rootfs/system/lib/libnativehelper.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libnativehelper.so",
+      "sha256": "41392e646e0d76ab5882a177222fe72c6747bfadd3d85877fa33a191b0b9d4c0"
+    },
+    {
+      "path": "rootfs/system/lib/libnativeloader.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libnativeloader.so",
+      "sha256": "2c348db596bccbbf9e6e31e97ff4b3f893a1afbd54c7dcaee746c8398816dbb3"
+    },
+    {
+      "path": "rootfs/system/lib/libnbaio.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libnbaio.so",
+      "sha256": "c9f6e16292cebc3932fcd7d211cb62acdd1e5310c1abd6dc393c4862feca8d6b"
+    },
+    {
+      "path": "rootfs/system/lib/libnetd-exit-trace.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/libnetd-exit-trace.so"
+    },
+    {
+      "path": "rootfs/system/lib/libnetd_client.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libnetd_client.so",
+      "sha256": "6953ecc43a4eff0e2d55dd1628686fff69f2bcd2a54672a4f1a6a2c2df2a2507"
+    },
+    {
+      "path": "rootfs/system/lib/libnetdaidl.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libnetdaidl.so",
+      "sha256": "4731698532558d9df1bc4ab3eb2a5b9bd851dc30adcc0b2c204d81a08f490bab"
+    },
+    {
+      "path": "rootfs/system/lib/libnetutils.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libnetutils.so",
+      "sha256": "a3351fc2d0b170d44f207989c5f0b02f16803f3d3536615403fa998f32247209"
+    },
+    {
+      "path": "rootfs/system/lib/libnl.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libnl.so",
+      "sha256": "aa51626e81a5e303735ab79d9cc8482f3af86120c18e4bf1c67441e109b78285"
+    },
+    {
+      "path": "rootfs/system/lib/libopenjdk.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libopenjdk.so",
+      "sha256": "3dc7465d91bb7a092fac483e4d169f9506e24a81a19978070bfe3250f9609e95"
+    },
+    {
+      "path": "rootfs/system/lib/libopenjdkjvm.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libopenjdkjvm.so",
+      "sha256": "61e857816831b4b9fc59fc7e52bd26296c77018959af23d3587a326fc132c082"
+    },
+    {
+      "path": "rootfs/system/lib/libopus.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libopus.so",
+      "sha256": "377e01fbcf5582ba7ffc192c6cc17e17cb4491e356593af7665a06f7a119a3b1"
+    },
+    {
+      "path": "rootfs/system/lib/libpackagelistparser.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libpackagelistparser.so",
+      "sha256": "b958afd602c840fcdfaaaba96505eb717fdc288c726e8218eb580889f56d6470"
+    },
+    {
+      "path": "rootfs/system/lib/libpcre.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libpcre.so",
+      "sha256": "4c5b2c7531ea69b71d75ab49a4668db45475f4a6588fee7d3f59e6368f5a3497"
+    },
+    {
+      "path": "rootfs/system/lib/libpdfium.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libpdfium.so",
+      "sha256": "e92a2f72c1de4776cc5e2b68b791acd723f81bb44a4c6722747df7d228badced"
+    },
+    {
+      "path": "rootfs/system/lib/libpiex.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libpiex.so",
+      "sha256": "7d129715902a4d118dbed73aabc06885e8c6e35f8b58d5411d7d9775b2ec3b21"
+    },
+    {
+      "path": "rootfs/system/lib/libpixelflinger-headless.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/r12-pixelflinger/libpixelflinger-headless.so"
+    },
+    {
+      "path": "rootfs/system/lib/libpng.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libpng.so",
+      "sha256": "2d3a4e87643d2e98bf3214d8c75aa06fa9ccae73f0ff8a546592ed30cf1cf0e0"
+    },
+    {
+      "path": "rootfs/system/lib/libpowermanager.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libpowermanager.so",
+      "sha256": "ce5313025c0cf24b1a7ceb9b14db329f32d5809bfef685871fd587ab75d22797"
+    },
+    {
+      "path": "rootfs/system/lib/libprocessgroup.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libprocessgroup.so",
+      "sha256": "f89993342191604d3ec7b79c92f6b4ead1538ee2c0a7d481bc16f64a8c17b58e"
+    },
+    {
+      "path": "rootfs/system/lib/libprotobuf-cpp-lite.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libprotobuf-cpp-lite.so",
+      "sha256": "c3e7755cf8331329b5a88cf49e058e32080e9e2e2570409733884064939770cc"
+    },
+    {
+      "path": "rootfs/system/lib/libradio.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libradio.so",
+      "sha256": "620bfbbdc7f0bb88b8f2a100185945da03d4a930b29b0bff2805d7e2afa02baf"
+    },
+    {
+      "path": "rootfs/system/lib/libradio_metadata.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libradio_metadata.so",
+      "sha256": "585698d8d1e835d3c77dab7fb27afdf5de2894ae316d0668941693b4899da993"
+    },
+    {
+      "path": "rootfs/system/lib/libradioservice.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libradioservice.so",
+      "sha256": "eeaafaf9c5ac6f91ea8890671d48c8d6bdcf518d692012f0fe9348a0eb7b14b4"
+    },
+    {
+      "path": "rootfs/system/lib/libresourcemanagerservice.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libresourcemanagerservice.so",
+      "sha256": "ba007b7abb0d6a7ed5ca08c7b64b7351491a963aa7409e0465bd96be9dadfcb0"
+    },
+    {
+      "path": "rootfs/system/lib/librs_jni.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/librs_jni.so",
+      "sha256": "dbb549124b2dcb2f2cdbc1b428f76e67f18ca37568e1826dcce4a81c9a558a00"
+    },
+    {
+      "path": "rootfs/system/lib/libselinux.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libselinux.so",
+      "sha256": "69df764ed3ddbfe35cd2d5ab9cfc6d253e63fa6a526b2dc19e87bbd211f81b05"
+    },
+    {
+      "path": "rootfs/system/lib/libsensorservice.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libsensorservice.so",
+      "sha256": "08daf64d984016dc0558378a96255d5e63f156b82e73e06c94aaa29cda533cbc"
+    },
+    {
+      "path": "rootfs/system/lib/libserviceutility.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libserviceutility.so",
+      "sha256": "f83299b87474c7ceaecb94b60f6c91c27de9916f3e29680e0ca06a81b2ef71fb"
+    },
+    {
+      "path": "rootfs/system/lib/libsigchain.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libsigchain.so",
+      "sha256": "a79caa504ff5eaa1ed1c120e686de904a7e407a7ec6e6d452676c239f807d6ea"
+    },
+    {
+      "path": "rootfs/system/lib/libskia.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libskia.so",
+      "sha256": "974a5943d5d076ebb469a92103f7a580b3c8cbbbdcf56b58e688fc62a4c762c0"
+    },
+    {
+      "path": "rootfs/system/lib/libsoftkeymaster.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libsoftkeymaster.so",
+      "sha256": "b82bf1b0e8072dc1825d3440ffbcffb929975e85c111284269029d4f80957eb2"
+    },
+    {
+      "path": "rootfs/system/lib/libsoftkeymasterdevice.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libsoftkeymasterdevice.so",
+      "sha256": "55190891292cda49ce821ecb11c116b12541779e22e94d07bae69f0b04fae47a"
+    },
+    {
+      "path": "rootfs/system/lib/libsonic.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libsonic.so",
+      "sha256": "43a497ee2e346a9c47bae0ea8e0694b51453c05d8d3a419ae1f7ea4d793c5370"
+    },
+    {
+      "path": "rootfs/system/lib/libsonivox.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libsonivox.so",
+      "sha256": "92ff9979e48fbcf43771c0b90244b837e80119fd3f9dffe4c873caf193ed7154"
+    },
+    {
+      "path": "rootfs/system/lib/libsoundpool.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libsoundpool.so",
+      "sha256": "f8668c02751bb366a5fd4e6df68ba7afa74c668ad0a4071197d8d4754851f25e"
+    },
+    {
+      "path": "rootfs/system/lib/libsoundtrigger.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libsoundtrigger.so",
+      "sha256": "75dc074b1187845753a60afc7cad18b6c1b9fec332852f1590b63d2356956635"
+    },
+    {
+      "path": "rootfs/system/lib/libsoundtriggerservice.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libsoundtriggerservice.so",
+      "sha256": "524f1a13de3f1aac0e8d1e7a545bf1cd1ce6e116934a3f76106f368087716fc9"
+    },
+    {
+      "path": "rootfs/system/lib/libsparse.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libsparse.so",
+      "sha256": "f7a9f33534dc5189b69f7a8c52f20b5207063c180f7e6b40ae468e45dbc68be0"
+    },
+    {
+      "path": "rootfs/system/lib/libspeexresampler.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libspeexresampler.so",
+      "sha256": "d559bc1689082d4d918a7d855e14e0ecaec22dbc8defe979b5729e21bf6c2a06"
+    },
+    {
+      "path": "rootfs/system/lib/libsqlite.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libsqlite.so",
+      "sha256": "28cc572d61ab88c0bd4ad7b8ef28a0459bc3d3bd6a355c7322ee33f34a5092a2"
+    },
+    {
+      "path": "rootfs/system/lib/libssl.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libssl.so",
+      "sha256": "6a061655e2df4e51c6c7430fab6f3a9ca0911d8ff94f40733f930505492f4b13"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright.so",
+      "sha256": "ac3099333187973b8d639cd7e16d9003eeec710831ac34bc8ff00ce1b78cd027"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_amrnb_common.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_amrnb_common.so",
+      "sha256": "712444abd5ce6f3c45569d77b3bc497780bc41cd747af3a6eb783cefcfe5ac4a"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_avc_common.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_avc_common.so",
+      "sha256": "b573a7856cdf8f8d2ca3c09b70bb557e4bf0bf76b1d77c7d9d42c0ea199aebfa"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_enc_common.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_enc_common.so",
+      "sha256": "7447668b0d35f26e64fa05b8881b24a634697b70e98f888cc89964e0fe78bb61"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_foundation.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_foundation.so",
+      "sha256": "46060877233903477b015be8c83319a1530bac7fdbebd9c72ccb5ebc4b200a73"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_http_support.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_http_support.so",
+      "sha256": "8e1ed7fefd556499258476e1a9a5f07c083047e4ecc1c24246f645d603043c5d"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_httplive.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_httplive.so",
+      "sha256": "b93fc3d9e7e0839e41fc47b1d6c579a455d97380dbae3d716a6dcbcadb48609c"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_omx.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_omx.so",
+      "sha256": "1c5253bf56ba1a2663c3bc15d9bf2761901d19ccb461211ddcc59371ccfd0eb5"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_aacdec.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_aacdec.so",
+      "sha256": "f83906f52684929d4d83831b03dd295983b5388f7b91451dc73e4fba3d8263a6"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_aacenc.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_aacenc.so",
+      "sha256": "d609900a3ecd2ce6cc60d344387e6316b450ae4d37d29fdd1d69c09ea3de4746"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_amrdec.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_amrdec.so",
+      "sha256": "679520284fb9fa2738b872b4738ff90f6f9dc8a2015f878e33dcf796089d8427"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_amrnbenc.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_amrnbenc.so",
+      "sha256": "2ad8dbbe6bd721c16ddd348891058d6b2f39579a837e653a19930e5226b5646c"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_amrwbenc.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_amrwbenc.so",
+      "sha256": "b6a5d5925035639a73739a2cd34730574214d35e6eb43500e27117dc234b78b6"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_avcdec.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_avcdec.so",
+      "sha256": "99b3254aeb260da1a147dfe543df4d46fd1d133d73c40629f7b81caece49b269"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_avcenc.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_avcenc.so",
+      "sha256": "86562e9fc9311436efd10a3903625b53f079991d9a1916541c1b4b9b9d0e7e03"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_flacenc.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_flacenc.so",
+      "sha256": "29a0448a5d96574ecdf453ba84cd4bd1b3a35a3a2266fbe42fcc2ae1f6524b2b"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_g711dec.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_g711dec.so",
+      "sha256": "cf51d662b054af087ebe070c43aaedf5d54d06351ad32fa30202e80b657b5292"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_gsmdec.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_gsmdec.so",
+      "sha256": "73c4577221ed688143b78ef8e4ecd15f8f33045ad6a733277741f0db27480629"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_hevcdec.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_hevcdec.so",
+      "sha256": "1a169c4626d59e31744ed97a6b6e8e5997fb2503fb8b0470084fcab126fa31d6"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_mp3dec.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_mp3dec.so",
+      "sha256": "b45a30d5cd8cc10b93d974c9ccf0fbb74430c159ff42cddeddc14ceb59304496"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_mpeg2dec.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_mpeg2dec.so",
+      "sha256": "e227246e9f542d337e8191f6065f9092cce06a034cc873d30df15770b22cf9d3"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_mpeg4dec.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_mpeg4dec.so",
+      "sha256": "c550d5c8d12fc04535f79482e12a3edf439b6049a2ca2c3178a75ff74e711c7c"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_mpeg4enc.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_mpeg4enc.so",
+      "sha256": "5d057407739b9e7038e0c737bfdc257aafcc4a03cf2dea50f308e06d2de9d392"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_opusdec.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_opusdec.so",
+      "sha256": "183865238e95346ba45df497bd2c05548c7c48602c091f10118bcad03ec592bf"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_rawdec.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_rawdec.so",
+      "sha256": "a7c01d52bd94ca3a5fb3463cf2eba4e5d7d4ba07070c8c1eb688f0e442345493"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_vorbisdec.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_vorbisdec.so",
+      "sha256": "c8b7b89f6e9363e49e894fb50ca9602127633bfd590ed67ba43626696a4875c3"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_vpxdec.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_vpxdec.so",
+      "sha256": "7ab0e472e1194fd995437203adaddf64c0705177c7a9525c2c493a206047ebaf"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_soft_vpxenc.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_soft_vpxenc.so",
+      "sha256": "1ab4565e6974dd6bfe4b9c962a76cd3e2ee6a120289954a34fb0ab6f667cc6a3"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_wfd.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_wfd.so",
+      "sha256": "b4235b563660942128dfca777a027ffacf449d50fee3a2a46c4ad6ecf35876f0"
+    },
+    {
+      "path": "rootfs/system/lib/libstagefright_yuv.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstagefright_yuv.so",
+      "sha256": "9d61b15de2d14edbcd8ebaf82128169537d44507d40d02bffc6264df43b467e9"
+    },
+    {
+      "path": "rootfs/system/lib/libstdc++.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libstdc++.so",
+      "sha256": "d040ca808209862d26f6e74db342e8b7f04f84f365cb6f2d472b872eb54e49ab"
+    },
+    {
+      "path": "rootfs/system/lib/libsurfaceflinger-headless.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/libsurfaceflinger-headless.so"
+    },
+    {
+      "path": "rootfs/system/lib/libsuspend.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libsuspend.so",
+      "sha256": "d784a37b10b608f6d26bafad02a234fe2328d556e94bec655409d4c02eb5424b"
+    },
+    {
+      "path": "rootfs/system/lib/libsync.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libsync.so",
+      "sha256": "5c4595bb1513f66a46bb63c72e6d013999c6f088e931e1a0c3a391ea3489a54e"
+    },
+    {
+      "path": "rootfs/system/lib/libsysutils.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libsysutils.so",
+      "sha256": "12d36424688f0974fdd6c73476ed68e347179711dc7c39183656b2c80302d31d"
+    },
+    {
+      "path": "rootfs/system/lib/libtiff_directory.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libtiff_directory.so",
+      "sha256": "4401bd38b45c1002bc2b7c7b1785166f060d98cc76b985ae016f69f30eb392ba"
+    },
+    {
+      "path": "rootfs/system/lib/libui.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libui.so",
+      "sha256": "52d1732cc12610d3cf2ec9ad506c815bec8ab07df947bbf6549a08732424acc4"
+    },
+    {
+      "path": "rootfs/system/lib/libunwind.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libunwind.so",
+      "sha256": "cbe114f9d067997d1ca05d8bce16a3090eb6ec646aa1af3d40edb6a83d09732e"
+    },
+    {
+      "path": "rootfs/system/lib/libusbhost.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libusbhost.so",
+      "sha256": "6791651dd91ceb50bba26d8cb2fcb49fe745a4b42241a18372b63d2e02df0f4b"
+    },
+    {
+      "path": "rootfs/system/lib/libutils.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libutils.so",
+      "sha256": "4372ce06f03f58fecdef8351e2f73c49e9f7a42ff9a625baf1563cb9df377cb9"
+    },
+    {
+      "path": "rootfs/system/lib/libvixl.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libvixl.so",
+      "sha256": "55da7f7f22a1b873df4eede0c082f650a4394062f161863471de90dcae8caddd"
+    },
+    {
+      "path": "rootfs/system/lib/libvorbisidec.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libvorbisidec.so",
+      "sha256": "27e56cad07fafee01064bbdb72d8a2074e945b8a3b0f18af0d9fa29c4e6a86d7"
+    },
+    {
+      "path": "rootfs/system/lib/libvulkan.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libvulkan.so",
+      "sha256": "e18f833a564ee4aa853652e62c2c54746588d3866f6528253de120e5246dfd3f"
+    },
+    {
+      "path": "rootfs/system/lib/libwebviewchromium_loader.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libwebviewchromium_loader.so",
+      "sha256": "cd962126f25cf80a5bb347553b7ee5e991938a643497c159ff619eb9464bc08d"
+    },
+    {
+      "path": "rootfs/system/lib/libwebviewchromium_plat_support.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libwebviewchromium_plat_support.so",
+      "sha256": "9506d1699f730f88bfd4358ca85c141e0d1acf02eb13ee394940cfd61cb81951"
+    },
+    {
+      "path": "rootfs/system/lib/libwifi-service.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libwifi-service.so",
+      "sha256": "22023203ed904e553da06ea2f8c7d0b9ba521a62efd902c5e62c41de533fcf0f"
+    },
+    {
+      "path": "rootfs/system/lib/libwilhelm.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libwilhelm.so",
+      "sha256": "9bdab813911634eb3d6fc5b949c658bfcc17f35feffea06bae97a2fd8aa3bd81"
+    },
+    {
+      "path": "rootfs/system/lib/libwpa_client.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libwpa_client.so",
+      "sha256": "f1a476c39c9b54f584bff724c0909663de74a08ea25c833b601e289d2431b66f"
+    },
+    {
+      "path": "rootfs/system/lib/libz.so",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/lib/libz.so",
+      "sha256": "42b3345d49f79a6dcf1a73546183747fbb31b39b620a145526c93ae34312c2d7"
+    },
+    {
+      "path": "rootfs/system/priv-app/DefaultContainerService/DefaultContainerService.apk",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/DefaultContainerService/DefaultContainerService.apk",
+      "sha256": "bf5a2de9afdc47b441983c9a482f651e69df0340a510b3b748bf60d76a67b6a2"
+    },
+    {
+      "path": "rootfs/system/priv-app/DefaultContainerService/oat/arm/DefaultContainerService.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/DefaultContainerService/oat/arm/DefaultContainerService.odex",
+      "sha256": "6c49ea381d4bee0a35c47355294b84fb1da7710b0e71c078696c68116956c6fa"
+    },
+    {
+      "path": "rootfs/system/priv-app/DocumentsUI/DocumentsUI.apk",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/DocumentsUI/DocumentsUI.apk",
+      "sha256": "e7e5fc11826b6961aa85cad29b69581225ea84d272438961b2049fbe710abd51"
+    },
+    {
+      "path": "rootfs/system/priv-app/DocumentsUI/oat/arm/DocumentsUI.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/DocumentsUI/oat/arm/DocumentsUI.odex",
+      "sha256": "9dc86c1769fb12b545c9278fae6cd74fcd9eb4f2b5024cfafda6fd222659c105"
+    },
+    {
+      "path": "rootfs/system/priv-app/DownloadProvider/DownloadProvider.apk",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/DownloadProvider/DownloadProvider.apk",
+      "sha256": "795e451d4caefbbb6316a19e05fe4020a36a3e978c56ad304b30b43b914c405e"
+    },
+    {
+      "path": "rootfs/system/priv-app/DownloadProvider/oat/arm/DownloadProvider.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/DownloadProvider/oat/arm/DownloadProvider.odex",
+      "sha256": "164cbeac098795fc39fb83fe788d3e30b6a8d69597fc038e5ea079ff78c59f8b"
+    },
+    {
+      "path": "rootfs/system/priv-app/ExternalStorageProvider/ExternalStorageProvider.apk",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/ExternalStorageProvider/ExternalStorageProvider.apk",
+      "sha256": "11442612c6bfaaabeea673d6ee78af42a418ba7b03ec4546d1c44596061d82c3"
+    },
+    {
+      "path": "rootfs/system/priv-app/ExternalStorageProvider/oat/arm/ExternalStorageProvider.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/ExternalStorageProvider/oat/arm/ExternalStorageProvider.odex",
+      "sha256": "9e41d1fda2f75131e0ff3a30c4090202719e990e2b24d9c00664fcc1a13d5359"
+    },
+    {
+      "path": "rootfs/system/priv-app/GoogleExtServices/GoogleExtServices.apk",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/GoogleExtServices/GoogleExtServices.apk",
+      "sha256": "604bd5f4a93abe615272008fd564f796f2d81172c4f93ea9dbb27d1ee0436026"
+    },
+    {
+      "path": "rootfs/system/priv-app/GoogleExtServices/oat/arm/GoogleExtServices.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/GoogleExtServices/oat/arm/GoogleExtServices.odex",
+      "sha256": "3e6c427ed48514fbe841af7a1c60384efa64f6a5d0937f33ca95326836d97697"
+    },
+    {
+      "path": "rootfs/system/priv-app/GooglePackageInstaller/GooglePackageInstaller.apk",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/GooglePackageInstaller/GooglePackageInstaller.apk",
+      "sha256": "2935e346aff49849c9daa68c944b452b02da4c190c87fb76c5408260636f90c8"
+    },
+    {
+      "path": "rootfs/system/priv-app/GooglePackageInstaller/oat/arm/GooglePackageInstaller.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/GooglePackageInstaller/oat/arm/GooglePackageInstaller.odex",
+      "sha256": "c36cc5b6c5ace16c961fcafa864d609c7c43698811c82403b54f34d0aee068bd"
+    },
+    {
+      "path": "rootfs/system/priv-app/MediaProvider/MediaProvider.apk",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/MediaProvider/MediaProvider.apk",
+      "sha256": "844a770c926aaba6ffe63ed0d8daec6912b4ac294d3b0d7ecee4916f27c8f46b"
+    },
+    {
+      "path": "rootfs/system/priv-app/MediaProvider/oat/arm/MediaProvider.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/MediaProvider/oat/arm/MediaProvider.odex",
+      "sha256": "ee1c40add5a54c9aa179d01e1dae674abd2a17ce34bc3cad0fdf46eeb75d9fd7"
+    },
+    {
+      "path": "rootfs/system/priv-app/SettingsProvider/SettingsProvider.apk",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/SettingsProvider/SettingsProvider.apk",
+      "sha256": "289e616434771841bbe6757c47b956af5680949d25e0ceb17917259237a4a2c9"
+    },
+    {
+      "path": "rootfs/system/priv-app/SettingsProvider/oat/arm/SettingsProvider.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/SettingsProvider/oat/arm/SettingsProvider.odex",
+      "sha256": "e3549c910fc94e4d44d4ad3bd56b464cdb09fdf62fc5aa219e5a84a18c9db426"
+    },
+    {
+      "path": "rootfs/system/priv-app/StatementService/StatementService.apk",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/StatementService/StatementService.apk",
+      "sha256": "f0fa3495edcbf8d2f2378e1ea337324a3fae5efedf74705bdba56e7eeaebbb03"
+    },
+    {
+      "path": "rootfs/system/priv-app/StatementService/oat/arm/StatementService.odex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/priv-app/StatementService/oat/arm/StatementService.odex",
+      "sha256": "b9a11170dd6cb6b531615eaa4dcd257bad49752958c0909a4fbe772355be0198"
+    },
+    {
+      "path": "rootfs/system/usr/icu/icudt56l.dat",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/usr/icu/icudt56l.dat",
+      "sha256": "540b50fa40cd680f9edcbf327863ada4fdde8fc3dba74592a08fb3bb0e6be677"
+    },
+    {
+      "path": "rootfs/system/usr/idc/pt_mt.idc",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/system/usr/idc/pt_mt.idc"
+    },
+    {
+      "path": "rootfs/system/usr/share/zoneinfo/tzdata",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "api25",
+      "source": "/usr/share/zoneinfo/tzdata",
+      "sha256": "860fbd5dfaab40cb00bed6e46802d94a3030214900dbb056a9da4d1043c5fe41"
+    },
+    {
+      "path": "rootfs/tests/Hello.dex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/java/classes.dex"
+    },
+    {
+      "path": "rootfs/tests/SystemServerBootstrap.dex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/systemserver-bootstrap/classes.dex"
+    },
+    {
+      "path": "rootfs/tests/hwtcon-frame-probe",
+      "mode": 493,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/stage5/hwtcon-frame-probe"
+    },
+    {
+      "path": "rootfs/tests/hwtcon-recovery.sh",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/tests/hwtcon-recovery.sh"
+    },
+    {
+      "path": "rootfs/tests/textservices-null-stub.dex",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "build",
+      "source": "artifacts/textservices-null-stub.dex"
+    },
+    {
+      "path": "run.sh",
+      "mode": 448,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/run.sh"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+<resources>
+    <style name="ReaderDesktopTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:colorAccent">#333333</item>
+    </style>
+</resources>

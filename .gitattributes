@@ -1,0 +1,21 @@
+*.c text eol=lf
+*.cc text eol=lf
+*.cpp text eol=lf
+*.h text eol=lf
+*.hpp text eol=lf
+*.java text eol=lf
+*.lua text eol=lf
+*.py text eol=lf
+*.rs text eol=lf
+*.sh text eol=lf
+*.rc text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.xml text eol=lf
+*.prop text eol=lf
+*.idc text eol=lf
+runtime/** text eol=lf
+device/** text eol=lf
+config/cacert.pem text eol=lf
+third_party/rime-pinyin-simp/** -text

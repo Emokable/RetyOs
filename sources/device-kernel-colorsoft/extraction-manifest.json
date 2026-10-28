@@ -1,0 +1,362 @@
+{
+  "source_archive": "${PROJECT_ROOT}\\downloads\\Kindle_src_5.19.3.0.1_4721720001.tar.gz",
+  "firmware": "Kindle Colorsoft 5.19.3.0.1 / 4721720001",
+  "nested_source": "gplrelease/linux-5.15.tar.gz",
+  "selection": [
+    "drivers/misc/mediatek/hwtcon_v2/",
+    "drivers/input/touchscreen/pt5/",
+    "arch/arm/boot/dts/mediatek/mt8110-bellatrix.dtsi",
+    "arch/arm/boot/dts/mediatek/mt8113-bellatrix-v3-226.dts",
+    "arch/arm/boot/dts/mediatek/mt8113-bellatrix-v3.dts",
+    "arch/arm/boot/dts/mediatek/mt8113-bellatrix-v3.dtsi",
+    "arch/arm/configs/mt8110-bellatrix_defconfig",
+    "arch/arm/configs/mt8113-bellatrix-v4_defconfig",
+    "drivers/input/touchscreen/Makefile",
+    "drivers/misc/mediatek/Kconfig",
+    "drivers/misc/mediatek/Makefile",
+    "include/linux/hwtcon_ioctl_cmd.h"
+  ],
+  "files": [
+    {
+      "path": "arch/arm/boot/dts/mediatek/mt8110-bellatrix.dtsi",
+      "bytes": 12793,
+      "sha256": "649e244a3097c6d3482ac52414e8978d356591b72b45e7cfb743541d96b96bbe"
+    },
+    {
+      "path": "arch/arm/boot/dts/mediatek/mt8113-bellatrix-v3-226.dts",
+      "bytes": 11020,
+      "sha256": "d10af9186839c5a40b325a0b84475af3f77d43a7990054829005ad8f67592fe9"
+    },
+    {
+      "path": "arch/arm/boot/dts/mediatek/mt8113-bellatrix-v3.dts",
+      "bytes": 11001,
+      "sha256": "aa6e67c82a5cda46db3f6e88491bc5c21712d18c1e3fc5aefad5c2500a5216fc"
+    },
+    {
+      "path": "arch/arm/boot/dts/mediatek/mt8113-bellatrix-v3.dtsi",
+      "bytes": 12807,
+      "sha256": "459ddd57b55156a1885c2b46a734fb62938acacd239a7a137c3b2cd7b6cf75a4"
+    },
+    {
+      "path": "arch/arm/configs/mt8110-bellatrix_defconfig",
+      "bytes": 15164,
+      "sha256": "04a965f469bb2fb1e2e707ba7c3ee19ca3dbcf05bbbd1cb2022869bfa6d9250e"
+    },
+    {
+      "path": "arch/arm/configs/mt8113-bellatrix-v4_defconfig",
+      "bytes": 12722,
+      "sha256": "1f709a98b51d14a93044b4daa451447ddb3bdb3002a4c9c347af6af26728f6e8"
+    },
+    {
+      "path": "drivers/input/touchscreen/Makefile",
+      "bytes": 5937,
+      "sha256": "58de7cca9f27a12b714cb2ad4111f99a1bdbb1cfdb7bade60875bc2461a05312"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/Kconfig",
+      "bytes": 5543,
+      "sha256": "e521f93ea904158146c9875d5b28000577f93d91cf48ff5a7e44e26f847dfae8"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/Makefile",
+      "bytes": 1651,
+      "sha256": "de1d6a61d526c47e58a9d43810db428e3b37425c23e78e46ae68fe742fb7aa54"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/pt_btn.c",
+      "bytes": 14147,
+      "sha256": "d628895c72dd5b410bc803608cb10c12b0d983bf99ee4d3a2f496359aa424563"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/pt_core.c",
+      "bytes": 498042,
+      "sha256": "89c018d86bce650424cb74e0687792e593e7df0f106d2055000d3f392b3c37ec"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/pt_debug.c",
+      "bytes": 16180,
+      "sha256": "0ca0c7888baa34da683d263aa913d288deadd5fdf3af26f608be63bf750e6967"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/pt_device_access.c",
+      "bytes": 214333,
+      "sha256": "068773b7ffad7286101f9b445aa59a07b9bb2ae02fe34f486453463975f99444"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/pt_devtree.c",
+      "bytes": 28415,
+      "sha256": "bb03b474699bdbb3f268b380a1ad50567352f352ddc95ec69858df071fd1bf4f"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/pt_i2c.c",
+      "bytes": 15136,
+      "sha256": "bd51b64bcef253726bc993597401549a6e24ecda832addf5e0efb234a84c51e7"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/pt_loader.c",
+      "bytes": 159367,
+      "sha256": "b594416ff1a8f26c5ac1de8d2fdc092cd7430bf8718bc493f65142d13b7ea858"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/pt_mt_common.c",
+      "bytes": 31290,
+      "sha256": "b82a5f195887078261a1b69ec33180feaf333e76d9d8c365b7faa09bf0a56e26"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/pt_mta.c",
+      "bytes": 4778,
+      "sha256": "afab68495c72a6922485bfeeb3e0882c9f8fd2e729c487257001cd07bf54e8e8"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/pt_mtb.c",
+      "bytes": 5779,
+      "sha256": "5df47ecbe832b3b20fd755960cd1b354834e19d3b434ac69c48417eca85d4ea4"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/pt_platform.c",
+      "bytes": 37594,
+      "sha256": "0c23547aab046e0c810d885254328a89b6e501296ef4541a2ad6c86bf4939f1e"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/pt_proximity.c",
+      "bytes": 22479,
+      "sha256": "9462edee89a8503a4b7aebc5d30ea0fbce81702498b81058263a88af1b1c582f"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/pt_regs.h",
+      "bytes": 50628,
+      "sha256": "7527f24589f815c6525b0be80bad665d88e52077bb1c9d5cd3ffd92e6d3884cb"
+    },
+    {
+      "path": "drivers/input/touchscreen/pt5/pt_spi.c",
+      "bytes": 17503,
+      "sha256": "00b4711fd2fbdbf5a310fdf195e26b6e80f14d440705509bcad0ebc326c49fb0"
+    },
+    {
+      "path": "drivers/misc/mediatek/Kconfig",
+      "bytes": 9945,
+      "sha256": "d9db3acaa6ad4fae0885b333d545fc15bb2ebfec8a97eff4f5fee2ca8587d670"
+    },
+    {
+      "path": "drivers/misc/mediatek/Makefile",
+      "bytes": 5549,
+      "sha256": "152622825c0fdaa8cc33d345dd76a5187c47c357e75ad353578ba875a7e2c3db"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/Kconfig",
+      "bytes": 277,
+      "sha256": "8a77c50091eb397844ad7899a21e56ada613aa7580295b04e523bb8c3dfdbc01"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/Makefile",
+      "bytes": 1746,
+      "sha256": "3a5e59ef48cf6046d606906f051c0454016c50ca5f525f4d90ed17a5da032b48"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/decompress_inflate.c",
+      "bytes": 4189,
+      "sha256": "e0d15be63e9f40d697c13444b99b247604a0478d2e19184b5e146d36bd828be8"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/decompress_inflate.h",
+      "bytes": 460,
+      "sha256": "b311201d7bd3d4b8ff87b21e78688fecee50c08e95a7a2b67c098431220c5670"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hal/hwtcon_dpi_config.c",
+      "bytes": 3153,
+      "sha256": "df90dcfdba859819a08089f926fab12bc26293027542d093b964803a64e0ce3f"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hal/hwtcon_dpi_config.h",
+      "bytes": 928,
+      "sha256": "f01964a1d9573adabbd103a07df3f31153f86088e6ce5f0e21a47835e6feb042"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hal/hwtcon_hal.c",
+      "bytes": 3174,
+      "sha256": "d5aec8f624f8557af0a1cb3bd175bebd1fc6ae3c62c545f196f8095e2dd68e3e"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hal/hwtcon_hal.h",
+      "bytes": 915,
+      "sha256": "91ad1fa4b72d0f9440165de9b05b71e768f8c05f75d51733b4ff207973b3f1db"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hal/hwtcon_pipeline_config.c",
+      "bytes": 58713,
+      "sha256": "8dfd5f5e2fdeae614f98be9941de215a975fd12c60428035433a86ac77842f3f"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hal/hwtcon_pipeline_config.h",
+      "bytes": 4910,
+      "sha256": "8af53d1adfe319c5e101c5be607dddeb7a414e99e44fbaacd27f809ad505a365"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hal/hwtcon_reg.h",
+      "bytes": 48810,
+      "sha256": "8a2075d3c1d5dd1cc9d1842d6eb7d42fdec52c6949e5df294b8d8f47168dfe91"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hal/hwtcon_regal_config.c",
+      "bytes": 7801,
+      "sha256": "585362ee537f075671b56d79ac6a22bb47a1f8f60d8810a69151585a088c0dd1"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hal/hwtcon_regal_config.h",
+      "bytes": 973,
+      "sha256": "254e55f65cd551ecaa0635288f0ff16f6a6b7ed5fcdaa2cd08e06245969b938e"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hal/hwtcon_tcon_config.c",
+      "bytes": 8226,
+      "sha256": "61db5708d75a49cd501557ecceb3388944d020fee4a416fa3067bd3febbbc23d"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hal/hwtcon_tcon_config.h",
+      "bytes": 874,
+      "sha256": "bb2277c1175cf76cc3d884416f392f6114f750d32fac147ee7269849b604148a"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hal/hwtcon_wf_lut_config.c",
+      "bytes": 54685,
+      "sha256": "5622505eee1ffcb9913d63b8f77265fbd99e276f43dd4bb58cabd88c8afda668"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hal/hwtcon_wf_lut_config.h",
+      "bytes": 11323,
+      "sha256": "a75da2a7a1dd3afe8cf5907983a5631235625ae16489888ca431a402bcf56483"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hal/hwtcon_wf_lut_rdma_config.c",
+      "bytes": 3104,
+      "sha256": "ea23fd02a3b333ec6d49a6a87a0d8d3e6214441cff4658d7eb7afd3f1f4dd4ab"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hal/hwtcon_wf_lut_rdma_config.h",
+      "bytes": 906,
+      "sha256": "669e5fc0d83cc759bf81c0432516f5d81c3b95e3f42df0f91243504f6f10f866"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_cmdq.c",
+      "bytes": 13676,
+      "sha256": "773543bc0c71c763a2a7404bc475748037c7c3de97e3b7799f97df1ddb9df53b"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_cmdq.h",
+      "bytes": 923,
+      "sha256": "ac0f7991bbc41c72ca55e459c577cdc604d2359f1579ae7a97ce2001ad34ec59"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_core.c",
+      "bytes": 130184,
+      "sha256": "4fd5f87870188e84218f7929ad72fcdfe7a13dfc57dd637f0348160f6795dea1"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_core.h",
+      "bytes": 7130,
+      "sha256": "7899aa7e628019b4349bf6ec1eb32ca621f4c74d3517c72ca9c7f74aa974b96d"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_debug.c",
+      "bytes": 54167,
+      "sha256": "0a361fdc87f6cc1bac0bf0b33578cd81e8d57b17bd3d613575b822974226b45d"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_debug.h",
+      "bytes": 1441,
+      "sha256": "c6b5333c337c1d6e46bc5340884b8f2366860646044a2d650b589a7a70f08bea"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_debug_read.h",
+      "bytes": 419,
+      "sha256": "5a7aa7560261d24ca5b57a77adcfcf0e7607a5e7585743a143f4fccdeb75242f"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_def.h",
+      "bytes": 4433,
+      "sha256": "b84e749c7dc14ae56d838259ec5638518c2867507bb1d1f504a2eec59024dd7a"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_driver.c",
+      "bytes": 50149,
+      "sha256": "1c7cbfd7dae310ff54d19baa822932dfd901937f96e2b6fda2ff031cea3f41f0"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_driver.h",
+      "bytes": 3111,
+      "sha256": "033bd27b018d5a1d347a69c8d68b6db91d38333395a597e0aca4a52a63275c60"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_epd.c",
+      "bytes": 10577,
+      "sha256": "719397bf727964ef127014a4fa294f0299295c7b1ea6e52e4af381af23d066eb"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_epd.h",
+      "bytes": 3331,
+      "sha256": "83d6349c1bfd93456fb2c303ef8b85a275f78d0436d2ccd7ec8eeea4a17b666a"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_extra_feature.c",
+      "bytes": 8242,
+      "sha256": "3380d476e7700d8aac1ad1ef8024f5e2b0958a52f7e71f59f40a77e06a7904f1"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_fb.c",
+      "bytes": 64012,
+      "sha256": "6ac91339934909fc43b094dac749eda2e0681cc6f0fc4e45a45095cf95c08fe8"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_fb.h",
+      "bytes": 10957,
+      "sha256": "6327a80b90bb59b77a2b828d6e137265a84c4137260fa2d5c88ee09ae6fd0b4d"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_file.c",
+      "bytes": 4732,
+      "sha256": "02cb65142407a7f4deaea0855a3cc725ca7f7036153a3f4a2190af67427ae084"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_file.h",
+      "bytes": 1402,
+      "sha256": "ddbff7ecd3ccbdfa853e254a1218ac51d18ce124b081912b0c892f37c54ba0f0"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_lightbox.c",
+      "bytes": 5469,
+      "sha256": "6945d11426759034a670711143188b1be92c066479b23be06e1dbe52efb6d392"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_lightbox.h",
+      "bytes": 843,
+      "sha256": "a8255d35755a297245c10b54bc395b885b2b2c70498ff50f8523cec204b2b3b4"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_mdp.c",
+      "bytes": 11362,
+      "sha256": "14cb0879b88e64096f230d0d04c2e1c441a16ccb2ea0e7e486f5b012d2ed13af"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_mdp.h",
+      "bytes": 1503,
+      "sha256": "64cfa4e25d1b4167ccbfa79735dd1a6093eb13ea1306c69933ca46c292d31a9e"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_rect.c",
+      "bytes": 10636,
+      "sha256": "f16ba91d37ee32f4157d90f22a2c6af163a8befd32fff549d6997fee00e1842b"
+    },
+    {
+      "path": "drivers/misc/mediatek/hwtcon_v2/hwtcon_rect.h",
+      "bytes": 2025,
+      "sha256": "ba60f3f7fb8d7a2717b31368c95ba154fdb6e0751991e4362dec82cccbbc814d"
+    },
+    {
+      "path": "include/linux/hwtcon_ioctl_cmd.h",
+      "bytes": 13286,
+      "sha256": "b208099d3d2330c9e6b90160782ac5ee46845d152010f9059c0aa961052d08d9"
+    }
+  ],
+  "note": "Selected regular files only; no archive paths outside this directory were written."
+}

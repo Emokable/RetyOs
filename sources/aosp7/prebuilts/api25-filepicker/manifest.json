@@ -1,0 +1,56 @@
+{
+  "source": "${PROJECT_ROOT}\\images\\api25\\system.img",
+  "source_size": 2147483648,
+  "files": {
+    "priv-app/DocumentsUI/DocumentsUI.apk": {
+      "image_path": "/priv-app/DocumentsUI/DocumentsUI.apk",
+      "bytes": 957442,
+      "sha256": "e7e5fc11826b6961aa85cad29b69581225ea84d272438961b2049fbe710abd51"
+    },
+    "priv-app/DocumentsUI/oat/arm/DocumentsUI.odex": {
+      "image_path": "/priv-app/DocumentsUI/oat/arm/DocumentsUI.odex",
+      "bytes": 3662304,
+      "sha256": "9dc86c1769fb12b545c9278fae6cd74fcd9eb4f2b5024cfafda6fd222659c105"
+    },
+    "priv-app/DownloadProvider/DownloadProvider.apk": {
+      "image_path": "/priv-app/DownloadProvider/DownloadProvider.apk",
+      "bytes": 200320,
+      "sha256": "795e451d4caefbbb6316a19e05fe4020a36a3e978c56ad304b30b43b914c405e"
+    },
+    "priv-app/DownloadProvider/oat/arm/DownloadProvider.odex": {
+      "image_path": "/priv-app/DownloadProvider/oat/arm/DownloadProvider.odex",
+      "bytes": 1126880,
+      "sha256": "164cbeac098795fc39fb83fe788d3e30b6a8d69597fc038e5ea079ff78c59f8b"
+    },
+    "priv-app/ExternalStorageProvider/ExternalStorageProvider.apk": {
+      "image_path": "/priv-app/ExternalStorageProvider/ExternalStorageProvider.apk",
+      "bytes": 14110,
+      "sha256": "11442612c6bfaaabeea673d6ee78af42a418ba7b03ec4546d1c44596061d82c3"
+    },
+    "priv-app/ExternalStorageProvider/oat/arm/ExternalStorageProvider.odex": {
+      "image_path": "/priv-app/ExternalStorageProvider/oat/arm/ExternalStorageProvider.odex",
+      "bytes": 135648,
+      "sha256": "9e41d1fda2f75131e0ff3a30c4090202719e990e2b24d9c00664fcc1a13d5359"
+    },
+    "priv-app/MediaProvider/MediaProvider.apk": {
+      "image_path": "/priv-app/MediaProvider/MediaProvider.apk",
+      "bytes": 70215,
+      "sha256": "844a770c926aaba6ffe63ed0d8daec6912b4ac294d3b0d7ecee4916f27c8f46b"
+    },
+    "priv-app/MediaProvider/oat/arm/MediaProvider.odex": {
+      "image_path": "/priv-app/MediaProvider/oat/arm/MediaProvider.odex",
+      "bytes": 532960,
+      "sha256": "ee1c40add5a54c9aa179d01e1dae674abd2a17ce34bc3cad0fdf46eeb75d9fd7"
+    },
+    "app/DownloadProviderUi/DownloadProviderUi.apk": {
+      "image_path": "/app/DownloadProviderUi/DownloadProviderUi.apk",
+      "bytes": 125290,
+      "sha256": "4b00d932aac7a215c3fd9cfe66df06f2a481aa8d20064dacbb3d2af8b0a0d5e9"
+    },
+    "app/DownloadProviderUi/oat/arm/DownloadProviderUi.odex": {
+      "image_path": "/app/DownloadProviderUi/oat/arm/DownloadProviderUi.odex",
+      "bytes": 41440,
+      "sha256": "c1e3c72f1d78f9de4a8f474148870b33d8059b7f9d2b5624e1dae1ce15752f52"
+    }
+  }
+}

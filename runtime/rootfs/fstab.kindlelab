@@ -1,0 +1,2 @@
+# Describes the existing disposable /data mount; no voldmanaged disks
+tmpfs /data tmpfs rw,nosuid,nodev defaults
