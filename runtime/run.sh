@@ -769,16 +769,43 @@ set +e
  mount --bind "$root/data/local/tmp" "$root/tmp"
  mount --bind "$root/system" "$root/system"
  mount -o remount,bind,ro "$root/system"
- touch_hex_major=$(stat -Lc %t /dev/input/event1)
- touch_hex_minor=$(stat -Lc %T /dev/input/event1)
+ touch_path=
+ for touch_sys in /sys/class/input/event*/device/name; do
+  [ "$(cat "$touch_sys" 2>/dev/null)" = pt_mt ] || continue
+  touch_event=${touch_sys%/device/name}; touch_event=${touch_event##*/}
+  [ -z "$touch_path" ] || { echo TOUCH_DEVICE_AMBIGUOUS=1 >&2; exit 45; }
+  touch_path=/dev/input/$touch_event
+ done
+ [ -n "$touch_path" ] && [ -c "$touch_path" ] || { echo TOUCH_DEVICE_NOT_FOUND=1 >&2; exit 45; }
+ touch_hex_major=$(stat -Lc %t "$touch_path")
+ touch_hex_minor=$(stat -Lc %T "$touch_path")
  touch_major=$((0x$touch_hex_major))
  touch_minor=$((0x$touch_hex_minor))
- touch_name=$(cat /sys/class/input/event1/device/name)
+ touch_name=$(cat "/sys/class/input/$touch_event/device/name")
  [ "$touch_name" = pt_mt ] || { echo "TOUCH_DEVICE_NAME_MISMATCH=$touch_name"; exit 45; }
  mknod "$root/dev/input/event1" c "$touch_major" "$touch_minor"
  chown 1000:1000 "$root/dev/input/event1"
  chmod 0600 "$root/dev/input/event1"
  echo "TOUCH_DEVICE_NODE_CREATED=1 name=$touch_name major=$touch_major minor=$touch_minor owner=1000:1000 mode=0600"
+ # Native input_manager owns the Bluetooth HID device and converts its keys.
+ # Import only its named virtual output; pairing and raw HID remain native.
+ page_path=
+ for page_sys in /sys/class/input/event*/device/name; do
+  [ "$(cat "$page_sys" 2>/dev/null)" = kindle-input-pt ] || continue
+  page_event=${page_sys%/device/name}; page_event=${page_event##*/}
+  [ -z "$page_path" ] || { echo PAGE_KEY_DEVICE_AMBIGUOUS=1 >&2; exit 45; }
+  page_path=/dev/input/$page_event
+ done
+ if [ -n "$page_path" ]; then
+  page_major=$((0x$(stat -Lc %t "$page_path")))
+  page_minor=$((0x$(stat -Lc %T "$page_path")))
+  mknod "$root/dev/input/event2" c "$page_major" "$page_minor"
+  chown 1000:1000 "$root/dev/input/event2"
+  chmod 0600 "$root/dev/input/event2"
+  echo "PAGE_KEY_DEVICE_NODE_CREATED=1 name=kindle-input-pt major=$page_major minor=$page_minor"
+ else
+  echo PAGE_KEY_DEVICE_UNAVAILABLE=1
+ fi
  mkdir -p "$stage/frame-capture" "$root/capture-out"
  mount --bind "$stage/frame-capture" "$root/capture-out"
  touch "$root/dev/fb0"

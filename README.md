@@ -2,6 +2,8 @@
 
 **简体中文** | [English](README.en.md)
 
+[2026-10-29 更新与验证范围](docs/UPDATES-20261029.md)
+
 在 Kindle 上运行 Android 7.1.1 的开源实验。
 
 受到墨卓项目的启发，我尝试在 Kindle 原生 Linux 内核上搭建 Android 运行环境，希望为轻量阅读应用提供一个可研究、可修改、由社区共同完善的开源方案。

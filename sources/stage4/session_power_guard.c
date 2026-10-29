@@ -40,6 +40,21 @@ static void set_locked(int value){if(value==locked)return;
 }
 static long find_target(const char *stage){DIR *d=opendir("/proc");if(!d)return 0;struct dirent *e;long found=0;char expected[220];snprintf(expected,sizeof(expected),"%s/rootfs",stage);
  while((e=readdir(d))){char *end;long pid=strtol(e->d_name,&end,10);if(*end||pid<=1)continue;char path[256],name[32]={0},root[256]={0};snprintf(path,sizeof(path),"/proc/%ld/comm",pid);FILE *f=fopen(path,"r");if(!f)continue;fgets(name,sizeof(name),f);fclose(f);if(strcmp(name,"art-guard\n"))continue;snprintf(path,sizeof(path),"/proc/%ld/root",pid);ssize_t n=readlink(path,root,sizeof(root)-1);if(n>0){root[n]=0;if(!strcmp(root,expected)){found=pid;break;}}}closedir(d);return found;}
+/* Event numbering can change when USB/Bluetooth input devices reconnect. Never
+ * grab an event number without checking both identity and KEY_POWER capability. */
+static int open_power_key(char *name,size_t size){
+ DIR *d=opendir("/dev/input");if(!d)return -1;struct dirent *e;int found=-1;
+ while((e=readdir(d))){if(strncmp(e->d_name,"event",5))continue;
+  char path[300],candidate[80]={0};unsigned char keys[(KEY_MAX+8)/8]={0};
+  snprintf(path,sizeof(path),"/dev/input/%s",e->d_name);
+  int fd=open(path,O_RDONLY|O_CLOEXEC|O_NONBLOCK);if(fd<0)continue;
+  if(ioctl(fd,EVIOCGNAME(sizeof(candidate)-1),candidate)>0&&strstr(candidate,"pwrkey")&&
+     ioctl(fd,EVIOCGBIT(EV_KEY,sizeof(keys)),keys)>=0&&(keys[KEY_POWER/8]&(1u<<(KEY_POWER%8)))){
+   if(found>=0){close(fd);close(found);closedir(d);return -1;}
+   found=fd;snprintf(name,size,"%s",candidate);
+  }else close(fd);
+ }closedir(d);return found;
+}
 int main(int argc,char **argv){setvbuf(stdout,0,_IOLBF,0);signal(SIGTERM,signal_stop);signal(SIGINT,signal_stop);signal(SIGHUP,signal_stop);
  if(argc==2&&!strcmp(argv[1],"--restore"))return restore();
  if(argc!=2)return 2;char *end;long target=0;
@@ -50,8 +65,8 @@ int main(int argc,char **argv){setvbuf(stdout,0,_IOLBF,0);signal(SIGTERM,signal_
  snprintf(gesture,sizeof(gesture),"/proc/%ld/root/data/local/tmp/kindle-page-direction",target);
  snprintf(exit_path,sizeof(exit_path),"/proc/%ld/root/data/local/tmp/kindle-android-exit",target);
  if(restore()!=0)return 3;
- int fd=open("/dev/input/event0",O_RDONLY|O_CLOEXEC|O_NONBLOCK);if(fd<0)return 4;
- char name[80]={0};if(ioctl(fd,EVIOCGNAME(sizeof(name)),name)<0||!strstr(name,"pwrkey")||ioctl(fd,EVIOCGRAB,1)<0){close(fd);return 5;}
+ char name[80]={0};int fd=open_power_key(name,sizeof(name));if(fd<0)return 4;
+ if(ioctl(fd,EVIOCGRAB,1)<0){close(fd);return 5;}
  original_prevent=read_property("preventScreenSaver");brightness=read_property("flIntensity");
  if(original_prevent<0||original_prevent>1||brightness<0||brightness>24||save_state()!=0){close(fd);return 6;}
  if(property("preventScreenSaver",1)!=0){restore();close(fd);return 7;}

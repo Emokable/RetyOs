@@ -2,6 +2,8 @@
 
 [简体中文](README.md) | **English**
 
+[2026-10-29 changes and validation scope (中文)](docs/UPDATES-20261029.md)
+
 An open experiment running Android 7.1.1 on Kindle.
 
 Inspired by the 墨卓 project, I started building an Android environment on Kindle's native Linux kernel. The aim is an open project that the community can study, modify and improve for lightweight reading applications.

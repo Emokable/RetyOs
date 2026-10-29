@@ -466,6 +466,27 @@ bool InputDispatcher::enqueueInboundEventLocked(EventEntry* entry) {
         }
     }
 
+    // Page keys use the same completed-gesture record as a touchscreen tap.
+    // The display worker alone decides whether animation is enabled and how
+    // many steps to use; input must not maintain a separate animation policy.
+    if (entry->type == EventEntry::TYPE_KEY) {
+        KeyEntry* key = static_cast<KeyEntry*>(entry);
+        if (key->action == AKEY_EVENT_ACTION_DOWN
+                && !(key->flags & AKEY_EVENT_FLAG_CANCELED)
+                && (key->keyCode == AKEYCODE_PAGE_DOWN || key->keyCode == AKEYCODE_PAGE_UP)) {
+            FILE* state = fopen("/data/local/tmp/kindle-page-direction.new", "w");
+            if (state) {
+                int mode = fchmod(fileno(state), 0644);
+                int count = fprintf(state, "%d %lld 1 0\n",
+                        key->keyCode == AKEYCODE_PAGE_DOWN ? 2 : 3,
+                        static_cast<long long>(key->eventTime / 1000000LL));
+                int closed = fclose(state);
+                if (mode == 0 && count > 0 && closed == 0)
+                    rename("/data/local/tmp/kindle-page-direction.new", "/data/local/tmp/kindle-page-direction");
+            }
+        }
+    }
+
     bool needWake = mInboundQueue.isEmpty();
     mInboundQueue.enqueueAtTail(entry);
     traceInboundQueueLengthLocked();

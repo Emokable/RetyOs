@@ -12,6 +12,7 @@ clock(){ "$BASE/session-freezer" now; }
 begin=$(clock)
 trace_id=$(cat "$BASE/native-home.trace-id" 2>/dev/null || :)
 case "$trace_id" in ''|*[!0-9]*) trace_id=$begin;;esac
+if [ "$trace_id" -le 0 ] || [ "$trace_id" -gt "$begin" ];then trace_id=$begin;fi
 check_only=0
 poll_limit=35
 [ "${1:-}" != --wait ] || poll_limit=300

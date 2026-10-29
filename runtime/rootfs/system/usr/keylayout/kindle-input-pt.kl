@@ -1,0 +1,3 @@
+# Kindle input_manager virtual output. Raw Bluetooth HID stays on the host.
+key 104 PAGE_UP
+key 109 PAGE_DOWN

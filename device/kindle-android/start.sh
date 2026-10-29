@@ -105,6 +105,7 @@ start_progress() {
                 ready_ns=$("$BASE/session-freezer" now)
                 requested_ns=$(head -n1 "$BASE/cold-entry.started-ns" 2>/dev/null || echo 0)
                 case "$requested_ns" in ''|*[!0-9]*) requested_ns=$ready_ns;;esac
+                if [ "$requested_ns" -le 0 ] || [ "$requested_ns" -gt "$ready_ns" ];then requested_ns=$ready_ns;fi
                 echo "ANDROID_COLD_SOFTWARE_READY monotonic_ns=$ready_ns requested_ns=$requested_ns duration_ms=$(((ready_ns-requested_ns)/1000000))"
                 break
             fi
@@ -183,6 +184,8 @@ finish() {
     if [ "$home_launch_pending" = 1 ];then
         start_ns=$(head -n1 "$BASE/full-exit.started-ns" 2>/dev/null || echo 0)
         case "$start_ns" in ''|*[!0-9]*) start_ns=$($BASE/session-freezer now);;esac
+        now_ns=$("$BASE/session-freezer" now)
+        if [ "$start_ns" -le 0 ] || [ "$start_ns" -gt "$now_ns" ];then start_ns=$now_ns;fi
         printf '%s\n' "$start_ns" > "$BASE/native-home.trace-id.new"
         mv "$BASE/native-home.trace-id.new" "$BASE/native-home.trace-id"
         if sh "$BASE/activate-native-home.sh" --wait >> "$BASE/session.log" 2>&1;then
@@ -350,6 +353,11 @@ if [ "$(cat "$BASE/native-framework.mode" 2>/dev/null || :)" = preserve ];then
     "$BASE/session-controller" native-hold "$$" || exit 14
     framework_stopped=1
     echo KINDLE_NATIVE_UI_PRESERVED=1
+    # The runner snapshot is taken after the loading page was drawn. Restore
+    # its memory without refreshing that old page; the native UI lease restores
+    # the real Kindle frame before X resumes. The earlier crash watchdog keeps
+    # its normal refresh fallback because it was spawned before this export.
+    export KINDLE_RECOVERY_DEFER_REFRESH=1
 else
 if ! /sbin/stop lab126_gui; then
     echo ANDROID_START_ERROR=lab126_gui_stop_failed
@@ -541,10 +549,13 @@ if [ -n "$extra_overlay_files" ] || [ "$system_cache" = 1 ]; then
         printf '[ ! -L "$stage/rootfs/etc" ] || rm -f "$stage/rootfs/etc"\n'
         printf 'rm -f "$stage/overlay-cleanup.sh"\n'
     } > "$stage/overlay-cleanup.sh"
-    sed '/^  rmdir "\$stage"\/rootfs\/system /i\
+    sed '/^[[:space:]]*rmdir "\$stage"\/rootfs\/system /i\
  if [ -f "$stage/overlay-cleanup.sh" ]; then . "$stage/overlay-cleanup.sh"; fi
 ' "$stage/run.sh" > "$stage/run-with-overlay-cleanup.sh"
     mv "$stage/run-with-overlay-cleanup.sh" "$stage/run.sh"
+    grep -Fq 'if [ -f "$stage/overlay-cleanup.sh" ]; then . "$stage/overlay-cleanup.sh"; fi' "$stage/run.sh" || {
+        echo ANDROID_START_ERROR=overlay_cleanup_anchor_missing;exit 8;
+    }
 fi
 if [ "$system_cache" = 1 ]; then
     cache_mount_anchor=' mount -t proc -o ro,nosuid,nodev,noexec proc "$root/proc"'

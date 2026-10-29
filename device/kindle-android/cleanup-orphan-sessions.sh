@@ -60,14 +60,6 @@ for candidate in /mnt/us/kindle-a7-art.* "$BASE"/exited-session-*; do
     esac
     resolved=$(readlink -f "$candidate" 2>/dev/null || :)
     [ "$resolved" = "$candidate" ] || { log "SESSION_RECLAIM_SKIP path=$candidate reason=canonical_path_mismatch"; continue; }
-    if mounted_below "$candidate"; then
-        log "SESSION_RECLAIM_SKIP path=$candidate reason=mount_present_in_namespace"
-        continue
-    fi
-    if referenced_by_process "$candidate"; then
-        log "SESSION_RECLAIM_SKIP path=$candidate reason=process_or_fd_reference"
-        continue
-    fi
     completed=0
     if [ -f "$candidate/exit-code.txt" ] && [ "$(cat "$candidate/exit-code.txt" 2>/dev/null || :)" = 0 ] &&
        grep -q 'APK_PROBE_COMPLETE=1' "$candidate/result.txt" 2>/dev/null; then
@@ -88,6 +80,14 @@ for candidate in /mnt/us/kindle-a7-art.* "$BASE"/exited-session-*; do
         log "SESSION_RECLAIM_SKIP path=$candidate reason=completion_marker_missing"
         continue
     }
+    if mounted_below "$candidate"; then
+        log "SESSION_RECLAIM_SKIP path=$candidate reason=mount_present_in_namespace"
+        continue
+    fi
+    if referenced_by_process "$candidate"; then
+        log "SESSION_RECLAIM_SKIP path=$candidate reason=process_or_fd_reference"
+        continue
+    fi
     if [ "$reclaim_reason" = orphan_session_cleanup ]; then
         # A device number left in an unmounted orphan is not proof of ownership:
         # the kernel can reuse loopN for another session or a native image.

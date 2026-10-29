@@ -10,6 +10,20 @@ if [ -r "$BASE/session.lock/pid" ]; then
         exit 0
     fi
 fi
+# With no matching backing image there is nothing to detach. Avoid a full
+# process/mount/fd audit on every clean cold start; retain it for real bindings.
+project_binding=0
+for backing_file in /sys/block/loop*/loop/backing_file; do
+    [ -r "$backing_file" ] || continue
+    case "$(cat "$backing_file")" in
+        /mnt/base-us/kindle-android/system-cache.img|/mnt/us/kindle-android/system-cache.img|/kindle-android/system-cache.img|/mnt/base-us/kindle-android/data.img|/mnt/us/kindle-android/data.img|/kindle-android/data.img)
+            project_binding=1;break;;
+    esac
+done
+if [ "$project_binding" = 0 ]; then
+    log PROJECT_LOOP_CLEANUP_SKIPPED=no_project_bindings
+    exit 0
+fi
 for proc in /proc/[0-9]*; do
     comm=$(cat "$proc/comm" 2>/dev/null || :)
     [ "$comm" != art-guard ] || { log PROJECT_LOOP_CLEANUP_DEFERRED=live_android; exit 0; }

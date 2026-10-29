@@ -742,9 +742,25 @@ size_t EventHub::getEvents(int timeoutMillis, RawEvent* buffer, size_t bufferSiz
                 bool found = false, ok = true;
                 for (size_t i = 0; i < mDevices.size(); ++i) {
                     Device* device = mDevices.valueAt(i);
-                    if (device->identifier.name != "pt_mt") continue;
+                    if (device->identifier.name != "pt_mt"
+                            && device->identifier.name != "kindle-input-pt") continue;
                     found = true;
+                    // Reset held keys at both handoff boundaries. Otherwise a
+                    // key-up discarded with the frozen queue can leave Android
+                    // repeating a page key indefinitely after resume.
+                    const bool pageKeys = device->identifier.name == "kindle-input-pt";
+                    if (pageKeys && capacity < 2) { ok = false; continue; }
                     if (ioctl(device->fd, EVIOCGRAB, release ? 0 : 1)) { ok = false; continue; }
+                    if (pageKeys) {
+                        event->when = now;
+                        event->deviceId = device->id;
+                        event->type = EV_SYN; event->code = SYN_DROPPED; event->value = 0;
+                        ++event; --capacity;
+                        event->when = now;
+                        event->deviceId = device->id;
+                        event->type = EV_SYN; event->code = SYN_REPORT; event->value = 0;
+                        ++event; --capacity;
+                    }
                     if (!release) {
                         struct input_event stale[64];
                         for (int n = 0; n < 128 && read(device->fd, stale, sizeof(stale)) > 0; ++n) {}
@@ -760,6 +776,8 @@ size_t EventHub::getEvents(int timeoutMillis, RawEvent* buffer, size_t bufferSiz
                 }
             }
         }
+
+        if (capacity == 0) break;
 
         // Reopen input devices if needed.
         if (mNeedToReopenDevices) {
@@ -858,6 +876,15 @@ size_t EventHub::getEvents(int timeoutMillis, RawEvent* buffer, size_t bufferSiz
 
             Device* device = mDevices.valueAt(deviceIndex);
             if (eventItem.events & EPOLLIN) {
+                if (kindleTouchReleased && kindleExclusive && !strcmp(kindleExclusive, "1")
+                        && (device->identifier.name == "pt_mt"
+                            || device->identifier.name == "kindle-input-pt")) {
+                    // Native owns these events; never forward its gestures into
+                    // Android between release acknowledgement and freezing.
+                    struct input_event ignored[64];
+                    for (int n = 0; n < 128 && read(device->fd, ignored, sizeof(ignored)) > 0; ++n) {}
+                    continue;
+                }
                 int32_t readSize = read(device->fd, readBuffer,
                         sizeof(struct input_event) * capacity);
                 if (readSize == 0 || (readSize < 0 && errno == ENODEV)) {
@@ -1126,7 +1153,8 @@ status_t EventHub::openDeviceLocked(const char *devicePath) {
      * Closing EventHub's fd (including namespace teardown) releases the grab. */
     const char* exclusiveTouch = getenv("KINDLELAB_EXCLUSIVE_TOUCH");
     if (exclusiveTouch && strcmp(exclusiveTouch, "1") == 0
-            && identifier.name == "pt_mt") {
+            && (identifier.name == "pt_mt" || identifier.name == "kindle-input-pt")
+            && access("/data/local/tmp/kindle-input-release", F_OK) != 0) {
         if (ioctl(fd, EVIOCGRAB, 1) != 0) {
             ALOGE("KINDLE_TOUCH_EXCLUSIVE_GRAB_FAILED path=%s name=%s errno=%d",
                     devicePath, identifier.name.string(), errno);
@@ -1221,6 +1249,15 @@ status_t EventHub::openDeviceLocked(const char *devicePath) {
     ioctl(fd, EVIOCGBIT(EV_LED, sizeof(device->ledBitmask)), device->ledBitmask);
     ioctl(fd, EVIOCGBIT(EV_FF, sizeof(device->ffBitmask)), device->ffBitmask);
     ioctl(fd, EVIOCGPROP(sizeof(device->propBitmask)), device->propBitmask);
+
+    // Native Kindle advertises every key, including BTN_TOUCH. Narrow only our
+    // client-side view so Android does not mistake this keyboard for a stylus.
+    if (identifier.name == "kindle-input-pt" && exclusiveTouch
+            && !strcmp(exclusiveTouch, "1")) {
+        memset(device->keyBitmask, 0, sizeof(device->keyBitmask));
+        device->keyBitmask[KEY_PAGEUP / 8] |= 1 << (KEY_PAGEUP % 8);
+        device->keyBitmask[KEY_PAGEDOWN / 8] |= 1 << (KEY_PAGEDOWN % 8);
+    }
 
     // See if this is a keyboard.  Ignore everything in the button range except for
     // joystick and gamepad buttons which are handled like keyboards for the most part.
@@ -1355,10 +1392,14 @@ status_t EventHub::openDeviceLocked(const char *devicePath) {
             }
         }
 
-        // Disable kernel key repeat since we handle it ourselves
-        unsigned int repeatRate[] = {0,0};
-        if (ioctl(fd, EVIOCSREP, repeatRate)) {
-            ALOGW("Unable to disable kernel key repeat for %s: %s", devicePath, strerror(errno));
+        // EVIOCSREP changes the shared input device, not this evdev client.
+        // A container must leave the native Bluetooth/keyboard configuration
+        // untouched, including while frozen and after an abnormal exit.
+        if (!exclusiveTouch || strcmp(exclusiveTouch, "1") != 0) {
+            unsigned int repeatRate[] = {0,0};
+            if (ioctl(fd, EVIOCSREP, repeatRate)) {
+                ALOGW("Unable to disable kernel key repeat for %s: %s", devicePath, strerror(errno));
+            }
         }
     }
 

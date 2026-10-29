@@ -5809,6 +5809,22 @@
       "source": "runtime/rootfs/system/usr/idc/pt_mt.idc"
     },
     {
+      "path": "rootfs/system/usr/keylayout/kindle-input-pt.kl",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/system/usr/keylayout/kindle-input-pt.kl"
+    },
+    {
+      "path": "rootfs/system/usr/keychars/kindle-input-pt.kcm",
+      "mode": 420,
+      "type": "file",
+      "link": "",
+      "origin": "source",
+      "source": "runtime/rootfs/system/usr/keychars/kindle-input-pt.kcm"
+    },
+    {
       "path": "rootfs/system/usr/share/zoneinfo/tzdata",
       "mode": 420,
       "type": "file",

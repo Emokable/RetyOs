@@ -11,6 +11,20 @@ U=/mnt/us
 BASE=/mnt/us/kindle-android
 OUT="$BASE/entry.log"
 entry_resumed=0
+entry_existing=0
+printf 'ENTRY_INVOKED uid=%s uptime=%s\n' "$(id -u)" "$(cut -d ' ' -f1 /proc/uptime)" >> "$BASE/entry-invocations.log"
+# Serialize taps before the long-lived launcher has created session.lock.
+# The background launcher must not inherit this short-lived entry lock.
+if command -v flock >/dev/null 2>&1; then
+    if [ ! -e /tmp/retyos-entry.lock ];then
+        (umask 000; set -C; : > /tmp/retyos-entry.lock) 2>/dev/null || :
+    fi
+    # A root SSH test may have created this file as 0644. Native script
+    # launchers can read it but cannot reopen it for writing. flock itself
+    # needs no write access on this local filesystem.
+    exec 9</tmp/retyos-entry.lock
+    flock -n 9 || { echo ENTRY_LOCK_BUSY=1 >> "$BASE/entry-invocations.log";exit 0; }
+fi
 
 run_entry() {
     echo "$ENTRY_MARKER"
@@ -26,6 +40,14 @@ run_entry() {
     # A one-shot preflight covers both cold entry and warm resume. There is no
     # polling guard during Android runtime/retention; MTP stays stopped by the
     # storage gate until full container teardown.
+    waited_exit=0
+    while [ -d "$BASE/session.lock" ]; do
+        closing_state=$(head -n1 "$BASE/warm-state" 2>/dev/null || :)
+        if [ "$closing_state" != exiting ] && [ ! -f "$BASE/full-exit.started-ns" ];then break;fi
+        [ "$waited_exit" -lt 60 ] || { echo ANDROID_ENTRY_ERROR=previous_exit_not_finished;return 17; }
+        [ "$waited_exit" != 0 ] || echo ANDROID_ENTRY_WAIT_EXIT_LOCK=1
+        sleep 1;waited_exit=$((waited_exit+1))
+    done
     if [ -d "$BASE/session.lock" ]; then
         pid=$(cat "$BASE/session.lock/pid" 2>/dev/null || :)
         case "$pid" in ''|*[!0-9]*) :;; *)
@@ -45,10 +67,38 @@ run_entry() {
                     return 0
                 fi
                 echo "ANDROID_ENTRY_ALREADY_RUNNING=1 pid=$pid"
+                entry_existing=1
                 return 0
             fi;;
         esac
     fi
+    pending=$(cat "$BASE/launcher.pid" 2>/dev/null || :)
+    # The previous launcher can outlive session.lock while restoring native
+    # home. Queue this tap behind that teardown instead of silently losing it.
+    case "$pending" in ''|*[!0-9]*) :;; *)
+        if grep -q '^SESSION_CLEANUP_STATUS=' "$BASE/session.log" 2>/dev/null; then
+            waited=0
+            while kill -0 "$pending" 2>/dev/null &&
+                  tr '\000' '\n' < "/proc/$pending/cmdline" 2>/dev/null | grep -Fxq "$BASE/start.sh"; do
+                [ "$waited" -lt 45 ] || { echo ANDROID_ENTRY_ERROR=previous_exit_not_finished;return 17; }
+                [ "$waited" != 0 ] || echo ANDROID_ENTRY_WAIT_PREVIOUS_EXIT=1
+                sleep 1; waited=$((waited+1))
+            done
+        fi;;
+    esac
+    case "$pending" in ''|*[!0-9]*) :;; *)
+        if kill -0 "$pending" 2>/dev/null &&
+           tr '\000' '\n' < "/proc/$pending/cmdline" 2>/dev/null | grep -Fxq "$BASE/start.sh"; then
+            entry_existing=1
+            echo "ANDROID_ENTRY_START_PENDING=1 pid=$pending"
+            return 0
+        fi;;
+    esac
+    # Acknowledge the tap before USB checks and orphan-session inspection.
+    if [ -x /var/local/kmc/bin/fbink ];then
+        /var/local/kmc/bin/fbink -q -pm -y 12 'Starting RetyOs...' >/dev/null 2>&1 || :
+    fi
+    echo "ANDROID_ENTRY_ACK uptime=$(cut -d ' ' -f1 /proc/uptime)"
     if [ -x "$BASE/usb-session-guard" ] && ! "$BASE/usb-session-guard" --check; then
         echo "ANDROID_ENTRY_ERROR=usb_data_host_connected_disconnect_before_entry"
         return 15
@@ -67,9 +117,9 @@ run_entry() {
     done
     : > "$BASE/session.log"
     if command -v setsid >/dev/null 2>&1; then
-        nohup setsid /bin/sh "$BASE/start.sh" >> "$BASE/session.log" 2>&1 < /dev/null &
+        nohup setsid /bin/sh "$BASE/start.sh" 9>&- >> "$BASE/session.log" 2>&1 < /dev/null &
     else
-        nohup /bin/sh "$BASE/start.sh" >> "$BASE/session.log" 2>&1 < /dev/null &
+        nohup /bin/sh "$BASE/start.sh" 9>&- >> "$BASE/session.log" 2>&1 < /dev/null &
     fi
     launcher_pid=$!
     echo "$launcher_pid" > "$BASE/launcher.pid"
@@ -82,11 +132,10 @@ if [ "$rc" -eq 0 ]; then
 else
     message='RetyOs could not start. See kindle-android/entry.log'
 fi
-if [ "$entry_resumed" = 1 ]; then
+if [ "$entry_resumed" = 1 ] || [ "$entry_existing" = 1 ] || [ "$rc" -eq 0 ]; then
     : # The retained compositor owns the next frame; avoid drawing over it.
 elif [ -x /var/local/kmc/bin/fbink ]; then
     /var/local/kmc/bin/fbink -q -pm -y 12 "$message" >/dev/null 2>&1 || :
-    sleep 3
 elif command -v eips >/dev/null 2>&1; then
     eips 2 20 "$message" >/dev/null 2>&1 || :
 fi
