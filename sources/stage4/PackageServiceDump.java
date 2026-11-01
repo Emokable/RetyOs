@@ -8,6 +8,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 
 import java.io.FileDescriptor;
+import java.io.File;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 
@@ -33,10 +34,47 @@ public final class PackageServiceDump {
             if (!visible) System.exit(27);
             return;
         }
+        if (args.length > 1 && "aot-only".equals(args[1])) {
+            dumpApplicationAotArtifacts(service, packageName);
+            System.out.println("WEREAD_PACKAGE_SERVICE_DUMP_END=1 mode=aot-only");
+            return;
+        }
         dumpPackageManagerApi(service, packageName);
         if (args.length < 2 || !"api-only".equals(args[1]))
             service.dump(FileDescriptor.out, new String[] { packageName });
         System.out.println("WEREAD_PACKAGE_SERVICE_DUMP_END=1");
+    }
+
+    /** Read-only artifact inventory. Presence does not prove that ART accepts or uses it. */
+    private static void dumpApplicationAotArtifacts(IBinder binder, String packageName)
+            throws Exception {
+        Class<?> stub = Class.forName("android.content.pm.IPackageManager$Stub");
+        Method asInterface = stub.getMethod("asInterface", IBinder.class);
+        Object packageManager = asInterface.invoke(null, binder);
+        Class<?> api = Class.forName("android.content.pm.IPackageManager");
+        Method getApplicationInfo = api.getMethod(
+                "getApplicationInfo", String.class, Integer.TYPE, Integer.TYPE);
+        ApplicationInfo info = (ApplicationInfo) getApplicationInfo.invoke(
+                packageManager, packageName, 0, 0);
+        if (info == null || info.sourceDir == null) {
+            System.out.println("WEREAD_AOT_PACKAGE_MISSING=1 package=" + packageName);
+            return;
+        }
+        File apk = new File(info.sourceDir);
+        File appDir = apk.getParentFile();
+        File oatDir = appDir == null ? null : new File(new File(appDir, "oat"), "arm");
+        System.out.println("WEREAD_AOT_PACKAGE package=" + packageName +
+                " sourceDir=" + info.sourceDir + " abi_dir=arm" +
+                " flags=0x" + Integer.toHexString(info.flags));
+        String[] names = new String[] { "base.odex", "base.vdex", "base.art" };
+        for (String name : names) {
+            File artifact = oatDir == null ? null : new File(oatDir, name);
+            boolean exists = artifact != null && artifact.isFile();
+            System.out.println("WEREAD_AOT_ARTIFACT name=" + name +
+                    " exists=" + exists + " bytes=" + (exists ? artifact.length() : 0) +
+                    " modified=" + (exists ? artifact.lastModified() : 0));
+        }
+        System.out.println("WEREAD_AOT_INTERPRETATION=artifact_inventory_only_validity_and_filter_unverified");
     }
 
     private static boolean isDefaultLauncherVisible(IBinder binder, String packageName) {

@@ -20,12 +20,19 @@ if [ "${1:-}" = "--enable" ]; then
         /mnt/us/kindle-a7-art.??????) ;;
         *) echo "usage: sh display-profile.sh --enable /mnt/us/kindle-a7-art.XXXXXX" >&2; exit 2;;
     esac
-    dir=$root/rootfs/data/local/tmp
-    [ -d "$dir" ] || { echo "no such dir: $dir" >&2; exit 3; }
+    dir=
+    for proc in /proc/[0-9]*; do
+        [ "$(cat "$proc/comm" 2>/dev/null)" = art-guard ] || continue
+        [ "$(readlink "$proc/root" 2>/dev/null)" = "$root/rootfs" ] || continue
+        [ -d "$proc/root/data/local/tmp" ] || continue
+        dir=$proc/root/data/local/tmp
+        break
+    done
+    [ -n "$dir" ] || { echo "no active container data namespace for $root" >&2; exit 3; }
     : > "$dir/kindle-display-profile"
     echo "profiler enabled: $dir/kindle-display-profile"
     echo "turn ~20 pages, then re-run without --enable and pass the session log:"
-    echo "  sh display-profile.sh $root/session.log"
+    echo "  sh display-profile.sh $root/result.txt"
     exit 0
 fi
 
@@ -35,11 +42,12 @@ LOG=${1:-$BASE/session.log}
 section() { printf '\n=== %s ===\n' "$1"; }
 
 section "profiler samples in $LOG"
-printf 'HWTCON_PROFILE lines: %s\n' "$(grep -c HWTCON_PROFILE "$LOG" 2>/dev/null || echo 0)"
+count() { grep -c "$1" "$LOG" 2>/dev/null || :; }
+printf 'HWTCON_PROFILE lines: %s\n' "$(count HWTCON_PROFILE)"
 printf 'display mode switches: %s (0=color 1=gray16 2=black-white)\n' \
-    "$(grep -c 'HWTCON_DISPLAY_MODE=' "$LOG" 2>/dev/null || echo 0)"
-printf 'fast-scroll toggles:   %s\n' "$(grep -c 'HWTCON_SCROLL_FAST=' "$LOG" 2>/dev/null || echo 0)"
-printf 'hardware swipes:       %s\n' "$(grep -c 'HWTCON_DIRECTION selected' "$LOG" 2>/dev/null || echo 0)"
+    "$(count 'HWTCON_DISPLAY_MODE=')"
+printf 'fast-scroll toggles:   %s\n' "$(count 'HWTCON_SCROLL_FAST=')"
+printf 'hardware swipes:       %s\n' "$(count 'HWTCON_DIRECTION selected')"
 
 stats() {  # $1=label, stdin=values in us
     sort -n | awk -v label="$1" '
@@ -54,21 +62,19 @@ stats() {  # $1=label, stdin=values in us
 }
 
 section 'per-frame cost (from HWTCON_PROFILE)'
-grep HWTCON_PROFILE "$LOG" 2>/dev/null | sed -n 's/.*compare_us=\([0-9]*\).*/\1/p' | stats compare
-grep HWTCON_PROFILE "$LOG" 2>/dev/null | sed -n 's/.*wait_us=\([0-9]*\).*/\1/p'    | stats wait
-grep HWTCON_PROFILE "$LOG" 2>/dev/null | sed -n 's/.*total_us=\([0-9]*\).*/\1/p'   | stats total
+field() { awk -v key="$1" '/HWTCON_PROFILE/ { for(i=1;i<=NF;i++) { split($i,a,"="); if(a[1]==key && a[2] ~ /^[0-9]+$/) print a[2] } }' "$LOG"; }
+field compare_us | stats compare
+field previous_panel_wait_us | stats previous_wait
+field wait_submission_us | stats submit_wait
+field wait_update_complete_ioctl_us | stats complete_ioctl
+field post_total_us | stats post_total
 
 section 'how to read this'
 cat <<'EOF'
   compare  = FindDamageRgba8888 pixel diff (CPU, 1272x1696 RGBA)
-  wait     = blocking wait for the previous panel update to complete
-  total    = whole onFrameAvailable call, including MXCFB_SEND_UPDATE
-
-  If `total` is dominated by `compare`, the cost is CPU and the fix is in the
-  diff path (or in skipping ConvertReadingRgba8888 for unchanged rows).
-  If `wait` dominates, the cost is the panel itself; shrinking the update
-  region is the only lever, and banding a full-page change makes it worse
-  (one big region beats N small ones with per-send overhead).
+  previous_wait = waiting for a previous update; submit_wait = submission wait
+  complete_ioctl = completion ioctl duration; post_total = software post duration
+  An ioctl return alone does not establish physical panel completion.
 
   collect a second batch with /data/local/tmp/kindle-display-animation
   containing "1" to compare the hardware swipe path against plain partial.

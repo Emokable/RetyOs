@@ -42,26 +42,35 @@ done
 }
 
 section 'is /system the cache image?'
-if mount 2>/dev/null | grep -q "$stage/rootfs/system"; then
-    mount 2>/dev/null | grep "$stage/rootfs/system"
-    echo '  -> system comes from a mount, so the rm list in run.sh for'
-    echo '     rootfs/system/** operates on an empty staging dir (no-ops).'
-else
-    echo '  no mount on rootfs/system: /system is extracted into the staging dir'
+guard=
+for p in /proc/[0-9]*; do
+    [ "$(cat "$p/comm" 2>/dev/null)" = art-guard ] || continue
+    [ "$(readlink "$p/root" 2>/dev/null)" = "$stage/rootfs" ] || continue
+    guard=$p; break
+done
+if [ -z "$guard" ] || [ ! -r "$guard/mountinfo" ]; then
+    echo '  unknown: no accessible container mount namespace'
+    exit 0
 fi
+sysroot=$guard/root
+awk '$5=="/system" { print "  " $0; found=1 } END { if (!found) print "  no separate /system mount shown in container namespace" }' "$guard/mountinfo"
 
 section 'art precompiled artifacts'
 echo 'boot image in /system/framework/arm:'
-ls -l "$stage/rootfs/system/framework/arm/" 2>/dev/null | grep -E 'boot(\.|-)|total' | head -20 \
+ls -l "$sysroot/system/framework/arm/" 2>/dev/null | grep -E 'boot(\.|-)|total' | head -20 \
     || echo '  <missing>'
-printf 'system odex count: %s\n' "$(find "$stage/rootfs/system" -name '*.odex' 2>/dev/null | wc -l)"
+printf 'system odex count: %s\n' "$(find "$sysroot/system" -name '*.odex' 2>/dev/null | wc -l)"
 echo '/data/dalvik-cache/arm:'
-ls -l "$stage/rootfs/data/dalvik-cache/arm/" 2>/dev/null | head -15 \
+ls -l "$sysroot/data/dalvik-cache/arm/" 2>/dev/null | head -15 \
     || echo '  <empty or absent: no AOT output for installed apps>'
 
 section 'packagemanager scan cost'
-printf 'installed apk (data/app): %s\n' "$(find "$stage/rootfs/data/app" -name '*.apk' 2>/dev/null | wc -l)"
-printf 'system apk:               %s\n' "$(find "$stage/rootfs/system/app" "$stage/rootfs/system/priv-app" -name '*.apk' 2>/dev/null | wc -l)"
+if [ -d "$sysroot/data/app" ]; then
+    printf 'installed apk (data/app): %s\n' "$(find "$sysroot/data/app" -name '*.apk' 2>/dev/null | wc -l)"
+else
+    echo 'installed apk (data/app): unknown (data unavailable in this session state)'
+fi
+printf 'system apk:               %s\n' "$(find "$sysroot/system/app" "$sysroot/system/priv-app" -name '*.apk' 2>/dev/null | wc -l)"
 
 section 'key processes'
 found=0

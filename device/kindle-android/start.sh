@@ -17,9 +17,44 @@ warm_session_pid=
 usb_guard_pid=
 owns_lock=0
 home_launch_pending=0
+home_activation_status=not_requested
 extra_overlay_files=
 stage=
 cleanup_status=not_started
+transaction_phase=preflight
+transaction_result=running
+transaction_zram=not_checked
+transaction_storage_gate=not_acquired
+transaction_framework=untouched
+
+# Keep one atomic, compact record of the current/last startup transaction.
+# session.log remains the detailed trace; this file lets recovery tools and
+# small diagnostic reports identify the last committed stage without parsing
+# a potentially truncated log.
+record_start_transaction() {
+    [ "$owns_lock" = 1 ] && [ -d "$BASE" ] || return 0
+    transaction_tmp=$BASE/start-transaction.state.new
+    transaction_umask=$(umask)
+    umask 077
+    {
+        printf 'version=1\n'
+        printf 'pid=%s\n' "$$"
+        printf 'phase=%s\n' "$transaction_phase"
+        printf 'result=%s\n' "$transaction_result"
+        printf 'runner_rc=%s\n' "${run_rc:-not_started}"
+        printf 'owns_lock=%s\n' "$owns_lock"
+        printf 'stage=%s\n' "${stage:-none}"
+        printf 'zram=%s\n' "$transaction_zram"
+        printf 'storage_gate=%s\n' "$transaction_storage_gate"
+        printf 'framework=%s\n' "$transaction_framework"
+    } > "$transaction_tmp" || { umask "$transaction_umask"; return 1; }
+    chmod 0600 "$transaction_tmp" 2>/dev/null || :
+    mv -f "$transaction_tmp" "$BASE/start-transaction.state" || {
+        umask "$transaction_umask"
+        return 1
+    }
+    umask "$transaction_umask"
+}
 
 # --- startup tuning: sub-second service-stop polling ------------------------
 # lab126_gui and X normally reach 'stop/waiting' in well under a second, but a
@@ -29,33 +64,41 @@ cleanup_status=not_started
 # original 1 s tick; the budget stays 30 s either way.
 POLL_UNIT_MS=1000
 if usleep 1000 2>/dev/null; then POLL_UNIT_MS=200; fi
-POLL_LIMIT=$(( 30000 / POLL_UNIT_MS ))
 poll_tick() {
-    if [ "$POLL_UNIT_MS" = 200 ]; then usleep 200000 || sleep 1; else sleep 1; fi
+    if [ "$POLL_UNIT_MS" = 200 ] && usleep 200000 2>/dev/null; then
+        i=$((i + 200))
+    else
+        POLL_UNIT_MS=1000
+        sleep 1
+        i=$((i + 1000))
+    fi
 }
 
-# --- startup tuning: sha256 result cache ------------------------------------
-# Every cold boot re-hashes the bootstrap tarballs (tens of MB on the FAT32
-# user partition) only to compare them against a digest recorded at build time.
-# Hashing is only required when the file may have changed, so remember the
-# size:mtime signature next to the digest and skip the re-hash while both are
-# unchanged. Any rewrite of the file updates mtime, which invalidates the entry;
-# a cache miss simply falls back to hashing.
-digest_cache() {  # $1=file $2=cache file -> prints sha256 of $1
+# Reuse a prior digest for unchanged size and second-resolution mtime. A
+# same-size rewrite retaining the timestamp can evade this fast check; install
+# and explicit maintenance still perform full verification.
+digest_cache() {
     _dc_sig=$(stat -c '%s:%Y' "$1" 2>/dev/null || :)
-    if [ -n "$_dc_sig" ] && [ -f "$2" ] && [ ! -L "$2" ]; then
-        if [ "$(sed -n '1p' "$2" 2>/dev/null || :)" = "$_dc_sig" ]; then
-            _dc_sum=$(sed -n '2p' "$2" 2>/dev/null || :)
-            case "$_dc_sum" in
-                ''|*[!0-9a-f]*) : ;;
-                *) if [ "${#_dc_sum}" -eq 64 ]; then printf '%s\n' "$_dc_sum"; return 0; fi ;;
-            esac
-        fi
+    if [ -n "$_dc_sig" ] && [ -f "$2" ] && [ ! -L "$2" ] &&
+       [ "$(sed -n '1p' "$2" 2>/dev/null || :)" = "$_dc_sig" ]; then
+        _dc_sum=$(sed -n '2p' "$2" 2>/dev/null || :)
+        case "$_dc_sum" in
+            ''|*[!0-9a-f]*) : ;;
+            *) if [ "${#_dc_sum}" -eq 64 ]; then
+                echo "ANDROID_DIGEST_CACHE hit=1 file=${1##*/}" >&2
+                printf '%s\n' "$_dc_sum"; return 0
+            fi ;;
+        esac
     fi
-    _dc_sum=$(sha256sum "$1" | awk '{print $1}')
-    if [ -n "$_dc_sig" ]; then
+    echo "ANDROID_DIGEST_CACHE hit=0 file=${1##*/}" >&2
+    _dc_full=$(sha256sum "$1") || return 1
+    _dc_sum=${_dc_full%% *}
+    case "$_dc_sum" in ''|*[!0-9a-f]*) return 1;; esac
+    [ "${#_dc_sum}" -eq 64 ] || return 1
+    _dc_after=$(stat -c '%s:%Y' "$1" 2>/dev/null || :)
+    if [ -n "$_dc_sig" ] && [ "$_dc_after" = "$_dc_sig" ]; then
         if printf '%s\n%s\n' "$_dc_sig" "$_dc_sum" > "$2.tmp.$$" 2>/dev/null; then
-            mv "$2.tmp.$$" "$2" 2>/dev/null || rm -f "$2.tmp.$$" 2>/dev/null || :
+            mv -f "$2.tmp.$$" "$2" 2>/dev/null || rm -f "$2.tmp.$$" 2>/dev/null || :
         else
             rm -f "$2.tmp.$$" 2>/dev/null || :
         fi
@@ -177,6 +220,9 @@ release_lock() {
 finish() {
     rc=$?
     trap - EXIT
+    transaction_phase=rollback
+    transaction_result=running
+    record_start_transaction || :
     stop_progress
     if [ -n "$warm_session_pid" ]; then
         kill "$warm_session_pid" 2>/dev/null || :
@@ -203,8 +249,10 @@ finish() {
     if [ "$framework_stopped" = 1 ]; then
         if sh "$BASE/restore-framework.sh" >> "$BASE/session.log" 2>&1; then
             framework_stopped=0
+            transaction_framework=restored
         else
             echo ANDROID_FRAMEWORK_RECOVERY_REQUIRED=1 >> "$BASE/session.log"
+            transaction_framework=recovery_required
             rc=7
         fi
     fi
@@ -214,7 +262,14 @@ finish() {
     if [ -n "$stage" ] && [ -x "$BASE/session-freezer" ]; then "$BASE/session-freezer" release "$stage" >> "$BASE/session.log" 2>&1 || rc=8; fi
     if [ "$owns_lock" = 1 ]; then
         rm -f "$BASE/warm-state" "$BASE/warm-native" "$BASE/warm.command" "$BASE/warm-controller.pid" "$BASE/warm-power.state" "$BASE/warm-controller.socket"
-        [ ! -x "$BASE/storage-gate.sh" ] || sh "$BASE/storage-gate.sh" release >> "$BASE/session.log" 2>&1 || rc=8
+        if [ -x "$BASE/storage-gate.sh" ]; then
+            if sh "$BASE/storage-gate.sh" release >> "$BASE/session.log" 2>&1; then
+                transaction_storage_gate=released
+            else
+                transaction_storage_gate=release_failed
+                rc=8
+            fi
+        fi
     fi
     stage_bytes=0
     if [ -n "$stage" ] && [ -d "$stage" ]; then stage_bytes=$(du -sk "$stage" 2>/dev/null | awk '{print $1*1024}' || echo unknown); fi
@@ -231,11 +286,20 @@ finish() {
         printf '%s\n' "$start_ns" > "$BASE/native-home.trace-id.new"
         mv "$BASE/native-home.trace-id.new" "$BASE/native-home.trace-id"
         if sh "$BASE/activate-native-home.sh" --wait >> "$BASE/session.log" 2>&1;then
+            home_activation_status=ready
             end_ns=$("$BASE/session-freezer" now)
             case "$start_ns" in ''|*[!0-9]*) start_ns=$end_ns;;esac
             echo "FULL_EXIT_SOFTWARE_READY monotonic_ns=$end_ns duration_ms=$(((end_ns-start_ns)/1000000))" >> "$BASE/session.log"
-        else rc=7;fi
+        else home_activation_status=failed;rc=7;fi
     fi
+    if [ -n "$stage" ] && [ ! -d "$stage" ]; then cleanup_status=removed; fi
+    transaction_phase=finished
+    if [ "$rc" -eq 0 ]; then transaction_result=success
+    elif [ "$home_activation_status" = ready ] && [ "$framework_stopped" = 0 ] && [ "$cleanup_status" = removed ] && [ "$transaction_storage_gate" != release_failed ]; then transaction_result=session_complete_runner_nonzero
+    elif [ "$home_activation_status" != failed ] && [ "$framework_stopped" = 0 ] && { [ -z "$stage" ] || [ "$cleanup_status" = removed ]; } && [ "$transaction_storage_gate" != release_failed ]; then transaction_result=failed_recovered
+    else transaction_result=recovery_required
+    fi
+    record_start_transaction || echo START_TRANSACTION_RECORD_FAILED=final >> "$BASE/session.log"
     echo "SESSION_FINAL_STATUS=$rc monotonic_ns=$($BASE/session-freezer now)" >> "$BASE/session.log"
     exit "$rc"
 }
@@ -257,6 +321,8 @@ fi
 mkdir "$LOCK" || { echo ANDROID_START_ALREADY_RUNNING=1; exit 0; }
 owns_lock=1
 echo $$ > "$LOCK/pid"
+transaction_phase=locked
+record_start_transaction || echo START_TRANSACTION_RECORD_FAILED=locked >> "$BASE/session.log"
 cp "$BASE/entry-request.started-ns" "$BASE/cold-entry.started-ns" 2>/dev/null || :
 [ ! -e "$MARKER" ] || { echo ANDROID_START_ERROR=framework_recovery_pending; exit 10; }
 if [ -x "$BASE/usb-session-guard" ] && ! "$BASE/usb-session-guard" --check; then
@@ -266,6 +332,9 @@ fi
 if [ -x "$BASE/session-freezer" ] && [ -x "$BASE/warm-session.sh" ];then
     (cd "$BASE" && sha256sum -c session-freezer.sha256) || exit 8
     sh "$BASE/storage-gate.sh" hold || { echo ANDROID_START_ERROR=mtp_storage_gate_failed;exit 18; }
+    transaction_storage_gate=held
+    transaction_phase=storage_gated
+    record_start_transaction || echo START_TRANSACTION_RECORD_FAILED=storage_gated >> "$BASE/session.log"
 fi
 # Keep a small, read-only USB state monitor alive for the whole Android
 # session, including frozen retention. On host attach it asks ART to exit; the
@@ -275,11 +344,11 @@ if [ -x "$BASE/usb-session-guard" ]; then
     usb_guard_pid=$!
     echo "ANDROID_USB_SESSION_GUARD_STARTED=1 pid=$usb_guard_pid"
 fi
-if [ -x "$BASE/cleanup-project-loops.sh" ]; then
-    KINDLE_ANDROID_LAUNCHER_PID=$$ "$BASE/cleanup-project-loops.sh" || { echo ANDROID_START_ERROR=loop_cleanup_failed; exit 16; }
-fi
 if [ -x "$BASE/cleanup-orphan-sessions.sh" ]; then
     KINDLE_ANDROID_LAUNCHER_PID=$$ "$BASE/cleanup-orphan-sessions.sh" || { echo ANDROID_START_ERROR=orphan_cleanup_guard_failed; exit 16; }
+fi
+if [ -x "$BASE/cleanup-project-loops.sh" ]; then
+    KINDLE_ANDROID_LAUNCHER_PID=$$ "$BASE/cleanup-project-loops.sh" --require-clear || { echo ANDROID_START_ERROR=loop_cleanup_failed_or_image_still_busy; exit 16; }
 fi
 rm -f "$BASE/warm-state" "$BASE/warm-native" "$BASE/warm.command" "$BASE/warm-controller.pid" "$BASE/warm-power.state" "$BASE/warm-controller.socket"
 # A failed cold boot has no full-exit request. Do not reuse a prior session's
@@ -289,6 +358,7 @@ rm -f "$BASE/full-exit.started-ns" "$BASE/native-home.trace-id" "$BASE/native-ui
 # This only adjusts runtime zram (never a file on /mnt/us or the system image).
 # hot_add is read-to-create on this kernel, so read it only when zram1 is absent.
 setup_android_zram_swap() {
+    transaction_zram=unavailable
     zram_target_bytes=268435456
     zram_dev=/dev/zram1
     zram_size_path=/sys/block/zram1/disksize
@@ -299,6 +369,7 @@ setup_android_zram_swap() {
     fi
     if grep -q "^$zram_dev[[:space:]]" /proc/swaps; then
         zram_active_size=$(cat "$zram_size_path" 2>/dev/null || echo unknown)
+        transaction_zram=preexisting
         echo "ANDROID_ZRAM_SWAP=already_active device=zram1 size_bytes=$zram_active_size"
         return 0
     fi
@@ -338,12 +409,16 @@ setup_android_zram_swap() {
     fi
     if [ -x /sbin/mkswap ] && [ -x /sbin/swapon ] &&
        /sbin/mkswap "$zram_dev" >/dev/null 2>&1 && /sbin/swapon -p 5 "$zram_dev" 2>/dev/null; then
+        transaction_zram=enabled_for_host
         echo "ANDROID_ZRAM_SWAP=enabled device=${zram_dev##*/} size_bytes=$zram_current_size priority=5"
     else
+        transaction_zram=unavailable
         echo "ANDROID_ZRAM_SWAP=unavailable reason=swap_setup_failed device=$zram_dev size_bytes=$zram_current_size"
     fi
 }
 setup_android_zram_swap
+transaction_phase=zram_ready
+record_start_transaction || echo START_TRANSACTION_RECORD_FAILED=zram_ready >> "$BASE/session.log"
 progress_status 5 '准备启动' 
 # KOReader-style no-framework mode: stop Kindle's GUI and X display job. Xorg,
 # awesome and blanket can outlive lab126_gui and keep writing the shared /dev/fb0.
@@ -369,8 +444,26 @@ if [ -f "$snapshot" ]; then
     mv -f "$snapshot" "$BASE/orphan-screen-snapshot.previous"
     echo ANDROID_ORPHAN_SCREEN_SNAPSHOT_ARCHIVED=1
 fi
+# Persist the native jobs that this session owns before advertising that the
+# framework may need recovery. Use atomic rename so watchdogs never read a
+# partial ledger. Both jobs were checked running above; keep explicit values
+# for auditable, idempotent recovery and compatibility with future modes.
+framework_state_tmp=$BASE/framework-state.before.new
+framework_old_umask=$(umask)
+umask 077
+{
+    printf 'version=1\n'
+    printf 'x=running\n'
+    printf 'lab126_gui=running\n'
+} > "$framework_state_tmp"
+mv -f "$framework_state_tmp" "$BASE/framework-state.before"
+rm -f "$BASE/framework-state.stopped"
+umask "$framework_old_umask"
 : > "$MARKER"
 framework_stopped=1
+transaction_framework=ledger_committed
+transaction_phase=framework_recovery_armed
+record_start_transaction || echo START_TRANSACTION_RECORD_FAILED=framework_recovery_armed >> "$BASE/session.log"
 if [ -x "$BASE/recover-aborted-session.sh" ]; then
     nohup setsid "$BASE/recover-aborted-session.sh" "$$" >> "$WATCHDOG" 2>&1 < /dev/null &
     echo $! > "$BASE/framework-watchdog.pid"
@@ -394,6 +487,9 @@ fi
 if [ "$(cat "$BASE/native-framework.mode" 2>/dev/null || :)" = preserve ];then
     "$BASE/session-controller" native-hold "$$" || exit 14
     framework_stopped=1
+    transaction_framework=native_ui_held
+    transaction_phase=native_ui_held
+    record_start_transaction || echo START_TRANSACTION_RECORD_FAILED=native_ui_held >> "$BASE/session.log"
     echo KINDLE_NATIVE_UI_PRESERVED=1
     # The runner snapshot is taken after the loading page was drawn. Restore
     # its memory without refreshing that old page; the native UI lease restores
@@ -408,14 +504,18 @@ if ! /sbin/stop lab126_gui; then
 fi
 stopped=0
 i=0
-while [ "$i" -lt "$POLL_LIMIT" ]; do
+while [ "$i" -lt 30000 ]; do
     status=$(/sbin/initctl status lab126_gui 2>&1 || true)
     case "$status" in *'stop/waiting'*) stopped=1; break;; esac
-    i=$((i + 1)); poll_tick
+    poll_tick
 done
 [ "$stopped" = 1 ] || { echo "ANDROID_START_ERROR=lab126_gui_stop_unconfirmed status=$status"; sh "$BASE/restore-framework.sh" || :; exit 12; }
 framework_stopped=1
 echo KINDLE_FRAMEWORK_TEMPORARILY_STOPPED=lab126_gui
+printf 'lab126_gui=stopped\n' >> "$BASE/framework-state.stopped"
+transaction_framework=lab126_gui_stopped
+transaction_phase=framework_partially_stopped
+record_start_transaction || echo START_TRANSACTION_RECORD_FAILED=framework_partially_stopped >> "$BASE/session.log"
 
 if ! /sbin/stop x; then
     echo ANDROID_START_ERROR=x_stop_failed
@@ -424,13 +524,17 @@ if ! /sbin/stop x; then
 fi
 x_stopped=0
 i=0
-while [ "$i" -lt "$POLL_LIMIT" ]; do
+while [ "$i" -lt 30000 ]; do
     x_status=$(/sbin/initctl status x 2>&1 || true)
     case "$x_status" in *'stop/waiting'*) x_stopped=1; break;; esac
-    i=$((i + 1)); poll_tick
+    poll_tick
 done
 [ "$x_stopped" = 1 ] || { echo "ANDROID_START_ERROR=x_stop_unconfirmed status=$x_status"; sh "$BASE/restore-framework.sh" || :; exit 13; }
 echo KINDLE_DISPLAY_STACK_TEMPORARILY_STOPPED=x
+printf 'x=stopped\n' >> "$BASE/framework-state.stopped"
+transaction_framework=gui_and_x_stopped
+transaction_phase=framework_stopped
+record_start_transaction || echo START_TRANSACTION_RECORD_FAILED=framework_stopped >> "$BASE/session.log"
 fi
 start_progress
 available=$(df -Pk /mnt/us | tail -n 1 | awk '{print $4}')
@@ -443,7 +547,7 @@ cache_miss_reason=not_ready
 cache_ready=$BASE/system-cache.ready
 if [ -f "$cache_ready" ] && [ ! -L "$cache_ready" ] &&
    [ -f "$BASE/system-cache.img" ] && [ ! -L "$BASE/system-cache.img" ] &&
-   [ -f "$BASE/system-cache-bootstrap.tar" ] && [ ! -L "$BASE/system-cache-bootstrap.tar" ] &&
+   [ -s "$BASE/system-cache-bootstrap.tar" ] && [ ! -L "$BASE/system-cache-bootstrap.tar" ] &&
    [ -f "$BASE/app-graphics-overlay.tar.gz.sha256" ] &&
    [ -f "$BASE/gralloc.hwtcon.so.sha256" ]; then
     expected_sha=$(awk '{print $1}' "$BASE/payload.sha256")
@@ -451,6 +555,7 @@ if [ -f "$cache_ready" ] && [ ! -L "$cache_ready" ] &&
     if [ "$key" = "$(sed -n '1p' "$cache_ready")" ] &&
        [ "$expected_sha" = "$(sed -n '5p' "$cache_ready")" ] &&
        [ "$(stat -c %s "$BASE/system-cache.img")" = "$(sed -n '4p' "$cache_ready")" ] &&
+       [ -n "$(sed -n '3p' "$cache_ready")" ] &&
        [ "$(digest_cache "$BASE/system-cache-bootstrap.tar" "$BASE/system-cache-bootstrap.sha-cache")" = "$(sed -n '3p' "$cache_ready")" ]; then
         if unshare -m --propagation private sh -c '
             set -eu
@@ -480,14 +585,14 @@ fi
 cache_check_end=$(now_ms)
 echo "ANDROID_SYSTEM_CACHE_FAST_CHECK_MS=$((cache_check_end-cache_check_start)) hit=$system_cache reason=${cache_miss_reason:-none}"
 if [ "$system_cache" = 1 ]; then
-    echo ANDROID_SYSTEM_CACHE_INTEGRITY=build_refresh_sha256_and_readonly_mount_probe
+    echo ANDROID_SYSTEM_CACHE_INTEGRITY=size_mtime_digest_cache_and_readonly_mount_probe
     echo ANDROID_PAYLOAD_SHA256_SKIPPED=verified_cache_hit
 else
     echo ANDROID_SYSTEM_CACHE_MISS=$cache_miss_reason
     payload_check_start=$(now_ms)
     expected_sha=$(awk '{print $1}' "$BASE/payload.sha256")
-    actual_sha=$(sha256sum "$PAYLOAD" | awk '{print $1}')
-    [ "$actual_sha" = "$expected_sha" ] || { echo ANDROID_START_ERROR=payload_checksum_mismatch; exit 8; }
+    actual_sha=$(digest_cache "$PAYLOAD" "$BASE/payload.sha-cache") || { echo ANDROID_START_ERROR=payload_hash_failed; exit 8; }
+    [ -n "$expected_sha" ] && [ "$actual_sha" = "$expected_sha" ] || { echo ANDROID_START_ERROR=payload_checksum_mismatch; exit 8; }
     echo "ANDROID_PAYLOAD_SHA256_MS=$(( $(now_ms)-payload_check_start ))"
 fi
 # Resolve backing files after orphan-loop cleanup, before attaching images.
@@ -503,6 +608,8 @@ chmod 700 "$stage"
 printf '%s\n' "$stage" > "$BASE/boot-progress.stage"
 echo "ANDROID_SESSION_STAGE=$stage"
 cleanup_status=active
+transaction_phase=stage_created
+record_start_transaction || echo START_TRANSACTION_RECORD_FAILED=stage_created >> "$BASE/session.log"
 # A full Kindle reboot already repainted the panel. Never replay a snapshot
 # whose modification predates this boot; current-boot recovery is preserved.
 snapshot=/mnt/us/.kindle-a7-hwtcon-restore.bin
@@ -518,9 +625,10 @@ fixed_runtime=0
 progress_status 25 '准备运行环境'
 if [ "$system_cache" = 1 ]; then
     if [ -f "$BASE/fixed-runtime.ready" ] && [ ! -L "$BASE/fixed-runtime.ready" ] &&
-       [ -f "$BASE/fixed-bootstrap.tar" ] && [ ! -L "$BASE/fixed-bootstrap.tar" ] &&
+       [ -s "$BASE/fixed-bootstrap.tar" ] && [ ! -L "$BASE/fixed-bootstrap.tar" ] &&
        [ "$(sed -n '1p' "$BASE/fixed-runtime.ready")" = FIXED_RUNTIME_V1 ] &&
        [ "$(sed -n '2p' "$BASE/fixed-runtime.ready")" = "$key" ] &&
+       [ -n "$(sed -n '3p' "$BASE/fixed-runtime.ready")" ] &&
        [ "$(digest_cache "$BASE/fixed-bootstrap.tar" "$BASE/fixed-bootstrap.sha-cache")" = "$(sed -n '3p' "$BASE/fixed-runtime.ready")" ];then
         tar -xf "$BASE/fixed-bootstrap.tar" -C "$stage"
         fixed_runtime=1
@@ -551,7 +659,9 @@ if [ -f "$BASE/gralloc.hwtcon.so" ] && [ -f "$BASE/gralloc.hwtcon.so.sha256" ]; 
     cp "$BASE/gralloc.hwtcon.so" "$stage/rootfs/system/lib/hw/gralloc.default.so"
 fi
 if [ -f "$BASE/app-graphics-overlay.tar.gz" ] && [ -f "$BASE/app-graphics-overlay.tar.gz.sha256" ]; then
-    (cd "$BASE" && sha256sum -c app-graphics-overlay.tar.gz.sha256) || exit 8
+    overlay_expected=$(awk '{print $1}' "$BASE/app-graphics-overlay.tar.gz.sha256")
+    overlay_actual=$(digest_cache "$BASE/app-graphics-overlay.tar.gz" "$BASE/app-graphics-overlay.sha-cache") || exit 8
+    [ -n "$overlay_expected" ] && [ "$overlay_actual" = "$overlay_expected" ] || exit 8
     tar -xzf "$BASE/app-graphics-overlay.tar.gz" --no-same-owner -C "$stage"
     extra_overlay_files="$extra_overlay_files $(tar -tzf "$BASE/app-graphics-overlay.tar.gz")"
     [ -e "$stage/rootfs/etc" ] || ln -s system/etc "$stage/rootfs/etc"
@@ -742,6 +852,17 @@ fi
 
 set +e
 progress_status 58 '正在载入系统'
+transaction_phase=runtime_entering
+record_start_transaction || echo START_TRANSACTION_RECORD_FAILED=runtime_entering >> "$BASE/session.log"
+# The socket interposer remains loaded for compatibility, while detailed
+# per-socket file tracing is enabled only for an explicit diagnostic session.
+if [ -f "$BASE/fdtrace.enabled" ] && [ ! -L "$BASE/fdtrace.enabled" ]; then
+    export KINDLE_FDTRACE_ENABLED=1
+    echo ANDROID_FDTRACE_ENABLED=1
+else
+    unset KINDLE_FDTRACE_ENABLED
+    echo ANDROID_FDTRACE_ENABLED=0
+fi
 if [ -x "$BASE/session-freezer" ] && [ -x "$BASE/warm-session.sh" ];then
     nohup "$BASE/warm-session.sh" "$$" "$stage" >> "$BASE/warm-session.log" 2>&1 < /dev/null &
     warm_session_pid=$!
@@ -750,6 +871,8 @@ fi
 sh "$stage/run.sh" "$stage" --android-session-probe > "$BASE/session-result.tar"
 run_rc=$?
 set -e
+transaction_phase=runtime_returned
+record_start_transaction || echo START_TRANSACTION_RECORD_FAILED=runtime_returned >> "$BASE/session.log"
 stop_progress
 if [ -f "$BASE/session-result.tar" ]; then
     tar -xOf "$BASE/session-result.tar" result.txt >> "$BASE/session.log" 2>&1 || :
@@ -783,6 +906,9 @@ if ! sh "$BASE/restore-framework.sh"; then
     exit 7
 fi
 framework_stopped=0
+transaction_framework=restored
+transaction_phase=framework_restored
+record_start_transaction || echo START_TRANSACTION_RECORD_FAILED=framework_restored >> "$BASE/session.log"
 echo "ANDROID_SESSION_EXITED=1 run_rc=$run_rc"
 home_launch_pending=1
 exit "$run_rc"

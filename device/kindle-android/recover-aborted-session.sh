@@ -17,6 +17,13 @@ launcher_is_alive() {
     case "$cmd" in *"$BASE/start.sh"*) return 0;; esac
     return 1
 }
+controller_is_alive() {
+    pid=$(cat "$BASE/warm-controller.pid" 2>/dev/null || :)
+    case "$pid" in ''|*[!0-9]*) return 1;; esac
+    kill -0 "$pid" 2>/dev/null || return 1
+    [ -r "/proc/$pid/cmdline" ] || return 1
+    tr '\000' ' ' < "/proc/$pid/cmdline" 2>/dev/null | grep -q 'session-controller'
+}
 read_valid_stage() {
     stage=$(sed -n '1p' "$BASE/boot-progress.stage" 2>/dev/null || :)
     case "$stage" in /mnt/us/kindle-a7-art.??????) ;; *) stage=; return 1;; esac
@@ -51,6 +58,12 @@ request_android_exit() {
         [ "$root" = "$candidate/rootfs" ] || continue
         found=1
         exit_file="$proc/root/data/local/tmp/kindle-android-exit"
+        # The retained/native handoff detaches Android's /data mount. In that
+        # state /data/local/tmp may not exist at all, so recreate only this
+        # transient request directory inside the isolated container root.
+        if [ ! -d "$proc/root/data/local/tmp" ]; then
+            mkdir -p "$proc/root/data/local/tmp" 2>/dev/null || :
+        fi
         if printf 'watchdog-recovery\n' > "$exit_file" 2>/dev/null; then
             log "WATCHDOG_EXIT_REQUESTED pid=${proc#/proc/} stage=$candidate"
         fi
@@ -75,17 +88,50 @@ remove_stage_if_empty() {
     [ ! -e "$candidate" ]
 }
 
-while [ -d "$LOCK" ]; do
-    [ "$(lock_owner)" = "$LAUNCHER" ] || break
-    launcher_is_alive "$LAUNCHER" || break
-    sleep 1
-done
+owner=$(lock_owner)
+if [ -d "$LOCK" ] && [ "$owner" = "$LAUNCHER" ] && launcher_is_alive "$LAUNCHER"; then
+    state=$(head -n1 "$BASE/warm-state" 2>/dev/null || :)
+    case "$state" in
+        native|native_pending)
+            # A dead session controller cannot consume resume/exit commands.
+            # Recover immediately instead of waiting forever for a launcher
+            # that is itself blocked waiting for the frozen Android runner.
+            if controller_is_alive; then
+                while [ -d "$LOCK" ] && [ "$(lock_owner)" = "$LAUNCHER" ] && launcher_is_alive "$LAUNCHER"; do
+                    sleep 1
+                done
+            else
+                log "WATCHDOG_DEAD_CONTROLLER_RECOVERY launcher=$LAUNCHER state=$state"
+            fi
+            ;;
+        *)
+            while [ -d "$LOCK" ] && [ "$(lock_owner)" = "$LAUNCHER" ] && launcher_is_alive "$LAUNCHER"; do
+                sleep 1
+            done
+            ;;
+    esac
+fi
 [ -e "$MARKER" ] || [ -e "$BASE/mtp-held" ] || [ -e "$BASE/warm-freezer.stage" ] || exit 0
 
-if [ "$(lock_owner)" = "$LAUNCHER" ] && launcher_is_alive "$LAUNCHER"; then
-    exit 0
-fi
+owner=$(lock_owner)
 log "WATCHDOG_ORPHAN_DETECTED launcher=$LAUNCHER owner=$(lock_owner)"
+
+# Serialize competing recovery helpers, but only after the healthy-controller
+# wait above. This lets the entry point join an already-running repair without
+# blocking the original watchdog that normally waits for clean shutdown.
+RECOVERY_LOCK=$BASE/orphan-recovery.lock
+if ! mkdir "$RECOVERY_LOCK" 2>/dev/null; then
+    recovery_pid=$(cat "$RECOVERY_LOCK/pid" 2>/dev/null || :)
+    case "$recovery_pid" in ''|*[!0-9]*) recovery_pid=;; esac
+    if [ -n "$recovery_pid" ] && kill -0 "$recovery_pid" 2>/dev/null; then
+        log "WATCHDOG_RECOVERY_ALREADY_RUNNING pid=$recovery_pid"
+        exit 0
+    fi
+    rm -rf "$RECOVERY_LOCK"
+    mkdir "$RECOVERY_LOCK" 2>/dev/null || exit 0
+fi
+echo "$$" > "$RECOVERY_LOCK/pid"
+trap 'rm -rf "$RECOVERY_LOCK"' EXIT HUP INT TERM
 
 stage=
 if read_valid_stage; then
@@ -143,10 +189,18 @@ else
     log 'WATCHDOG_FRAMEWORK_RESTORE_FAILED=1'
     exit 4
 fi
+[ ! -x "$BASE/activate-native-home.sh" ] || {
+    if sh "$BASE/activate-native-home.sh" --wait >> "$LOG" 2>&1; then
+        log 'WATCHDOG_NATIVE_HOME_CONFIRMED=1'
+    else
+        log 'WATCHDOG_NATIVE_HOME_CONFIRM_FAILED=1'
+    fi
+}
 [ ! -x "$BASE/storage-gate.sh" ] || sh "$BASE/storage-gate.sh" release >> "$LOG" 2>&1 || log 'WATCHDOG_MTP_RESTORE_DEFERRED=1'
 rm -f "$BASE/warm-native" "$BASE/warm-state" "$BASE/warm-controller.pid" "$BASE/warm.command"
 
-if [ "$(lock_owner)" = "$LAUNCHER" ] && ! launcher_is_alive "$LAUNCHER"; then
+owner=$(lock_owner)
+if [ -d "$LOCK" ] && ! launcher_is_alive "$owner"; then
     rm -rf "$LOCK"
     log 'WATCHDOG_STALE_LOCK_REMOVED=1'
 fi

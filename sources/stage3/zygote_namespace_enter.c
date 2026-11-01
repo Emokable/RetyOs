@@ -78,14 +78,11 @@ static int setup_system_server_mounts(void) {
     for (size_t i = 0; i < sizeof(directories) / sizeof(directories[0]); ++i)
         if (ensure_dir(directories[i], 0755) != 0) return -1;
 
-    /* Zygote clones its mount namespace before vold creates emulated volumes.
-     * Share only this container-owned subtree so later FUSE mounts reach apps.
-     * The namespace root remains private: no propagation to the Kindle host.
-     */
-    if (mount("/mnt/runtime", "/mnt/runtime", NULL, MS_BIND, NULL) != 0 ||
-        mount(NULL, "/mnt/runtime", NULL, MS_SHARED | MS_REC, NULL) != 0)
-        goto mount_failed;
-    fprintf(stderr,"ANDROID_RUNTIME_STORAGE_PROPAGATION=private_container_shared\n");
+    /* Keep /mnt/runtime as a plain directory until vold has completed its
+     * startup stale-mount sweep. Marking it shared here makes vold mistake it
+     * for a mount left by a previous session. art_guard applies the bind and
+     * shared flags immediately after both vold sockets are listening, before
+     * Zygote can fork application mount namespaces. */
 
     /* The persistent image is created with a restrictive umask. Restore the
      * Android 7 parent-directory permissions before dropping daemon UIDs. */

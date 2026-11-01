@@ -17,6 +17,7 @@ if losetup -a | grep -F 'system-cache.img'; then exit 5; fi
 ready=$BASE/system-cache.ready
 [ -f "$ready" ] || exit 6
 payload=$(awk '{print $1}' "$BASE/payload.sha256")
+[ "$(sha256sum "$BASE/payload.tar.gz" | awk '{print $1}')" = "$payload" ] || { echo SYSTEM_CACHE_REFRESH_ERROR=payload_hash; exit 7; }
 [ "$(sha256sum "$BASE/system-cache.img" | awk '{print $1}')" = "$(sed -n '2p' "$ready")" ] || exit 8
 (cd "$BASE" && sha256sum -c app-graphics-overlay.tar.gz.sha256 && sha256sum -c gralloc.hwtcon.so.sha256)
 work=$(mktemp -d "$BASE/system-cache-refresh.XXXXXX")
@@ -32,6 +33,16 @@ cleanup() {
 }
 trap cleanup EXIT
 trap 'exit 130' HUP INT TERM
+# The cache bootstrap contains the host runner as well as non-system rootfs
+# files. Rebuild it from the exact verified payload; otherwise a cache refresh
+# can pair a new system image with an old runner and silently skip runtime fixes.
+mkdir "$work/bootstrap"
+tar -xzf "$BASE/payload.tar.gz" --no-same-owner --exclude=rootfs/system --exclude='rootfs/system/*' -C "$work/bootstrap"
+[ -f "$work/bootstrap/run.sh" ] && [ -f "$work/bootstrap/rootfs/default.prop" ] || { echo SYSTEM_CACHE_REFRESH_ERROR=bootstrap_layout; exit 9; }
+mkdir -p "$work/bootstrap/rootfs/system"
+tar -cf "$work/system-cache-bootstrap.tar" -C "$work/bootstrap" .
+bootstrap_sha=$(sha256sum "$work/system-cache-bootstrap.tar" | awk '{print $1}')
+echo "SYSTEM_CACHE_BOOTSTRAP_REFRESH_PASS payload=$payload sha256=$bootstrap_sha"
 mv "$ready" "$BASE/system-cache.ready.previous"
 mkdir "$work/overlay" "$work/mount"
 tar -xzf "$BASE/app-graphics-overlay.tar.gz" --no-same-owner -C "$work/overlay"
@@ -50,8 +61,11 @@ mounted=0
 losetup -d "$loop"
 loop=
 image_sha=$(sha256sum "$BASE/system-cache.img" | awk '{print $1}')
-bootstrap_sha=$(sha256sum "$BASE/system-cache-bootstrap.tar" | awk '{print $1}')
 size=$(stat -c %s "$BASE/system-cache.img")
+rm -f "$BASE/system-cache-bootstrap.sha-cache" "$BASE/fixed-bootstrap.sha-cache"
+mv -f "$work/system-cache-bootstrap.tar" "$BASE/system-cache-bootstrap.tar.new"
+mv -f "$BASE/system-cache-bootstrap.tar.new" "$BASE/system-cache-bootstrap.tar"
 printf '%s\n%s\n%s\n%s\n%s\n' "$key" "$image_sha" "$bootstrap_sha" "$size" "$payload" > "$ready.new"
 mv "$ready.new" "$ready"
+rm -f "$BASE/fixed-runtime.ready" "$BASE/fixed-bootstrap.tar"
 echo "SYSTEM_CACHE_REFRESH_PASS key=$key"

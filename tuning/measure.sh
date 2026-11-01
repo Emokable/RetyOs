@@ -40,13 +40,7 @@ grep -hE 'APK_(FRAMEWORK_SERVICES_READY|PM_INSTALL|ACTIVITY_PROCESS)|ANDROID_SES
 
 section 'warm-session state'
 printf 'warm-state:        %s\n' "$(head -n 1 "$BASE/warm-state" 2>/dev/null || echo '<none>')"
-printf 'warm resume reqs:  %s\n' "$(grep -c ANDROID_ENTRY_WARM_RESUME_REQUESTED "$BASE/entry.log" 2>/dev/null || echo 0)"
+printf 'warm resume reqs:  %s\n' "$(grep -c ANDROID_ENTRY_WARM_RESUME_REQUESTED "$BASE/entry.log" 2>/dev/null || :)"
 
-section 'digest caches'
-for c in system-cache-bootstrap fixed-bootstrap; do
-    if [ -f "$BASE/$c.sha-cache" ]; then
-        printf '  %-28s sig=%s\n' "$c.sha-cache" "$(sed -n '1p' "$BASE/$c.sha-cache" 2>/dev/null)"
-    else
-        printf '  %-28s <absent: first boot after the patch builds it>\n' "$c.sha-cache"
-    fi
-done
+section 'bootstrap verification'
+echo 'The launcher caches large-file digests by size and second-resolution mtime.'

@@ -478,6 +478,21 @@ static int sandbox(int zygote,int zygote_system_server,int system_server,int gra
     struct sock_fprog p={(unsigned short)n,code};
     return prctl(PR_SET_SECCOMP,SECCOMP_MODE_FILTER,&p);
 }
+static int prepare_runtime_storage_propagation(void){
+    if(mount("/mnt/runtime","/mnt/runtime",NULL,MS_BIND,NULL)!=0){
+        fprintf(stderr,"ANDROID_RUNTIME_STORAGE_BIND_FAILED errno=%d (%s)\n",errno,strerror(errno));
+        return -1;
+    }
+    if(mount(NULL,"/mnt/runtime",NULL,MS_SHARED|MS_REC,NULL)!=0){
+        int saved=errno;
+        umount2("/mnt/runtime",MNT_DETACH);
+        fprintf(stderr,"ANDROID_RUNTIME_STORAGE_SHARED_FAILED errno=%d (%s)\n",saved,strerror(saved));
+        errno=saved;
+        return -1;
+    }
+    fprintf(stderr,"ANDROID_RUNTIME_STORAGE_PROPAGATION=private_container_shared timing=after_vold_ready\n");
+    return 0;
+}
 int main(int argc, char **argv){
     char marker[64]={};FILE *f=fopen("/art.marker","r");if(f){fgets(marker,sizeof(marker),f);fclose(f);}
     if(getpid()!=1 || strcmp(marker,"kindle-art-lab\n"))return 90;
@@ -705,6 +720,9 @@ int main(int argc, char **argv){
                 snprintf(value,sizeof(value),"%d",vold_sockets[i]);setenv(key,value,1);
             }
             if(android_session)setenv("KINDLELAB_FUSE_BROKER","1",1);
+            const char *vold_trace = getenv("KINDLELAB_VOLD_TRACE");
+            if (vold_trace && !strcmp(vold_trace, "1"))
+                setenv("KINDLE_VOLD_UNMOUNT_TRACE", "1", 1);
             setenv("LD_PRELOAD","/system/lib/libnetd-exit-trace.so:/system/lib/libkindleashmem.so",1);
             fprintf(stderr,"VOLD_TMPFS_START mount_denied=1 block_devices=0 sysfs=0\n");
             execl("/system/bin/vold","vold","--blkid_context=u:r:blkid:s0",
@@ -714,11 +732,19 @@ int main(int argc, char **argv){
         }
         int ready=0;
         int wait_attempts=android_session?1000:100;
+        struct timespec vold_wait_begin;clock_gettime(CLOCK_MONOTONIC,&vold_wait_begin);
         for(int i=0;i<wait_attempts;i++){
             int st;if(waitpid(vold,&st,WNOHANG)==vold){drain_logs();fprintf(stderr,"VOLD_EARLY_EXIT=%d\n",st);return 99;}
-            int first=0,second=0;socklen_t len=sizeof(int);
-            if(!getsockopt(vold_sockets[0],SOL_SOCKET,SO_ACCEPTCONN,&first,&len) &&
-               !getsockopt(vold_sockets[1],SOL_SOCKET,SO_ACCEPTCONN,&second,&len) && first && second){ready=1;break;}
+            int first=0,second=0;
+            socklen_t first_len=sizeof(first),second_len=sizeof(second);
+            int first_rc=getsockopt(vold_sockets[0],SOL_SOCKET,SO_ACCEPTCONN,&first,&first_len);
+            int first_error=first_rc?errno:0;
+            int second_rc=getsockopt(vold_sockets[1],SOL_SOCKET,SO_ACCEPTCONN,&second,&second_len);
+            int second_error=second_rc?errno:0;
+            if(!first_rc && !second_rc && first && second){ready=1;break;}
+            if(i==0 || i==wait_attempts-1)
+                fprintf(stderr,"VOLD_LISTEN_PROBE attempt=%d first=%d/%d errno=%d len=%u second=%d/%d errno=%d len=%u\n",
+                        i,first_rc,first,first_error,(unsigned)first_len,second_rc,second,second_error,(unsigned)second_len);
             drain_logs();drain_property_requests();usleep(20000);
         }
         if(!ready){
@@ -726,11 +752,21 @@ int main(int argc, char **argv){
             int first_rc=getsockopt(vold_sockets[0],SOL_SOCKET,SO_ACCEPTCONN,&first,&len);
             len=sizeof(int);int second_rc=getsockopt(vold_sockets[1],SOL_SOCKET,SO_ACCEPTCONN,&second,&len);
             int st=0;pid_t child_state=waitpid(vold,&st,WNOHANG);
+            if(!first_rc && !second_rc && first==1 && second==1 && child_state==0){
+                ready=1;fprintf(stderr,"VOLD_READY_AT_FINAL_CHECK=1\n");
+            }else{
             drain_logs();fprintf(stderr,"VOLD_LISTEN_FAILED first=%d/%d second=%d/%d child_state=%d status=%d\n",
                                   first_rc,first,second_rc,second,(int)child_state,st);
             return 99;
+            }
         }
-        fprintf(stderr,"VOLD_READY pid=%d sockets=vold,cryptd\n",vold);
+        struct timespec vold_wait_end;clock_gettime(CLOCK_MONOTONIC,&vold_wait_end);
+        long long vold_wait_ms=(vold_wait_end.tv_sec-vold_wait_begin.tv_sec)*1000LL+(vold_wait_end.tv_nsec-vold_wait_begin.tv_nsec)/1000000;
+        fprintf(stderr,"VOLD_READY pid=%d sockets=vold,cryptd wait_ms=%lld\n",vold,vold_wait_ms);
+        /* vold's VolumeManager::start() sweeps mountpoints below /mnt before
+         * opening its command sockets. Publish runtime FUSE mounts only after
+         * that cleanup is complete, while still before starting Zygote. */
+        if(android_session && prepare_runtime_storage_propagation()!=0)return 99;
     }
     pid_t audioserver=-1;
     if(audio_probe){

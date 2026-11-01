@@ -713,6 +713,8 @@ set +e
  root=${KINDLE_CONTAINER_ROOT:?ANDROID_CONTAINER_ROOT_NOT_SET}
  stage=${KINDLE_CONTAINER_STAGE:?ANDROID_CONTAINER_STAGE_NOT_SET}
  export KINDLE_ANDROID_SESSION=1
+ if [ -f /mnt/us/kindle-android/vold-unmount-trace ]; then export KINDLELAB_VOLD_TRACE=1; echo ANDROID_VOLD_UNMOUNT_TRACE=enabled; fi
+ if [ -f /mnt/us/kindle-android/weread-diagnostics ]; then export KINDLELAB_WEREAD_DIAGNOSTICS=1; echo ANDROID_WEREAD_AOT_DIAGNOSTICS=enabled read_only=1; fi
  if [ -f /mnt/us/kindle-android/autolaunch-weread ]; then export KINDLELAB_AUTOLAUNCH_WEREAD=1; export KINDLELAB_TEST_WEREAD_DATA_UPDATE=1; echo ANDROID_WEREAD_AUTOLAUNCH_TEST=1 weread_data_update_experiment=1; fi
  echo "ANDROID_CONTAINER_ROOT_ARGUMENT=$root" >&2
  mount -t proc -o ro,nosuid,nodev,noexec proc "$root/proc"
@@ -746,10 +748,20 @@ set +e
  else
   mount -t tmpfs -o size=640m,mode=0755,nodev,nosuid tmpfs "$root/data"
  fi
- mkdir -p "$root/data/dalvik-cache/arm" "$root/data/local/tmp" "$root/data/system" "$root/data/system_ce/0" "$root/data/system_de/0" "$root/data/misc/shared_relro" "$root/data/misc_ce/0" "$root/data/misc_de/0" "$root/data/misc/user/0" "$root/data/misc/zoneinfo/current" "$root/data/app" "$root/data/app-private" "$root/data/system/users/0" "$root/data/user_de/0" "$root/data/anr" "$root/system/app" "$root/system/priv-app" "$root/system/vendor/app" "$root/mnt/asec" "$root/storage" "$root/sdcard"
+ mkdir -p "$root/data/dalvik-cache/arm" "$root/data/local/tmp" "$root/data/system" "$root/data/system_ce/0" "$root/data/system_de/0" "$root/data/misc/shared_relro" "$root/data/misc/profiles/cur/0" "$root/data/misc/profiles/ref" "$root/data/misc/profman" "$root/data/misc_ce/0" "$root/data/misc_de/0" "$root/data/misc/user/0" "$root/data/misc/zoneinfo/current" "$root/data/app" "$root/data/app-private" "$root/data/system/users/0" "$root/data/user_de/0" "$root/data/anr" "$root/system/app" "$root/system/priv-app" "$root/system/vendor/app" "$root/mnt/asec" "$root/storage" "$root/sdcard"
  chmod 0711 "$root/data/user_de" "$root/data/user_de/0"
  chmod 01771 "$root/data/misc_ce" "$root/data/misc_de"
  chmod 0771 "$root/data/misc/shared_relro" "$root/data/misc_ce/0" "$root/data/misc_de/0"
+ # Android 7 installd prepares per-user ART profile directories during
+ # create_app_data. The persistent data image can predate init.rc's profile
+ # directory creation, so create the expected parents before PackageManager
+ # scans or installs APKs. Missing cur/0 makes create_app_data fail and
+ # silently degrades install-time dexopt/profile handling.
+ chmod 0771 "$root/data/misc/profiles" "$root/data/misc/profiles/cur" "$root/data/misc/profiles/cur/0" "$root/data/misc/profiles/ref"
+ chown 1000:1000 "$root/data/misc/profiles" "$root/data/misc/profiles/cur" "$root/data/misc/profiles/cur/0" "$root/data/misc/profiles/ref"
+ chmod 0770 "$root/data/misc/profman"
+ chown 1000:2000 "$root/data/misc/profman"
+ echo ANDROID_PROFILE_STORAGE_READY=1 >&2
  chown 1037:1037 "$root/data/misc/shared_relro" || echo WEBVIEW_SHARED_RELRO_OWNER_WARNING=1
  chown 1000:9998 "$root/data/misc_ce" "$root/data/misc_de" 2>/dev/null || :
  chown 1000:1000 "$root/data/misc_ce/0" "$root/data/misc_de/0" 2>/dev/null || :

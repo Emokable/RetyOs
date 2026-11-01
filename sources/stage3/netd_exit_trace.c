@@ -7,6 +7,34 @@
 #include <unistd.h>
 #include <sys/syscall.h>
 #include <sys/socket.h>
+#include <time.h>
+#include <stdlib.h>
+#include <string.h>
+
+/* Opt-in observation of vold's startup cleanup. Preserve the syscall result;
+ * never suppress or emulate an unmount. */
+__attribute__((visibility("default")))
+int umount2(const char *path, int flags) {
+    typedef int (*umount2_fn)(const char *, int);
+    static umount2_fn original;
+    if (!original) original = (umount2_fn)dlsym(RTLD_NEXT, "umount2");
+    if (!original) { errno = ENOSYS; return -1; }
+    const char *enabled = getenv("KINDLE_VOLD_UNMOUNT_TRACE");
+    int trace = enabled && !strcmp(enabled, "1");
+    struct timespec start, end;
+    if (trace) clock_gettime(CLOCK_MONOTONIC, &start);
+    int rc = original(path, flags);
+    int saved = errno;
+    if (trace) {
+        clock_gettime(CLOCK_MONOTONIC, &end);
+        long long ms = (long long)(end.tv_sec - start.tv_sec) * 1000LL +
+                       (end.tv_nsec - start.tv_nsec) / 1000000LL;
+        fprintf(stderr, "VOLD_UNMOUNT_TRACE path=%s flags=%d rc=%d errno=%d elapsed_ms=%lld\n",
+                path ? path : "(null)", flags, rc, rc ? saved : 0, ms);
+    }
+    errno = saved;
+    return rc;
+}
 
 typedef int (*setsockopt_fn)(int, int, int, const void *, socklen_t);
 

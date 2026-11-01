@@ -8,6 +8,8 @@ for name in payload app-graphics-overlay.tar.gz gralloc.hwtcon.so session-freeze
     [ -f "$name.sha256" ] || exit 4
     sha256sum -c "$name.sha256" || exit 5
 done
+rm -f "$BASE/payload.sha-cache" "$BASE/app-graphics-overlay.sha-cache" \
+    "$BASE/system-cache-bootstrap.sha-cache" "$BASE/fixed-bootstrap.sha-cache"
 chmod 755 ./*.sh session-freezer session-power-guard session-preflight usb-session-guard native-frame-probe native-frame-state session-controller slirp4netns
 sh "$BASE/prepare-data.sh"
 echo ANDROID_INSTALL_READY=1

@@ -26,6 +26,32 @@ if command -v flock >/dev/null 2>&1; then
     flock -n 9 || { echo ENTRY_LOCK_BUSY=1 >> "$BASE/entry-invocations.log";exit 0; }
 fi
 
+recover_stale_warm_session() {
+    recovery_owner=$1
+    echo "ANDROID_ENTRY_STALE_WARM_SESSION=1 owner=${recovery_owner:-unknown}"
+    [ ! -x /var/local/kmc/bin/fbink ] ||
+        /var/local/kmc/bin/fbink -q -pm -y 12 'Recovering RetyOs...' >/dev/null 2>&1 || :
+    if [ ! -x "$BASE/recover-aborted-session.sh" ]; then
+        echo ANDROID_ENTRY_ERROR=warm_recovery_unavailable
+        return 1
+    fi
+    nohup setsid /bin/sh "$BASE/recover-aborted-session.sh" "$recovery_owner" \
+        >> "$BASE/framework-watchdog.log" 2>&1 < /dev/null &
+    recovery_pid=$!
+    echo "ANDROID_ENTRY_RECOVERY_LAUNCHED=1 pid=$recovery_pid"
+    waited_recovery=0
+    while [ -d "$BASE/session.lock" ] && [ "$waited_recovery" -lt 125 ]; do
+        sleep 1
+        waited_recovery=$((waited_recovery+1))
+    done
+    if [ -d "$BASE/session.lock" ]; then
+        echo "ANDROID_ENTRY_ERROR=warm_recovery_timeout waited=$waited_recovery"
+        return 1
+    fi
+    echo "ANDROID_ENTRY_RECOVERY_COMPLETE=1 waited=$waited_recovery"
+    return 0
+}
+
 run_entry() {
     echo "$ENTRY_MARKER"
     [ ! -e "$BASE/release-maintenance.lock" ] || { echo ANDROID_ENTRY_MAINTENANCE=1;return 16; }
@@ -50,7 +76,10 @@ run_entry() {
     done
     if [ -d "$BASE/session.lock" ]; then
         pid=$(cat "$BASE/session.lock/pid" 2>/dev/null || :)
-        case "$pid" in ''|*[!0-9]*) :;; *)
+        case "$pid" in ''|*[!0-9]*)
+            if [ -e "$BASE/warm-native" ] || [ -e "$BASE/warm-freezer.stage" ] || [ -e "$BASE/mtp-held" ]; then
+                recover_stale_warm_session "$pid" || return 4
+            fi;; *)
             if kill -0 "$pid" 2>/dev/null; then
                 warm_state=$(head -n1 "$BASE/warm-state" 2>/dev/null || :)
                 if [ "$warm_state" = native ] || [ "$warm_state" = native_pending ]; then
@@ -58,17 +87,35 @@ run_entry() {
                     # protected image aliases. Resume itself checks that the
                     # USB host has disconnected before closing that export.
                     controller=$(cat "$BASE/warm-controller.pid" 2>/dev/null || :)
-                    case "$controller" in ''|*[!0-9]*) echo ANDROID_ENTRY_ERROR=warm_controller_missing;return 4;; esac
-                    kill -0 "$controller" 2>/dev/null || { echo ANDROID_ENTRY_ERROR=warm_controller_dead;return 4; }
+                    case "$controller" in ''|*[!0-9]*) controller=;; esac
+                    if [ -z "$controller" ] || ! kill -0 "$controller" 2>/dev/null; then
+                        # The orphan watchdog handles the frozen process group,
+                        # releases mounts, restores Kindle and clears the stale
+                        # lock. Only then may this tap continue as a cold start.
+                        recover_stale_warm_session "$pid" || return 4
+                        # Fall through and start a clean session from the
+                        # already restored native Kindle UI.
+                    else
                     printf 'resume\n' > "$BASE/warm.command.new"
                     mv "$BASE/warm.command.new" "$BASE/warm.command"
                     entry_resumed=1
                     echo ANDROID_ENTRY_WARM_RESUME_REQUESTED=1
                     return 0
+                    fi
+                else
+                    echo "ANDROID_ENTRY_ALREADY_RUNNING=1 pid=$pid"
+                    entry_existing=1
+                    return 0
                 fi
-                echo "ANDROID_ENTRY_ALREADY_RUNNING=1 pid=$pid"
-                entry_existing=1
-                return 0
+            else
+                # A stale lock with no live launcher is also recoverable, but
+                # only through the guarded orphan cleanup path (which checks
+                # process roots, mounts and loop-backed images before removal).
+                warm_state=$(head -n1 "$BASE/warm-state" 2>/dev/null || :)
+                if [ "$warm_state" = native ] || [ "$warm_state" = native_pending ] ||
+                   [ -e "$BASE/warm-native" ] || [ -e "$BASE/warm-freezer.stage" ] || [ -e "$BASE/mtp-held" ]; then
+                    recover_stale_warm_session "$pid" || return 4
+                fi
             fi;;
         esac
     fi

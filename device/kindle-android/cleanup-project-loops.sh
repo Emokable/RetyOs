@@ -3,6 +3,21 @@
 set -u
 BASE=/mnt/us/kindle-android
 log() { echo "$*"; echo "$*" >> "$BASE/session-cleanup.log"; }
+require_clear=${1:-}
+[ -z "$require_clear" ] || [ "$require_clear" = --require-clear ] || {
+    log "PROJECT_LOOP_CLEANUP_ERROR=unknown_option option=$require_clear"
+    exit 2
+}
+project_binding_present() {
+    for backing_file in /sys/block/loop*/loop/backing_file; do
+        [ -r "$backing_file" ] || continue
+        case "$(cat "$backing_file" 2>/dev/null || :)" in
+            /mnt/base-us/kindle-android/system-cache.img|/mnt/us/kindle-android/system-cache.img|/kindle-android/system-cache.img|/mnt/base-us/kindle-android/data.img|/mnt/us/kindle-android/data.img|/kindle-android/data.img)
+                return 0;;
+        esac
+    done
+    return 1
+}
 if [ -r "$BASE/session.lock/pid" ]; then
     owner=$(cat "$BASE/session.lock/pid" 2>/dev/null || :)
     if [ "$owner" != "${KINDLE_ANDROID_LAUNCHER_PID:-}" ] && kill -0 "$owner" 2>/dev/null; then
@@ -22,12 +37,20 @@ for backing_file in /sys/block/loop*/loop/backing_file; do
 done
 if [ "$project_binding" = 0 ]; then
     log PROJECT_LOOP_CLEANUP_SKIPPED=no_project_bindings
-    exit 0
+    [ "$require_clear" != --require-clear ] && exit 0
 fi
 for proc in /proc/[0-9]*; do
     comm=$(cat "$proc/comm" 2>/dev/null || :)
-    [ "$comm" != art-guard ] || { log PROJECT_LOOP_CLEANUP_DEFERRED=live_android; exit 0; }
+    [ "$comm" != art-guard ] || {
+        log PROJECT_LOOP_CLEANUP_DEFERRED=live_android
+        [ "$require_clear" != --require-clear ] || exit 1
+        exit 0
+    }
 done
+if [ "$require_clear" = --require-clear ] && project_binding_present; then
+    log PROJECT_LOOP_CLEANUP_BLOCKED=project_image_still_attached
+    exit 1
+fi
 for backing_file in /sys/block/loop*/loop/backing_file; do
     [ -r "$backing_file" ] || continue
     backing=$(cat "$backing_file" 2>/dev/null || :)

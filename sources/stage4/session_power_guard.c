@@ -16,8 +16,8 @@
 #define BASE "/mnt/us/kindle-android"
 #define STATE BASE "/power-guard.restore"
 static volatile sig_atomic_t stop=0;
-static int locked=0,brightness=0,original_prevent=0,owns_state=0;
-static char marker[256],gesture[256],exit_path[256];
+static int locked=0,brightness=0,original_prevent=0,owns_state=0,screensaver_active=0;
+static char marker[256],gesture[256],exit_path[256],screensaver_show[256],screensaver_hide[256],screensaver_frame_request[256],screensaver_frame_complete[256],screensaver_hidden[256],screensaver_failed[256],screensaver_enabled[256];
 static void signal_stop(int sig){(void)sig;stop=1;}
 static void warm_state(const char *s){FILE *f=fopen(BASE "/warm-power.state.new","w");if(f){fprintf(f,"%s\n",s);fclose(f);rename(BASE "/warm-power.state.new",BASE "/warm-power.state");}}
 static long long millis(void){struct timespec t;clock_gettime(CLOCK_MONOTONIC,&t);return (long long)t.tv_sec*1000+t.tv_nsec/1000000;}
@@ -26,9 +26,41 @@ static int read_property(const char *name){char cmd[160];snprintf(cmd,sizeof(cmd
 static int save_state(void){int fd=open(STATE ".new",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC|O_NOFOLLOW,0600);if(fd<0)return -1;FILE *f=fdopen(fd,"w");if(!f){close(fd);return -1;}fprintf(f,"%d %d %d\n",original_prevent,brightness,locked);int rc=fflush(f);if(!rc)rc=fsync(fd);if(fclose(f))rc=-1;if(!rc)rc=rename(STATE ".new",STATE);if(!rc)owns_state=1;return rc;}
 static int restore(void){FILE *f=fopen(STATE,"r");if(!f)return 0;int prevent=-1,light=-1,was_locked=1;int valid=fscanf(f,"%d %d %d",&prevent,&light,&was_locked)>=2;fclose(f);if(!valid||prevent<0||prevent>1||light<0||light>24)return 2;
  int a=was_locked?property("flIntensity",light):0,b=property("preventScreenSaver",prevent);if(!a&&!b){unlink(STATE);printf("POWER_GUARD_RESTORED light=%d prevent=%d\n",light,prevent);return 0;}return 3;}
+static int put_marker(const char *path){int fd=open(path,O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC|O_NOFOLLOW,0644);if(fd<0)return -1;int ok=write(fd,"1\n",2)==2;close(fd);return ok?0:-1;}
+static int wait_marker(const char *path,long long timeout_ms){long long until=millis()+timeout_ms;while(millis()<until){if(access(path,F_OK)==0)return 1;usleep(50000);}return access(path,F_OK)==0;}
+/* The controls VM has no emulated-storage mount. Export bounded image copies
+ * from the already shared PC folder into its private data directory. */
+static void sync_screensaver_images(void){
+ char destdir[512];snprintf(destdir,sizeof(destdir),"%s",marker);char *tail=strrchr(destdir,'/');if(!tail)return;strcpy(tail+1,"kindle-screensaver-images");
+ if(mkdir(destdir,0755)&&errno!=EEXIST)return;
+ DIR *d=opendir("/mnt/us/AndroidFiles");if(!d)return;struct dirent *e;unsigned count=0;off_t total=0;
+ while(count<8&&(e=readdir(d))){const char *ext=strrchr(e->d_name,'.');if(!ext||(strcasecmp(ext,".png")&&strcasecmp(ext,".jpg")&&strcasecmp(ext,".jpeg")&&strcasecmp(ext,".bmp")&&strcasecmp(ext,".webp")))continue;
+  char source[768],dest[768];snprintf(source,sizeof(source),"/mnt/us/AndroidFiles/%s",e->d_name);snprintf(dest,sizeof(dest),"%s/%s",destdir,e->d_name);
+  int in=open(source,O_RDONLY|O_CLOEXEC|O_NOFOLLOW);if(in<0)continue;struct stat st,old;
+  if(fstat(in,&st)||!S_ISREG(st.st_mode)||st.st_size<=0||st.st_size>8*1024*1024||total+st.st_size>32*1024*1024){close(in);continue;}
+  total+=st.st_size;count++;
+  if(!stat(dest,&old)&&old.st_size==st.st_size&&old.st_mtime==st.st_mtime){close(in);continue;}
+  int out=open(dest,O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC|O_NOFOLLOW,0644);if(out<0){close(in);continue;}
+  char buf[16384];ssize_t n;int ok=1;while((n=read(in,buf,sizeof(buf)))>0){ssize_t pos=0;while(pos<n){ssize_t w=write(out,buf+pos,n-pos);if(w<=0){ok=0;break;}pos+=w;}if(!ok)break;}
+  if(n<0)ok=0;close(in);close(out);if(!ok)unlink(dest);else{struct timespec times[2]={st.st_atim,st.st_mtim};utimensat(AT_FDCWD,dest,times,0);}
+ }closedir(d);
+}
+static int show_screensaver(void){FILE *f=fopen(screensaver_enabled,"r");if(!f)return 0;char enabled[8]={0};fgets(enabled,sizeof(enabled),f);fclose(f);if(strcmp(enabled,"1\n")&&strcmp(enabled,"1"))return 0;
+ sync_screensaver_images();
+ /* A hide marker left by a delayed UI callback from the previous lock cycle
+  * suppresses the next show request. Clear the entire handshake before asking
+  * the controls process to draw a new, full-refresh frame. */
+ unlink(screensaver_hide);unlink(screensaver_show);unlink(screensaver_frame_complete);unlink(screensaver_hidden);unlink(screensaver_failed);unlink(screensaver_frame_request);
+ if(put_marker(screensaver_show))return 0;
+ long long until=millis()+8000;while(millis()<until){if(access(screensaver_frame_complete,F_OK)==0){puts("POWER_GUARD_SCREENSAVER_VISIBLE=1");return 1;}if(access(screensaver_failed,F_OK)==0)break;usleep(50000);}
+ unlink(screensaver_frame_request);unlink(screensaver_show);put_marker(screensaver_hide);wait_marker(screensaver_hidden,1500);unlink(screensaver_hide);printf("POWER_GUARD_SCREENSAVER_UNAVAILABLE=1 fallback=blank\n");return 0;
+}
 static void set_locked(int value){if(value==locked)return;
- if(value){int current=read_property("flIntensity");if(current>=0&&current<=24)brightness=current;int fd=open(marker,O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC|O_NOFOLLOW,0644);if(fd<0)return;write(fd,"1\n",2);close(fd);locked=1;save_state();property("flIntensity",0);}
+ if(value){int current=read_property("flIntensity");if(current>=0&&current<=24)brightness=current;screensaver_active=show_screensaver();int fd=open(marker,O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC|O_NOFOLLOW,0644);if(fd<0){if(screensaver_active){unlink(screensaver_show);put_marker(screensaver_hide);}screensaver_active=0;return;}write(fd,"1\n",2);close(fd);locked=1;save_state();property("flIntensity",0);}
  else{unlink(marker);
+  if(screensaver_active){unlink(screensaver_hidden);unlink(screensaver_show);put_marker(screensaver_hide);if(!wait_marker(screensaver_hidden,2000))puts("POWER_GUARD_SCREENSAVER_HIDE_TIMEOUT=1");unlink(screensaver_hide);}
+  unlink(screensaver_frame_complete);unlink(screensaver_frame_request);
+  if(screensaver_active){char full[256];snprintf(full,sizeof(full),"%s",marker);char *full_name=strrchr(full,'/');if(full_name)strcpy(full_name+1,"kindle-display-full-refresh");put_marker(full);}screensaver_active=0;
   /* The compositor may have consumed its last frame while the panel was
    * locked. Ask the existing worker to repaint that snapshot on wake. */
   char resume[256];snprintf(resume,sizeof(resume),"%s",marker);
@@ -64,6 +96,14 @@ int main(int argc,char **argv){setvbuf(stdout,0,_IOLBF,0);signal(SIGTERM,signal_
  snprintf(marker,sizeof(marker),"/proc/%ld/root/data/local/tmp/kindle-session-locked",target);
  snprintf(gesture,sizeof(gesture),"/proc/%ld/root/data/local/tmp/kindle-page-direction",target);
  snprintf(exit_path,sizeof(exit_path),"/proc/%ld/root/data/local/tmp/kindle-android-exit",target);
+ snprintf(screensaver_show,sizeof(screensaver_show),"/proc/%ld/root/data/local/tmp/kindle-screensaver-show",target);
+ snprintf(screensaver_hide,sizeof(screensaver_hide),"/proc/%ld/root/data/local/tmp/kindle-screensaver-hide",target);
+ snprintf(screensaver_frame_request,sizeof(screensaver_frame_request),"/proc/%ld/root/data/local/tmp/kindle-screensaver-frame-request",target);
+ snprintf(screensaver_frame_complete,sizeof(screensaver_frame_complete),"/proc/%ld/root/data/local/tmp/kindle-screensaver-frame-complete",target);
+ snprintf(screensaver_hidden,sizeof(screensaver_hidden),"/proc/%ld/root/data/local/tmp/kindle-screensaver-hidden",target);
+ snprintf(screensaver_failed,sizeof(screensaver_failed),"/proc/%ld/root/data/local/tmp/kindle-screensaver-ui-failed",target);
+ snprintf(screensaver_enabled,sizeof(screensaver_enabled),"/proc/%ld/root/data/local/tmp/kindle-screensaver-enabled",target);
+ sync_screensaver_images();
  if(restore()!=0)return 3;
  char name[80]={0};int fd=open_power_key(name,sizeof(name));if(fd<0)return 4;
  if(ioctl(fd,EVIOCGRAB,1)<0){close(fd);return 5;}
@@ -77,6 +117,7 @@ int main(int argc,char **argv){setvbuf(stdout,0,_IOLBF,0);signal(SIGTERM,signal_
  long long pressed=0,last_activity=millis();struct timespec last_stamp={0,0};
  while(!stop&&kill((pid_t)target,0)==0){
   if(access(BASE "/warm-native",F_OK)==0){
+   if(locked)set_locked(0);
    if(!native_handoff){if(ioctl(fd,EVIOCGRAB,0)||restore()!=0){stop=1;break;}owns_state=0;native_handoff=1;warm_state("native");puts("POWER_GUARD_NATIVE_HANDOFF=1");}
    usleep(100000);continue;
   }
@@ -97,5 +138,5 @@ int main(int argc,char **argv){setvbuf(stdout,0,_IOLBF,0);signal(SIGTERM,signal_
   if(!locked&&millis()-last_activity>=600000){puts("POWER_GUARD_IDLE_LOCK=1");set_locked(1);}
   FILE *command=fopen(BASE "/power-guard.command","r");if(command){char s[16]={0};fgets(s,sizeof(s),command);fclose(command);unlink(BASE "/power-guard.command");if(!strcmp(s,"lock\n"))set_locked(1);else if(!strcmp(s,"wake\n")){set_locked(0);last_activity=millis();}else if(!strcmp(s,"idle-test\n"))last_activity=millis()-600001;}
  }
- unlink(marker);if(owns_state)restore();ioctl(fd,EVIOCGRAB,0);close(fd);warm_state("stopped");puts("POWER_GUARD_STOPPED=1");return 0;
+ if(locked)set_locked(0);unlink(marker);unlink(screensaver_show);unlink(screensaver_hide);unlink(screensaver_frame_request);if(owns_state)restore();ioctl(fd,EVIOCGRAB,0);close(fd);warm_state("stopped");puts("POWER_GUARD_STOPPED=1");return 0;
 }

@@ -1,10 +1,9 @@
 # Startup tuning
 
-Small, low-risk changes to `device/kindle-android/start.sh`, plus two read-only
-tools to find out where a cold boot actually spends its time.
+Startup polling and tools to find out where a cold boot spends its time.
 
 Nothing here changes the container, the Android image, or any app-visible
-behaviour. Both changes are startup-path only.
+behaviour. Polling changes apply to the no-framework startup path.
 
 ## What changed
 
@@ -13,9 +12,8 @@ behaviour. Both changes are startup-path only.
 `start.sh` stops `lab126_gui` and X before the container takes over the display,
 then polls `initctl status` in a `while` loop with a 1 s tick and a 30 s budget.
 
-Those services normally reach `stop/waiting` in well under a second, so the 1 s
-tick costs a full second before the first check and rounds every stop up to the
-next whole second — twice, once per service.
+The first check is immediate. Subsequent 1 s sleeps can round up the wait for
+each service; the benefit depends on the measured service-stop duration.
 
 The tick is now 200 ms (150 ticks ≈ the same 30 s budget). `usleep` is absent on
 some firmwares, in which case the original 1 s tick and 30 s budget are kept, so
@@ -24,25 +22,13 @@ behaviour degrades to exactly what it was.
 Nothing else about the stop sequence changes: the same `stop/waiting` match, the
 same timeout, the same `restore-framework.sh` path on failure.
 
-### 2. sha256 result cache for the bootstrap tarballs
+### 2. Bootstrap integrity
 
-Every cold boot re-hashes `system-cache-bootstrap.tar` (and `fixed-bootstrap.tar`
-on the fixed-runtime path) purely to compare the digest against the value
-recorded in `*.ready` at build time. These tarballs live on the FAT32 user
-partition and are hashed single-threaded on ARMv7.
-
-A digest is only needed when the file may have changed, so the `size:mtime`
-signature is stored next to the digest and the re-hash is skipped while both are
-unchanged. Any rewrite of the tarball updates mtime, which invalidates the entry;
-so does a corrupt cache line. On a miss the code falls back to plain hashing, so
-the worst case is the old behaviour plus two small reads.
-
-Cache files: `$BASE/system-cache-bootstrap.sha-cache`, `$BASE/fixed-bootstrap.sha-cache`.
-
-Trade-off, stated plainly: a tarball corrupted *in place* with the same size and
-the same mtime would now pass the check. mtime cannot be preserved by an
-overwrite, so this needs a deliberate `touch -d` to reproduce, and the payload
-digest for the extracted content is still verified separately.
+At the user's request, startup caches SHA-256 using file size and second-resolution
+mtime. First use and a changed signature trigger a full hash; later cache hits
+reuse the saved digest. Installation and cache rebuild clear affected entries.
+An equal-size rewrite with an unchanged timestamp can reuse a stale digest;
+installation and explicit maintenance still perform full verification.
 
 ## What was considered and rejected
 
@@ -82,7 +68,8 @@ measured costs.
 
 ## Using the tools
 
-Both are read-only. `BASE` defaults to `/mnt/us/kindle-android`.
+Report commands are read-only; `--enable` creates a profiling marker in the
+active Android session. `BASE` defaults to `/mnt/us/kindle-android`.
 
 ```sh
 sh tuning/measure.sh                     # per-stage segment table for the last boot
@@ -100,12 +87,11 @@ sh tuning/display-profile.sh <log>       # compare/wait/total per frame, p50/p90
 extra instrumentation is needed to get a segment table.
 
 Take one measurement **before** applying the patch and one **after the second**
-cold boot (the first boot after the patch only writes the digest cache; the
+cold boot (the first boot after installation may rebuild the system cache; the
 second one hits it). Compare segment by segment — an overall number hides which
 change did what.
 
 ## Rollback
 
-Revert the commit, or restore the two loops and the two hashes by hand. There is
-no persistent state to clean up beyond the two `.sha-cache` files, which are
-harmless if left behind.
+To revert the polling change, restore the previous one-second loops. Remove the
+`.sha-cache` files to force full hashing on the next relevant startup path.

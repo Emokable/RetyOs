@@ -28,7 +28,7 @@ rm -f -- "$BASE/payload.tar.gz" "$BASE/payload.sha256" \
     "$BASE/start.sh" "$BASE/recover.sh" "$BASE/restore-framework.sh" "$BASE/prepare-data.sh" \
     "$BASE/network-relay.sh" "$BASE/rollback.sh" "$BASE/slirp4netns" "$BASE/slirp4netns-SHA256SUMS" \
     "$BASE/THIRD_PARTY_NOTICES.md" "$BASE/licenses/slirp4netns-COPYING" \
-    "$BASE/session.log" "$BASE/session-result.tar" "$BASE/network-relay.log" \
+    "$BASE/session.log" "$BASE/session-result.tar" "$BASE/start-transaction.state" "$BASE/start-transaction.state.new" "$BASE/network-relay.log" \
     "$BASE/framework-watchdog.log" "$BASE/framework-watchdog.pid"
 [ -d "$BASE/licenses" ] && rmdir "$BASE/licenses" 2>/dev/null || :
 if [ -e "$BASE/rollback-current" ]; then

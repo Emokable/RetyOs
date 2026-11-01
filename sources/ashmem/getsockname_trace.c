@@ -14,7 +14,21 @@
 #include <unistd.h>
 
 typedef int (*getsockname_fn)(int, struct sockaddr *, socklen_t *);
+/* Keep the compatibility interposers installed, but make diagnostic I/O opt-in.
+ * The old path opened and appended a file on every observed UNIX socket call. */
+static int diagnostics_enabled(void) {
+    static volatile int cached = 0; /* 0 unknown, 1 off, 2 on */
+    int value = cached;
+    if (value == 0) {
+        const char *enabled = getenv("KINDLE_FDTRACE_ENABLED");
+        int selected = enabled && !strcmp(enabled, "1") ? 2 : 1;
+        int previous = __sync_val_compare_and_swap(&cached, 0, selected);
+        value = previous == 0 ? selected : previous;
+    }
+    return value == 2;
+}
 static void trace_event(const char *format, ...) {
+    if (!diagnostics_enabled()) return;
     const char *path = getenv("KINDLE_FDTRACE_PATH");
     if (!path || !*path) return;
     char line[512]; va_list ap; va_start(ap, format);
@@ -26,6 +40,7 @@ static void trace_event(const char *format, ...) {
     if(fd>=0){(void)write(fd,line,(size_t)n);close(fd);}
 }
 __attribute__((constructor)) static void trace_loaded(void) {
+    if (!diagnostics_enabled()) return;
     const char *path = getenv("KINDLE_FDTRACE_PATH");
     if (!path || !*path) path = "/data/local/tmp/getsockname-trace.log";
     int fd = open(path, O_WRONLY | O_CREAT | O_APPEND | O_CLOEXEC, 0600);
@@ -73,7 +88,7 @@ int getsockname(int fd, struct sockaddr *address, socklen_t *length) {
     if (!real_getsockname) { errno = ENOSYS; return -1; }
     int rc = real_getsockname(fd, address, length);
     int saved_errno = errno;
-    if (address && length && address->sa_family == AF_UNIX) {
+    if (diagnostics_enabled() && address && length && address->sa_family == AF_UNIX) {
         const char *path = getenv("KINDLE_FDTRACE_PATH");
         if (path && *path) {
             char line[512];

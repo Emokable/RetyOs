@@ -77,6 +77,7 @@ mkdir -p "$work/bootstrap/rootfs/system"
 tar -cf "$work/bootstrap.tar" -C "$work/bootstrap" .
 bootstrap_sha=$(sha256sum "$work/bootstrap.tar" | awk '{print $1}')
 image_sha=$(sha256sum "$work/system.img" | awk '{print $1}')
+rm -f "$BASE/system-cache-bootstrap.sha-cache"
 mv "$work/system.img" "$BASE/system-cache.img"
 mv "$work/bootstrap.tar" "$BASE/system-cache-bootstrap.tar"
 printf '%s\n%s\n%s\n%s\n%s\n' "$key" "$image_sha" "$bootstrap_sha" "$((size * 1024))" "$(awk '{print $1}' "$BASE/payload.sha256")" > "$BASE/system-cache.ready.new"

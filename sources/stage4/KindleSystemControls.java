@@ -1,6 +1,10 @@
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.app.AlertDialog;
 import android.graphics.Color;
+import android.graphics.BitmapFactory;
+import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -17,6 +21,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import java.io.*;
+import java.util.Properties;
 import java.lang.reflect.*;
 import java.util.List;
 
@@ -36,6 +41,11 @@ public final class KindleSystemControls {
     static Handler main;
     static int mode;
     static int desktopUid = -1;
+    static boolean screensaverEnabled;
+    static String screensaverText = "RetyOs";
+    static String screensaverImage = "";
+    static volatile View screensaverView;
+    static boolean screensaverMonitorStarted;
     static final class ControlIcon extends Drawable {
         final String kind;
         final Paint paint=new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -66,6 +76,86 @@ public final class KindleSystemControls {
             out.write(text.getBytes("UTF-8"));
         }
     }
+    static void loadScreensaverSettings(){
+        Properties p=new Properties();try{FileInputStream in=new FileInputStream(TMP+"kindle-screensaver.properties");p.load(in);in.close();
+            screensaverEnabled="1".equals(p.getProperty("enabled","0"));
+            screensaverText=p.getProperty("text","RetyOs");screensaverImage=p.getProperty("image","");
+        }catch(Exception ignored){}
+    }
+    static void saveScreensaverSettings(){
+        try{Properties p=new Properties();p.setProperty("enabled",screensaverEnabled?"1":"0");p.setProperty("text",screensaverText);p.setProperty("image",screensaverImage);
+            FileOutputStream out=new FileOutputStream(TMP+"kindle-screensaver.properties");p.store(out,"RetyOs screensaver");out.close();write("kindle-screensaver-enabled",screensaverEnabled?"1\n":"0\n");
+            Log.i(TAG,"SCREENSAVER_SETTINGS_SAVED enabled="+screensaverEnabled+" image="+(!screensaverImage.isEmpty()));
+        }catch(Exception e){Log.e(TAG,"SCREENSAVER_SETTINGS_FAILED",e);}
+    }
+    static void screensaverMarker(String name){try{FileOutputStream out=new FileOutputStream(TMP+name);out.write("1\n".getBytes("UTF-8"));out.close();}catch(Exception e){Log.e(TAG,"SCREENSAVER_MARKER_FAILED "+name,e);}}
+    static void screensaverDebug(String message){
+        try{FileOutputStream out=new FileOutputStream(TMP+"kindle-screensaver-debug.log",true);
+            out.write((SystemClock.uptimeMillis()+" "+message+"\n").getBytes("UTF-8"));out.close();}
+        catch(Exception ignored){}
+    }
+    static void startScreensaverMonitor(){if(screensaverMonitorStarted)return;screensaverMonitorStarted=true;
+        new Thread(new Runnable(){public void run(){for(;;){
+            if(new File(TMP+"kindle-screensaver-hide").exists()&&!new File(TMP+"kindle-screensaver-hidden").exists())main.post(new Runnable(){public void run(){hideScreensaver();}});
+            else if(new File(TMP+"kindle-screensaver-show").exists()&&screensaverView==null)main.post(new Runnable(){public void run(){if(new File(TMP+"kindle-screensaver-show").exists()&&!new File(TMP+"kindle-screensaver-hide").exists())showScreensaver();}});
+            try{Thread.sleep(100);}catch(InterruptedException ignored){}
+        }}} ,"kindle-screensaver-watch").start();
+    }
+    static void showScreensaver(){
+        if(screensaverView!=null)return;
+        if(!new File(TMP+"kindle-screensaver-show").exists()||new File(TMP+"kindle-screensaver-hide").exists()){screensaverMarker("kindle-screensaver-hidden");return;}
+        try{loadScreensaverSettings();FrameLayout frame=new FrameLayout(context){
+            boolean submitted;
+            @Override protected void dispatchDraw(Canvas canvas){super.dispatchDraw(canvas);if(!submitted){submitted=true;
+                    main.postDelayed(new Runnable(){public void run(){
+                    if(screensaverView!=null&&new File(TMP+"kindle-screensaver-show").exists()&&!new File(TMP+"kindle-session-locked").exists()){
+                            screensaverDebug("FRAME_REQUEST_AFTER_DRAW=1");
+                        screensaverMarker("kindle-screensaver-frame-request");screensaverMarker("kindle-display-resume");
+                    }
+                }},300);
+            }}
+        };
+            // Keep the whole overlay transparent and let the selected image's
+            // own alpha channel decide which pixels reveal the content below.
+            frame.setBackgroundColor(Color.TRANSPARENT);
+            if(!screensaverImage.isEmpty()){
+                File root=new File(TMP+"kindle-screensaver-images").getCanonicalFile();File image=new File(screensaverImage).getCanonicalFile();String base=root.getPath();
+                if((image.getPath().equals(base)||image.getPath().startsWith(base+File.separator))&&image.isFile()){
+                    BitmapFactory.Options bounds=new BitmapFactory.Options();bounds.inJustDecodeBounds=true;BitmapFactory.decodeFile(image.getPath(),bounds);
+                    BitmapFactory.Options decode=new BitmapFactory.Options();decode.inPreferredConfig=Bitmap.Config.ARGB_8888;decode.inSampleSize=1;while(bounds.outWidth/decode.inSampleSize>1600||bounds.outHeight/decode.inSampleSize>2000)decode.inSampleSize*=2;
+                    Bitmap bitmap=BitmapFactory.decodeFile(image.getPath(),decode);
+                    if(bitmap==null){screensaverDebug("IMAGE_DECODE_FAILED path="+image.getName()+" bounds="+bounds.outWidth+"x"+bounds.outHeight);screensaverMarker("kindle-screensaver-ui-failed");return;}
+                    screensaverDebug("IMAGE_DECODE_OK path="+image.getName()+" bounds="+bounds.outWidth+"x"+bounds.outHeight+" decoded="+bitmap.getWidth()+"x"+bitmap.getHeight()+" hasAlpha="+bitmap.hasAlpha()+" config="+bitmap.getConfig());
+                    android.widget.ImageView picture=new android.widget.ImageView(context);picture.setImageBitmap(bitmap);picture.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    frame.addView(picture,new FrameLayout.LayoutParams(-1,-1));
+                }else Log.w(TAG,"SCREENSAVER_IMAGE_REJECTED=outside_shared_storage");
+            }
+            if(screensaverText!=null&&!screensaverText.trim().isEmpty()){
+                TextView caption=menuText(screensaverText);caption.setTextColor(Color.WHITE);caption.setTextSize(25);caption.setGravity(Gravity.CENTER);caption.setShadowLayer(3,1,1,Color.BLACK);
+                FrameLayout.LayoutParams lp=new FrameLayout.LayoutParams(-1,dp(100),Gravity.BOTTOM);lp.leftMargin=dp(24);lp.rightMargin=dp(24);lp.bottomMargin=dp(90);frame.addView(caption,lp);
+            }
+            frame.setFocusableInTouchMode(true);frame.setOnTouchListener(new View.OnTouchListener(){public boolean onTouch(View v,MotionEvent event){return true;}});
+            frame.setOnKeyListener(new View.OnKeyListener(){public boolean onKey(View v,int keyCode,KeyEvent event){return true;}});
+            WindowManager.LayoutParams layout=new WindowManager.LayoutParams(-1,-1,2003,
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN|WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS|WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,PixelFormat.TRANSLUCENT);
+            layout.gravity=Gravity.TOP|Gravity.LEFT;layout.setTitle("RetyOs screensaver");
+            ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).addView(frame,layout);frame.requestFocus();screensaverView=frame;
+            screensaverDebug("OVERLAY_ADDED image="+(!screensaverImage.isEmpty()));
+            Log.i(TAG,"SCREENSAVER_OVERLAY_SHOWN image="+(!screensaverImage.isEmpty()));
+        }catch(Throwable error){screensaverDebug("OVERLAY_FAILED="+error.getClass().getName()+":"+String.valueOf(error.getMessage()));Log.e(TAG,"SCREENSAVER_OVERLAY_FAILED",error);screensaverMarker("kindle-screensaver-ui-failed");}
+    }
+    static void hideScreensaver(){
+        if(screensaverView!=null){try{((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).removeViewImmediate(screensaverView);}catch(Throwable e){Log.w(TAG,"SCREENSAVER_OVERLAY_REMOVE_FAILED",e);}screensaverView=null;}
+        screensaverMarker("kindle-screensaver-hidden");screensaverDebug("OVERLAY_HIDDEN=1");Log.i(TAG,"SCREENSAVER_OVERLAY_HIDDEN=1");
+    }
+    static File[] screensaverImageFiles(){
+        java.util.ArrayList<File> files=new java.util.ArrayList<File>();
+        try{File root=new File(TMP+"kindle-screensaver-images").getCanonicalFile();java.util.ArrayList<File> dirs=new java.util.ArrayList<File>();dirs.add(root);
+            for(File dir:dirs){File[] list=dir.listFiles();if(list==null)continue;for(File f:list)if(f.isFile()&&f.getName().matches("(?i).+\\.(png|jpe?g|bmp|webp)$")){
+                String path=f.getCanonicalPath();if(path.startsWith(root.getPath()+File.separator)){boolean duplicate=false;for(File old:files)if(old.getCanonicalPath().equals(path))duplicate=true;if(!duplicate)files.add(f);}
+            }}
+        }catch(Exception e){Log.w(TAG,"SCREENSAVER_IMAGE_LIST_FAILED",e);}return files.toArray(new File[files.size()]);
+    }
     static Object call(Object target, String name, Class<?>[] types, Object... args) throws Exception {
         return target.getClass().getMethod(name, types).invoke(target, args);
     }
@@ -89,6 +179,7 @@ public final class KindleSystemControls {
             else if(request.equals("full"))fullRefresh();
             else if(request.equals("mode"))setMode((mode+1)%3);
             else if(request.equals("settings"))showDisplayMenu();
+            else if(request.equals("screensaver-settings"))showScreensaverMenu();
             else if(request.equals("network"))probeNetwork();
             else if(request.equals("animation")){animations=!animations;readerSettings();}
             else if(request.equals("hidebar"))setBarVisible(false);
@@ -252,7 +343,10 @@ public final class KindleSystemControls {
     }
     static void pulse(){modeButton.setAlpha(0.35f);main.postDelayed(new Runnable(){public void run(){modeButton.setAlpha(1f);}},250);}
     static void fullRefresh(){try{write("kindle-display-full-refresh","1\n");pulse();Log.i(TAG,"CONTROL_FULL_REFRESH_REQUESTED=1");}catch(Exception e){Log.e(TAG,"REFRESH_FAILED",e);}}
-    static void setMode(int value){try{mode=value;write("kindle-display-mode",new String[]{"auto","reading","fast"}[mode]);fullRefresh();Log.i(TAG,"CONTROL_REFRESH_MODE="+mode);}catch(Exception e){Log.e(TAG,"MODE_FAILED",e);}}
+    static void setMode(int value){try{if(value<0||value>2)throw new IllegalArgumentException("mode");mode=value;
+        write("kindle-display-mode",new String[]{"auto","reading","fast"}[mode]);
+        Log.i(TAG,"CONTROL_REFRESH_MODE="+mode+" apply=next_frame full_refresh=0");
+    }catch(Exception e){Log.e(TAG,"MODE_FAILED",e);}}
     static boolean dismissSettings(){
         if(settingsDialog!=null && settingsDialog.isShowing()){
             settingsDialog.dismiss();Log.i(TAG,"INK_SETTINGS_DISMISSED=1");return true;
@@ -285,6 +379,16 @@ public final class KindleSystemControls {
             choice.setOnClickListener(new View.OnClickListener(){public void onClick(View v){setMode(index);for(int j=0;j<picks.length;j++){picks[j].setBackground(card(j==mode?0xff222222:0xfff4f4f4,j==mode?0xff222222:0xffe0e0e0,8));picks[j].setTextColor(j==mode?Color.WHITE:Color.BLACK);}}});
         }content.addView(modes);
         TextView modeNote=menuText("彩色保留色彩，清晰适合正文；快速模式可能增加残影。");modeNote.setTextSize(11);modeNote.setTextColor(0xff777777);content.addView(modeNote,new LinearLayout.LayoutParams(-1,dp(36)));
+        section(content,"性能诊断");
+        CompoundButton displayTrace=settingSwitch("记录显示阶段耗时",new File(TMP+"kindle-display-profile").isFile());
+        content.addView(displayTrace,new LinearLayout.LayoutParams(-1,dp(44)));
+        TextView traceNote=menuText("默认关闭。开启后会记录像素转换、差异比较、帧复制和 HWTCON 提交/等待耗时。");
+        traceNote.setTextSize(11);traceNote.setTextColor(0xff777777);content.addView(traceNote,new LinearLayout.LayoutParams(-1,dp(36)));
+        displayTrace.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){public void onCheckedChanged(CompoundButton view,boolean checked){
+            try{if(checked)write("kindle-display-profile","1\n");else new File(TMP+"kindle-display-profile").delete();
+                Log.i(TAG,"DISPLAY_PROFILE_ENABLED="+(checked?1:0));}
+            catch(Exception e){Log.e(TAG,"DISPLAY_PROFILE_SETTING_FAILED",e);}
+        }});
         CompoundButton animationSwitch=settingSwitch("翻页动画",animations);content.addView(animationSwitch,new LinearLayout.LayoutParams(-1,dp(44)));
         animationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){public void onCheckedChanged(CompoundButton view,boolean checked){animations=checked;try{readerSettings();}catch(Exception e){Log.e(TAG,"ANIMATION_SETTING_FAILED",e);}}});
         section(content,"翻页动画步数");
@@ -313,6 +417,29 @@ public final class KindleSystemControls {
         int maxHeight=Math.max(dp(360),context.getResources().getDisplayMetrics().heightPixels-dp(150));
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));window.setLayout(Math.min(dp(356),context.getResources().getDisplayMetrics().widthPixels-dp(36)),Math.min(maxHeight,dp(620)));
         Log.i(TAG,"INK_SETTINGS_OPENED=1 close_controls=3");
+    }
+    static void showScreensaverMenu(){
+        dismissSettings();final android.app.Dialog dialog=new android.app.Dialog(context);settingsDialog=dialog;
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);dialog.getWindow().setType(2003);dialog.setCanceledOnTouchOutside(true);
+        LinearLayout content=new LinearLayout(context);content.setOrientation(1);content.setPadding(dp(20),dp(16),dp(20),dp(16));content.setBackgroundColor(Color.WHITE);
+        loadScreensaverSettings();section(content,"息屏画面");
+        CompoundButton saverSwitch=settingSwitch("启用自定义息屏画面",screensaverEnabled);content.addView(saverSwitch,new LinearLayout.LayoutParams(-1,dp(44)));
+        saverSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){public void onCheckedChanged(CompoundButton view,boolean checked){screensaverEnabled=checked;saveScreensaverSettings();}});
+        final EditText captionInput=new EditText(context);captionInput.setSingleLine(true);captionInput.setText(screensaverText);captionInput.setHint("息屏文字，例如：正在阅读");captionInput.setTextSize(15);captionInput.setPadding(dp(10),0,dp(10),0);captionInput.setBackground(card(0xfff7f7f7,0xffdddddd,8));
+        captionInput.setSoundEffectsEnabled(false);
+        captionInput.setFilters(new android.text.InputFilter[]{new android.text.InputFilter.LengthFilter(80)});
+        content.addView(captionInput,new LinearLayout.LayoutParams(-1,dp(46)));captionInput.setOnFocusChangeListener(new View.OnFocusChangeListener(){public void onFocusChange(View v,boolean hasFocus){if(!hasFocus){screensaverText=captionInput.getText().toString();saveScreensaverSettings();}}});
+        final TextView imageChoice=menuText(screensaverImage.isEmpty()?"选择息屏图片（可选）":"已选择息屏图片  ·  更换");imageChoice.setGravity(Gravity.CENTER);imageChoice.setBackground(card(0xfff4f4f4,0xffdddddd,8));
+        content.addView(imageChoice,new LinearLayout.LayoutParams(-1,dp(42)));imageChoice.setOnClickListener(new View.OnClickListener(){public void onClick(View v){final File[] files=screensaverImageFiles();
+            if(files.length==0){final AlertDialog empty=new AlertDialog.Builder(context).setTitle("没有找到壁纸图片").setMessage("请先把 PNG、JPG、WebP 或 BMP 图片复制到 Kindle 的 AndroidFiles 文件夹根目录，再回来选择。PNG 透明区域会透出下层画面。")
+                .setPositiveButton("知道了",null).create();empty.getWindow().setType(2003);empty.show();empty.getButton(-1).setSoundEffectsEnabled(false);return;}
+            final String[] labels=new String[files.length+1];labels[0]="不使用图片";for(int i=0;i<files.length;i++)labels[i+1]=files[i].getName();
+            final AlertDialog picker=new AlertDialog.Builder(context).setTitle("选择息屏图片").setItems(labels,new DialogInterface.OnClickListener(){public void onClick(DialogInterface d,int which){screensaverImage=which==0?"":files[which-1].getAbsolutePath();
+                saveScreensaverSettings();imageChoice.setText(screensaverImage.isEmpty()?"选择息屏图片（可选）":"已选择："+new File(screensaverImage).getName());}}).create();picker.getWindow().setType(2003);picker.show();picker.getListView().setSoundEffectsEnabled(false);}});
+        TextView saverHint=menuText("PNG 会保留自身透明效果，透明处显示下层画面；JPG 等不透明图片原样显示。图片放入 AndroidFiles 根目录。短按电源键息屏，再按一次唤醒。");saverHint.setTextSize(11);saverHint.setTextColor(0xff777777);saverHint.setLineSpacing(dp(2),1f);content.addView(saverHint,new LinearLayout.LayoutParams(-1,dp(54)));
+        TextView done=menuText("完成");done.setGravity(Gravity.CENTER);content.addView(done,new LinearLayout.LayoutParams(-1,dp(46)));
+        done.setOnClickListener(new View.OnClickListener(){public void onClick(View v){screensaverText=captionInput.getText().toString();saveScreensaverSettings();dialog.dismiss();}});
+        dialog.setContentView(content);dialog.show();dialog.getWindow().setWindowAnimations(0);dialog.getWindow().setLayout(Math.min(dp(356),context.getResources().getDisplayMetrics().widthPixels-dp(36)),-2);
     }
     static Drawable card(int color,int stroke,int radius){android.graphics.drawable.GradientDrawable d=new android.graphics.drawable.GradientDrawable();d.setColor(color);d.setStroke(dp(1),stroke);d.setCornerRadius(dp(radius));return d;}
     static void section(LinearLayout panel,String label){TextView title=menuText(label);title.setTextSize(12);title.setTextColor(0xff777777);LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(-1,dp(26));lp.topMargin=dp(8);panel.addView(title,lp);}
@@ -517,8 +644,20 @@ public final class KindleSystemControls {
         context=(Context)activityThread.getMethod("getSystemContext").invoke(thread);
         try{desktopUid=context.getPackageManager().getApplicationInfo("org.kindlelab.apkprobe",0).uid;}
         catch(Exception e){Log.e(TAG,"DESKTOP_UID_LOOKUP_FAILED",e);}
+        mode=0;
+        try{BufferedReader savedMode=new BufferedReader(new FileReader(TMP+"kindle-display-mode"));
+            String value=savedMode.readLine();savedMode.close();
+            if("reading".equals(value))mode=1;else if("fast".equals(value))mode=2;
+        }catch(Exception ignored){}
+        try{write("kindle-display-mode",new String[]{"auto","reading","fast"}[mode]);}
+        catch(Exception e){Log.e(TAG,"MODE_RESTORE_FAILED",e);}
         ensureTextClipboard();
         grantDesktopStorage();
+        loadScreensaverSettings();
+        if(!new File(TMP+"kindle-session-locked").exists()){
+            for(String marker:new String[]{"kindle-screensaver-show","kindle-screensaver-hide","kindle-screensaver-frame-request","kindle-screensaver-frame-complete","kindle-screensaver-hidden","kindle-screensaver-ui-failed"})
+                new File(TMP+marker).delete();
+        }
         try{BufferedReader saved=new BufferedReader(new FileReader(TMP+"kindle-display-animation-steps"));int value=Integer.parseInt(saved.readLine());saved.close();
             if(value==6||value==12||value==18)animationSteps=value;
         }catch(Exception ignored){}
@@ -526,6 +665,7 @@ public final class KindleSystemControls {
             readerSettings();
         }catch(Throwable e){Log.e(TAG,"READER_SETTINGS_FAILED",e);}
         try {addBar();}catch(Throwable e){Log.e(TAG,"SYSTEM_CONTROLS_FAILED",e);}
+        startScreensaverMonitor();
         startCommandSocket();
         new Handler().postDelayed(new Runnable(){public void run(){registerNetwork();}},3000);
         Looper.loop();

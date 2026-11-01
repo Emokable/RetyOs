@@ -495,6 +495,24 @@ static int package_data_present(void) {
     return wait_child(child) == 0;
 }
 
+static int package_registered(const char *package) {
+    FILE *packages = fopen(PACKAGES_LIST, "r");
+    if (!packages) return 0;
+    char line[1024];
+    int registered = 0;
+    while (fgets(line, sizeof(line), packages)) {
+        char name[256];
+        unsigned int uid;
+        if (sscanf(line, "%255s %u", name, &uid) == 2 &&
+            strcmp(name, package) == 0 && uid >= 10000) {
+            registered = 1;
+            break;
+        }
+    }
+    fclose(packages);
+    return registered;
+}
+
 static int package_code_present_for(const char *package) {
     pid_t child = fork();
     if (child < 0) return 0;
@@ -832,6 +850,7 @@ static int ensure_android_system_user_unlocked(int wait_for_user_boot) {
 }
 
 static int dump_weread_package_state(int api_only);
+static int dump_weread_aot_state(void);
 
 static int set_weread_launcher_state(const char *state) {
     char component[] = "com.tencent.weread.eink/com.tencent.weread.LauncherActivity";
@@ -869,6 +888,13 @@ static int dump_weread_package_state(int api_only) {
     char *args[] = {"/system/bin/app_process32", "/system/bin",
                     "org.kindlelab.diagnostics.PackageServiceDump",
                     "com.tencent.weread.eink", api_only ? "api-only" : NULL, NULL};
+    return run_android_command("/system/framework/kindlelab-package-dump.jar", args);
+}
+
+static int dump_weread_aot_state(void) {
+    char *args[] = {"/system/bin/app_process32", "/system/bin",
+                    "org.kindlelab.diagnostics.PackageServiceDump",
+                    "com.tencent.weread.eink", "aot-only", NULL};
     return run_android_command("/system/framework/kindlelab-package-dump.jar", args);
 }
 
@@ -981,6 +1007,8 @@ int main(void) {
      * persistent session gets time for PackageManager and ActivityManager to
      * finish their first-boot scans. */
     const int service_wait_seconds = persistent_session ? 180 : 42;
+    struct timespec framework_wait_start;
+    clock_gettime(CLOCK_MONOTONIC, &framework_wait_start);
     for (int i = 0; i < service_wait_seconds; ++i) {
         if (service_ready("package") && service_ready("activity") && service_ready("mount")) { ready = 1; break; }
         if (persistent_session && i > 0 && i % 15 == 0) {
@@ -989,18 +1017,27 @@ int main(void) {
         }
         sleep(1);
     }
+    struct timespec framework_wait_end;
+    clock_gettime(CLOCK_MONOTONIC, &framework_wait_end);
+    long long framework_wait_ms =
+        (long long)(framework_wait_end.tv_sec - framework_wait_start.tv_sec) * 1000LL +
+        (framework_wait_end.tv_nsec - framework_wait_start.tv_nsec) / 1000000LL;
     if (!ready) {
+        printf("APK_FRAMEWORK_SERVICE_WAIT_MS=%lld result=timeout\n", framework_wait_ms);
         printf("APK_SERVICE_STATUS package=%d activity=%d mount=%d\n",
                service_ready("package"), service_ready("activity"), service_ready("mount"));
         puts("APK_FRAMEWORK_SERVICES_NOT_READY");
         return 21;
     }
+    printf("APK_FRAMEWORK_SERVICE_WAIT_MS=%lld result=ready\n", framework_wait_ms);
     puts("APK_FRAMEWORK_SERVICES_READY=package,activity,mount");
     if (persistent_session) (void)configure_session_dns();
     /* Keep an identical, previously tested desktop installed. Updating through
      * PackageManager preserves its data and avoids an extra uninstall JVM. */
-    int reuse_desktop=persistent_session && desktop_apk_matches() && package_data_present();
-    printf("ANDROID_DESKTOP_REUSE=%d\n",reuse_desktop);
+    int desktop_registered=package_registered(PACKAGE);
+    int reuse_desktop=persistent_session && desktop_apk_matches() &&
+                      package_data_present() && desktop_registered;
+    printf("ANDROID_DESKTOP_REUSE=%d registered=%d\n",reuse_desktop,desktop_registered);
     boot_checkpoint("framework-ready");
     /* The property service does not publish sys.boot_completed in this isolated
      * session even after package/activity/mount are usable. Avoid a known
@@ -1029,6 +1066,12 @@ int main(void) {
         puts("ANDROID_USER_UNLOCK_BOOTSTRAP_BEGIN=1 user=0");
         (void)ensure_android_system_user_unlocked(weread_test_requested);
     }
+    const char *weread_diagnostics = getenv("KINDLELAB_WEREAD_DIAGNOSTICS");
+    if (persistent_session && weread_diagnostics &&
+        strcmp(weread_diagnostics, "1") == 0) {
+        puts("WEREAD_AOT_DIAGNOSTICS_BEGIN=1 mode=read-only no-launch no-permission-change");
+        printf("WEREAD_AOT_DIAGNOSTICS_EXIT=%d\n", dump_weread_aot_state());
+    }
     if (persistent_session && weread_test_requested)
         (void)repair_package_data_owner("com.tencent.weread.eink");
     /* On a re-install, Android 7 may retain the package's old denied runtime
@@ -1056,11 +1099,16 @@ int main(void) {
     int install_rc = reuse_desktop ? 0 : run_install();
     boot_checkpoint("desktop-installed");
     printf("APK_PM_INSTALL_EXIT=%d\n", install_rc);
+    if (!reuse_desktop) {
+        for (int attempt = 0; attempt < 10 && !package_registered(PACKAGE); ++attempt)
+            sleep(1);
+    }
     dump_directory("/data/app");
     dump_directory("/data/user_de/0");
     dump_directory("/data/user/0");
     dump_directory("/data/data");
-    if (install_rc != 0 || !package_code_present() || !package_data_present()) {
+    if (install_rc != 0 || !package_code_present() || !package_data_present() ||
+        !package_registered(PACKAGE)) {
         printf("APK_INSTALL_STATE code=%d data=%d\n", package_code_present(), package_data_present());
         if (install_rc == 124) {
             puts("APK_INSTALL_CLEANUP_DEFERRED=1 reason=bounded_pm_timeout_namespace_shutdown_will_reconcile");

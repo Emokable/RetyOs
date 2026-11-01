@@ -137,6 +137,9 @@ public final class ApkProbeActivity extends Activity {
         header.addView(exitButton,new LinearLayout.LayoutParams(dp(64),dp(48)));
         exitButton.setOnClickListener(new View.OnClickListener(){public void onClick(View v){exit();}});
         page.addView(header);
+        TextView wallpaper=text("息屏壁纸",14);wallpaper.setGravity(Gravity.CENTER);header.addView(wallpaper,3,new LinearLayout.LayoutParams(dp(80),dp(48)));
+        wallpaper.setOnClickListener(new View.OnClickListener(){public void onClick(View v){new Thread(new Runnable(){public void run(){android.net.LocalSocket socket=new android.net.LocalSocket();try{socket.connect(new android.net.LocalSocketAddress("kindle-controls",android.net.LocalSocketAddress.Namespace.ABSTRACT));socket.getOutputStream().write("screensaver-settings\n".getBytes("UTF-8"));}catch(Exception e){Log.e("KindleAndroidDesktop","SCREENSAVER_SETTINGS_FAILED",e);}finally{try{socket.close();}catch(Exception ignored){}}}} ,"screensaver-settings").start();}});
+
         LinearLayout statusRow=new LinearLayout(this);statusRow.setGravity(Gravity.CENTER_VERTICAL);
         deviceStatus=text("时间与电量读取中",15);deviceStatus.setTextColor(0xff555555);
         deviceStatus.setBackgroundColor(0x00ffffff);deviceStatus.setPadding(dp(4),0,dp(4),0);
@@ -186,7 +189,9 @@ public final class ApkProbeActivity extends Activity {
                 }
             }
         }
-        statusActive=true;if(android.os.SystemClock.uptimeMillis()-lastAppsQueryUptime>5000)appsDirty=true;
+        // Package broadcasts invalidate the snapshot immediately. Avoid a full
+        // PackageManager launcher query on every short app round trip.
+        statusActive=true;if(android.os.SystemClock.uptimeMillis()-lastAppsQueryUptime>30000)appsDirty=true;
         listApps();statusHandler.removeCallbacks(statusTick);statusHandler.post(statusTick);}
     @Override protected void onPause(){statusActive=false;clearQueuedLaunch();statusHandler.removeCallbacks(statusTick);statusHandler.removeCallbacks(refreshAppsAfterPackageChange);super.onPause();}
     @Override protected void onDestroy(){desktopDestroyed=true;statusHandler.removeCallbacks(startupAppsRefresh);statusHandler.removeCallbacks(refreshAppsAfterPackageChange);try{unregisterReceiver(packageChanges);unregisterReceiver(userStateChanges);}catch(Exception ignored){}super.onDestroy();}
@@ -301,6 +306,9 @@ public final class ApkProbeActivity extends Activity {
                 rememberBackground(activePackage);
             }else if(activePackage==null&&target.equals(backgroundPackage))rememberBackground(null);
         }
+        Log.i("KindleLatency","TRACE event=app_reclaim_plan trace_id="+traceId+" package="+target+
+                " mode="+mode+" pressure_reclaim="+pressureReclaim+" stop_count="+stop.size()+
+                " uptime_ns="+(android.os.SystemClock.uptimeMillis()*1000000L));
         stopThenLaunch(stop,0,target,launchIntent,generation,traceId,requestUptimeNs);
     }
     void stopThenLaunch(final List<String> packages,final int index,final String target,final Intent intent,final int generation,final String traceId,final long requestUptimeNs){
@@ -318,18 +326,22 @@ public final class ApkProbeActivity extends Activity {
         }
         requestForceStop(packages.get(index),new StopCallback(){public void done(boolean ok){
             if(generation!=operationGeneration)return;
+            Log.i("KindleLatency","TRACE event=app_reclaim_complete trace_id="+traceId+" package="+
+                    packages.get(index)+" target="+target+" ok="+ok+" remaining="+
+                    (packages.size()-index-1)+" uptime_ns="+(android.os.SystemClock.uptimeMillis()*1000000L));
             if(!ok){appLaunchPending=false;clearQueuedLaunch();Toast.makeText(ApkProbeActivity.this,"上一个应用暂未结束，请重试",Toast.LENGTH_SHORT).show();return;}
             stopThenLaunch(packages,index+1,target,intent,generation,traceId,requestUptimeNs);
         }});
     }
     void requestForceStop(final String pkg,final StopCallback completion){new Thread(new Runnable(){public void run(){android.net.LocalSocket socket=new android.net.LocalSocket();boolean ok=false;try{
+        final long reclaimStart=android.os.SystemClock.uptimeMillis();
         try{getPackageManager().getApplicationInfo(pkg,0);}catch(PackageManager.NameNotFoundException removed){ok=true;return;}
         socket.connect(new android.net.LocalSocketAddress("kindle-controls",android.net.LocalSocketAddress.Namespace.ABSTRACT));socket.setSoTimeout(8000);
         socket.getOutputStream().write(("force-stop "+pkg+"\n").getBytes("UTF-8"));
         String result=new java.io.BufferedReader(new java.io.InputStreamReader(socket.getInputStream(),"UTF-8")).readLine();
         ok="OK".equals(result);
-        if(!"OK".equals(result))Log.w("KindleAndroidDesktop","APP_POLICY_FORCE_STOP_RESULT package="+pkg+" result="+result);
-        Log.i("KindleAndroidDesktop","APP_POLICY_FORCE_STOP_REQUESTED package="+pkg);
+        Log.i("KindleLatency","TRACE event=app_reclaim_reply package="+pkg+" ok="+ok+" elapsed_ms="+
+                (android.os.SystemClock.uptimeMillis()-reclaimStart)+" result="+result);
     }catch(Exception error){Log.e("KindleAndroidDesktop","APP_POLICY_FORCE_STOP_REQUEST_FAILED package="+pkg,error);}finally{
         try{socket.close();}catch(Exception ignored){}final boolean success=ok;
         runOnUiThread(new Runnable(){public void run(){

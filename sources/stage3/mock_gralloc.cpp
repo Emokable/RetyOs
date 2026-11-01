@@ -61,6 +61,7 @@ uint32_t gLastWaitMarker = 0;
 uint64_t gLastWaitSubmittedUs = 0;
 uint64_t gLastWaitTraceId = 0;
 bool gScrollWasFast = false;
+bool gDisplayProfileEnabled = false;
 static uint64_t monotonicUs();
 static int waitForPanel(uint32_t marker,uint64_t traceId,uint64_t submittedUs,const char* reason);
 void stopAsyncDisplay();
@@ -175,11 +176,12 @@ static int waitForPanel(uint32_t marker,uint64_t traceId,uint64_t submittedUs,co
     // This wait may start on the next frame, long after the panel completed.
     // MTK's kernel also returns zero on its timeout path. Record actual blocking
     // separately from the age of the submitted marker; neither is an IRQ time.
-    fprintf(stderr,"KINDLE_LATENCY_TRACE event=panel_wait_return trace_id=%s%llu marker=%u monotonic_ns=%llu wait_begin_ns=%llu wait_us=%llu submit_age_at_wait_us=%llu elapsed_since_submit_us=%llu ioctl_rc=%d ioctl_errno=%d completion_verified=0 reason=%s\n",
-        traceId?"touch-":"none-",(unsigned long long)traceId,marker,(unsigned long long)(end*1000),
-        (unsigned long long)(begin*1000),(unsigned long long)(end-begin),
-        (unsigned long long)(begin-submittedUs),(unsigned long long)(end-submittedUs),
-        result,result?savedErrno:0,reason);
+    if(gDisplayProfileEnabled)
+        fprintf(stderr,"KINDLE_LATENCY_TRACE event=panel_wait_return trace_id=%s%llu marker=%u monotonic_ns=%llu wait_begin_ns=%llu wait_us=%llu submit_age_at_wait_us=%llu elapsed_since_submit_us=%llu ioctl_rc=%d ioctl_errno=%d completion_verified=0 reason=%s\n",
+            traceId?"touch-":"none-",(unsigned long long)traceId,marker,(unsigned long long)(end*1000),
+            (unsigned long long)(begin*1000),(unsigned long long)(end-begin),
+            (unsigned long long)(begin-submittedUs),(unsigned long long)(end-submittedUs),
+            result,result?savedErrno:0,reason);
     errno=savedErrno;return result;
 }
 int fbPostHwtcon(buffer_handle_t handle) {
@@ -201,6 +203,7 @@ int fbPostHwtcon(buffer_handle_t handle) {
     std::lock_guard<std::mutex> guard(gHwtconLock);
     int status = ensureHwtconOpen();
     if (status != 0) { munmap(sourceMap, static_cast<size_t>(requiredBytes)); return status; }
+    gDisplayProfileEnabled=access("/data/local/tmp/kindle-display-profile",F_OK)==0;
     const bool androidSession = getenv("KINDLE_ANDROID_SESSION") &&
             strcmp(getenv("KINDLE_ANDROID_SESSION"), "1") == 0;
     // Android exclusively owns the display. Keep comparisons in cached RAM
@@ -253,9 +256,16 @@ int fbPostHwtcon(buffer_handle_t handle) {
     if (stepsEnd != stepsText && (*stepsEnd == '\0' || *stepsEnd == '\n') &&
             (requestedSteps == 6 || requestedSteps == 12 || requestedSteps == 18))
         animationSteps = static_cast<unsigned>(requestedSteps);
-    if (grayscale || monochrome)
+    // A screensaver is a photographic/static image, so it must not inherit the
+    // reader's fast monochrome/gray conversion. It also needs a full waveform
+    // update before the host power guard dims the frontlight; a partial update
+    // can otherwise remain queued and only become apparent on the next wake.
+    const bool screensaverFrame = access("/data/local/tmp/kindle-screensaver-frame-request", F_OK) == 0;
+    const uint64_t convertBeginUs=monotonicUs();
+    if (!screensaverFrame && (grayscale || monochrome))
         kindle_a71::ConvertReadingRgba8888(static_cast<uint8_t*>(sourceMap),
                 kMockWidth, kMockHeight, static_cast<uint32_t>(sourcePitch), monochrome);
+    const uint64_t convertEndUs=monotonicUs();
     static int previousMode=-1;int selectedMode=monochrome?2:grayscale?1:0;
     if(previousMode!=selectedMode){fprintf(stderr,"HWTCON_DISPLAY_MODE=%d pixels=%s\n",selectedMode,monochrome?"black-white":grayscale?"gray16":"color");previousMode=selectedMode;}
     const uint64_t compareBeginUs=monotonicUs();
@@ -268,7 +278,7 @@ int fbPostHwtcon(buffer_handle_t handle) {
     const uint64_t compareEndUs=monotonicUs();
     static unsigned long long lastAnimatedGesture=0;
     static uint64_t lastLoggedTraceId=0;
-    const bool manualFull = access("/data/local/tmp/kindle-display-full-refresh", F_OK) == 0;
+    const bool manualFull = screensaverFrame || access("/data/local/tmp/kindle-display-full-refresh", F_OK) == 0;
     // A completed gesture must not animate an unrelated screen minutes later,
     // for example the first new frame after idle lock or slow app startup.
     const bool gestureFresh = gestureToken > 0 && gestureNow >= gestureToken &&
@@ -298,6 +308,7 @@ int fbPostHwtcon(buffer_handle_t handle) {
         gLastWaitMarker=0;
     }
     const uint64_t waitEndUs=monotonicUs();
+    const uint64_t copyDamageBeginUs=monotonicUs();
     if (!kindle_a71::CopyDamageRgba8888(static_cast<const uint8_t*>(sourceMap),
             static_cast<uint32_t>(sourcePitch), gHwtconMap, gHwtconLayout, damage)) {
         munmap(sourceMap, static_cast<size_t>(requiredBytes));
@@ -305,6 +316,7 @@ int fbPostHwtcon(buffer_handle_t handle) {
     }
     if(gHwtconShadow)kindle_a71::CopyDamageRgba8888(static_cast<const uint8_t*>(sourceMap),
             static_cast<uint32_t>(sourcePitch),gHwtconShadow,gHwtconLayout,damage);
+    const uint64_t copyDamageEndUs=monotonicUs();
     munmap(sourceMap, static_cast<size_t>(requiredBytes));
     const uint64_t frameReadyUs=monotonicUs();
     if(traceId)
@@ -353,21 +365,30 @@ int fbPostHwtcon(buffer_handle_t handle) {
     completion.update_marker = update.update_marker;
     /* Submission wait protects framebuffer reuse; it can block SurfaceFlinger.
      * Full refresh also drains physical completion before returning. */
+    const uint64_t sendBeginUs=monotonicUs();
     if (ioctl(gHwtconFd, MXCFB_SEND_UPDATE, &update) != 0) return -errno;
     const uint64_t sentUs = monotonicUs();
+    const uint64_t sendUpdateUs=sentUs-sendBeginUs;
     uint32_t submittedMarker = update.update_marker;
+    const uint64_t submissionWaitBeginUs=monotonicUs();
     if (ioctl(gHwtconFd, MXCFB_WAIT_FOR_UPDATE_SUBMISSION, &submittedMarker) != 0) return -errno;
+    const uint64_t submissionWaitUs=monotonicUs()-submissionWaitBeginUs;
     if (manualFull) unlink("/data/local/tmp/kindle-display-full-refresh");
     completion.update_marker = update.update_marker;
+    uint64_t fullDrainPreviousUs=0, completeWaitUs=0;
     if (manualFull || update.update_mode == UPDATE_MODE_FULL) {
         std::lock_guard<std::mutex> waitGuard(gHwtconWaitLock);
         if (gLastWaitMarker != 0) {
             const uint32_t completedMarker=gLastWaitMarker;
             const uint64_t completedTraceId=gLastWaitTraceId;
             const uint64_t completedSubmitUs=gLastWaitSubmittedUs;
+            const uint64_t drainBeginUs=monotonicUs();
             if (waitForPanel(completedMarker,completedTraceId,completedSubmitUs,"full_drain_previous") != 0) return -errno;
+            fullDrainPreviousUs=monotonicUs()-drainBeginUs;
         }
+        const uint64_t completeWaitBeginUs=monotonicUs();
         if (waitForPanel(update.update_marker,traceId,sentUs,"full_update") != 0) return -errno;
+        completeWaitUs=monotonicUs()-completeWaitBeginUs;
         gLastWaitMarker = 0;
     } else {
         gLastWaitMarker = update.update_marker;
@@ -378,9 +399,15 @@ int fbPostHwtcon(buffer_handle_t handle) {
     const uint64_t finishedUs = monotonicUs();
     const bool firstFrameForTrace=traceId!=0&&traceId!=lastLoggedTraceId;
     if(firstFrameForTrace)lastLoggedTraceId=traceId;
-    if(access("/data/local/tmp/kindle-display-profile",F_OK)==0)
-        fprintf(stderr,"HWTCON_PROFILE wait_us=%llu compare_us=%llu total_us=%llu\n",
-            (unsigned long long)(waitEndUs-waitBeginUs),(unsigned long long)(compareEndUs-compareBeginUs),
+    if(gDisplayProfileEnabled)
+        fprintf(stderr,"HWTCON_PROFILE version=2 convert_us=%llu compare_us=%llu previous_panel_wait_us=%llu full_drain_previous_us=%llu copy_damage_us=%llu send_update_us=%llu wait_submission_us=%llu wait_update_complete_ioctl_us=%llu post_total_us=%llu\n",
+            (unsigned long long)(convertEndUs-convertBeginUs),
+            (unsigned long long)(compareEndUs-compareBeginUs),
+            (unsigned long long)(waitEndUs-waitBeginUs),
+            (unsigned long long)fullDrainPreviousUs,
+            (unsigned long long)(copyDamageEndUs-copyDamageBeginUs),
+            (unsigned long long)sendUpdateUs,(unsigned long long)submissionWaitUs,
+            (unsigned long long)completeWaitUs,
             (unsigned long long)(finishedUs-startedUs));
     if (gHwtconPostCount <= 5 || finishedUs-startedUs > 100000 || firstFrameForTrace) {
         fprintf(stderr,"HWTCON_TIMING marker=%u prepare_us=%llu submit_wait_us=%llu total_us=%llu\n",update.update_marker,
@@ -457,6 +484,19 @@ void displayWorker(){
         const bool initialFrameRequest=access("/data/local/tmp/kindle-display-initial-frame-request",F_OK)==0;
         if(!resume && !initialFrameRequest && !gScrollWasFast && !hadPending){std::lock_guard<std::mutex> lock(gQueueLock);gWorkingSlot=-1;continue;}
         const int status=fbPostHwtcon(gSnapshots[slot].handle);
+        if(status==0 && access("/data/local/tmp/kindle-screensaver-frame-request",F_OK)==0){
+            bool complete=true;
+            {std::lock_guard<std::mutex> waitGuard(gHwtconWaitLock);
+             if(gLastWaitMarker){
+                 const uint32_t marker=gLastWaitMarker;const uint64_t trace=gLastWaitTraceId;const uint64_t submitted=gLastWaitSubmittedUs;
+                 if(waitForPanel(marker,trace,submitted,"screensaver_frame")!=0)complete=false;
+                 else gLastWaitMarker=0;}}
+            if(complete){
+                unlink("/data/local/tmp/kindle-screensaver-frame-request");
+                int fd=open("/data/local/tmp/kindle-screensaver-frame-complete",O_WRONLY|O_CREAT|O_TRUNC|O_CLOEXEC,0644);
+                if(fd>=0){write(fd,"1\n",2);close(fd);fprintf(stderr,"HWTCON_SCREENSAVER_FRAME_COMPLETE=1\n");}
+            }
+        }
         if(initialFrameRequest && status==0 && !gInitialFrameRequestSeen){
             bool complete=true;
             {std::lock_guard<std::mutex> waitGuard(gHwtconWaitLock);
