@@ -21,6 +21,48 @@ extra_overlay_files=
 stage=
 cleanup_status=not_started
 
+# --- startup tuning: sub-second service-stop polling ------------------------
+# lab126_gui and X normally reach 'stop/waiting' in well under a second, but a
+# 1 s tick costs a full second before the first check and rounds every stop up
+# to the next whole second. Poll every 200 ms instead and keep the same 30 s
+# budget (150 ticks). usleep is missing on some firmwares, so fall back to the
+# original 1 s tick; the budget stays 30 s either way.
+POLL_UNIT_MS=1000
+if usleep 1000 2>/dev/null; then POLL_UNIT_MS=200; fi
+POLL_LIMIT=$(( 30000 / POLL_UNIT_MS ))
+poll_tick() {
+    if [ "$POLL_UNIT_MS" = 200 ]; then usleep 200000 || sleep 1; else sleep 1; fi
+}
+
+# --- startup tuning: sha256 result cache ------------------------------------
+# Every cold boot re-hashes the bootstrap tarballs (tens of MB on the FAT32
+# user partition) only to compare them against a digest recorded at build time.
+# Hashing is only required when the file may have changed, so remember the
+# size:mtime signature next to the digest and skip the re-hash while both are
+# unchanged. Any rewrite of the file updates mtime, which invalidates the entry;
+# a cache miss simply falls back to hashing.
+digest_cache() {  # $1=file $2=cache file -> prints sha256 of $1
+    _dc_sig=$(stat -c '%s:%Y' "$1" 2>/dev/null || :)
+    if [ -n "$_dc_sig" ] && [ -f "$2" ] && [ ! -L "$2" ]; then
+        if [ "$(sed -n '1p' "$2" 2>/dev/null || :)" = "$_dc_sig" ]; then
+            _dc_sum=$(sed -n '2p' "$2" 2>/dev/null || :)
+            case "$_dc_sum" in
+                ''|*[!0-9a-f]*) : ;;
+                *) if [ "${#_dc_sum}" -eq 64 ]; then printf '%s\n' "$_dc_sum"; return 0; fi ;;
+            esac
+        fi
+    fi
+    _dc_sum=$(sha256sum "$1" | awk '{print $1}')
+    if [ -n "$_dc_sig" ]; then
+        if printf '%s\n%s\n' "$_dc_sig" "$_dc_sum" > "$2.tmp.$$" 2>/dev/null; then
+            mv "$2.tmp.$$" "$2" 2>/dev/null || rm -f "$2.tmp.$$" 2>/dev/null || :
+        else
+            rm -f "$2.tmp.$$" 2>/dev/null || :
+        fi
+    fi
+    printf '%s\n' "$_dc_sum"
+}
+
 # BOOT_PROGRESS_UI=1. Stage-based progress, not an estimate of bytes copied.
 # Clear once with GC16; all subsequent progress draws use partial GL16.
 progress_status() {
@@ -366,10 +408,10 @@ if ! /sbin/stop lab126_gui; then
 fi
 stopped=0
 i=0
-while [ "$i" -lt 30 ]; do
+while [ "$i" -lt "$POLL_LIMIT" ]; do
     status=$(/sbin/initctl status lab126_gui 2>&1 || true)
     case "$status" in *'stop/waiting'*) stopped=1; break;; esac
-    i=$((i + 1)); sleep 1
+    i=$((i + 1)); poll_tick
 done
 [ "$stopped" = 1 ] || { echo "ANDROID_START_ERROR=lab126_gui_stop_unconfirmed status=$status"; sh "$BASE/restore-framework.sh" || :; exit 12; }
 framework_stopped=1
@@ -382,10 +424,10 @@ if ! /sbin/stop x; then
 fi
 x_stopped=0
 i=0
-while [ "$i" -lt 30 ]; do
+while [ "$i" -lt "$POLL_LIMIT" ]; do
     x_status=$(/sbin/initctl status x 2>&1 || true)
     case "$x_status" in *'stop/waiting'*) x_stopped=1; break;; esac
-    i=$((i + 1)); sleep 1
+    i=$((i + 1)); poll_tick
 done
 [ "$x_stopped" = 1 ] || { echo "ANDROID_START_ERROR=x_stop_unconfirmed status=$x_status"; sh "$BASE/restore-framework.sh" || :; exit 13; }
 echo KINDLE_DISPLAY_STACK_TEMPORARILY_STOPPED=x
@@ -409,7 +451,7 @@ if [ -f "$cache_ready" ] && [ ! -L "$cache_ready" ] &&
     if [ "$key" = "$(sed -n '1p' "$cache_ready")" ] &&
        [ "$expected_sha" = "$(sed -n '5p' "$cache_ready")" ] &&
        [ "$(stat -c %s "$BASE/system-cache.img")" = "$(sed -n '4p' "$cache_ready")" ] &&
-       [ "$(sha256sum "$BASE/system-cache-bootstrap.tar" | awk '{print $1}')" = "$(sed -n '3p' "$cache_ready")" ]; then
+       [ "$(digest_cache "$BASE/system-cache-bootstrap.tar" "$BASE/system-cache-bootstrap.sha-cache")" = "$(sed -n '3p' "$cache_ready")" ]; then
         if unshare -m --propagation private sh -c '
             set -eu
             image=$1; expected_key=$2
@@ -479,7 +521,7 @@ if [ "$system_cache" = 1 ]; then
        [ -f "$BASE/fixed-bootstrap.tar" ] && [ ! -L "$BASE/fixed-bootstrap.tar" ] &&
        [ "$(sed -n '1p' "$BASE/fixed-runtime.ready")" = FIXED_RUNTIME_V1 ] &&
        [ "$(sed -n '2p' "$BASE/fixed-runtime.ready")" = "$key" ] &&
-       [ "$(sha256sum "$BASE/fixed-bootstrap.tar" | awk '{print $1}')" = "$(sed -n '3p' "$BASE/fixed-runtime.ready")" ];then
+       [ "$(digest_cache "$BASE/fixed-bootstrap.tar" "$BASE/fixed-bootstrap.sha-cache")" = "$(sed -n '3p' "$BASE/fixed-runtime.ready")" ];then
         tar -xf "$BASE/fixed-bootstrap.tar" -C "$stage"
         fixed_runtime=1
         echo ANDROID_FIXED_RUNTIME_HIT=1
