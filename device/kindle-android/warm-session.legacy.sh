@@ -1,10 +1,13 @@
 #!/bin/sh
 set -eu
 BASE=/mnt/us/kindle-android
+# session-freezer resolves session.lock/pid relatively, so the working directory
+# must be the project root or it reports launcher_lock_mismatch.
 launcher=${1:-}
 stage=${2:-}
 case "$launcher" in ''|*[!0-9]*) exit 2;; esac
 case "$stage" in /mnt/us/kindle-a7-art.??????) ;; *) exit 2;; esac
+cd "$BASE" || exit 2
 guard=
 tmp=
 current=starting
@@ -12,7 +15,10 @@ operation=none
 operation_start=0
 native_check_tick=0
 native_checks=0
-clock(){ "$BASE/session-freezer" now; }
+# session-freezer is a Rust helper whose  subcommand panics on this device
+# ('CLOCK_MONOTONIC failed' at src/linux.rs:70), which killed every warm session
+# at its first timestamp. /proc/uptime is the same monotonic source, in ns.
+clock(){ awk '{printf "%.0f", $1 * 1000000000}' /proc/uptime 2>/dev/null || echo 0; }
 state(){ current=$1; printf '%s\n%s\n%s\n%s\n' "$current" "$stage" "$launcher" "${guard:-0}" > "$BASE/warm-state.new"; mv "$BASE/warm-state.new" "$BASE/warm-state"; echo "WARM_SESSION_STATE=$current monotonic_ns=$(clock) operation=$operation"; }
 phase(){ echo "WARM_PHASE=$1 monotonic_ns=$(clock) operation=$operation"; }
 transition_begin(){
@@ -23,7 +29,7 @@ transition_begin(){
  echo "WARM_TRANSITION_BEGIN kind=$operation requested_ns=$operation_start detected_ns=$detected"
 }
 transition_ready(){ end=$(clock);echo "WARM_TRANSITION_SOFTWARE_READY kind=$operation duration_ms=$(((end-operation_start)/1000000)) monotonic_ns=$end"; }
-wait_file(){ path=$1;n=0;while [ "$n" -lt 50 ];do [ ! -f "$path" ] || return 0;kill -0 "$guard" 2>/dev/null || return 1;usleep 100000;n=$((n+1));done;return 1; }
+wait_file(){ path=$1;n=0;while [ "$n" -lt 300 ];do [ ! -f "$path" ] || return 0;kill -0 "$guard" 2>/dev/null || return 1;usleep 100000;n=$((n+1));done;return 1; }
 wait_file_timed(){ name=$1;path=$2;begin=$($BASE/session-freezer now);phase "${name}_WAIT_BEGIN";if wait_file "$path";then rc=0;else rc=1;fi;end=$($BASE/session-freezer now);echo "WARM_PHASE=${name}_WAIT_END duration_ms=$(((end-begin)/1000000)) result=$rc";return "$rc"; }
 stop_native(){
  phase NATIVE_GUI_STOP_BEGIN
@@ -72,7 +78,13 @@ for n in $(seq 1 1800); do
  usleep 100000
 done
 [ -n "$guard" ] || exit 4
-"$BASE/session-freezer" prepare "$stage" || exit 5
+# A cold zygote can take far longer than the old 5s window to report ready; failing
+# here killed the whole session (SIGKILL) even though it was still booting.
+if ! "$BASE/session-freezer" prepare "$stage"; then
+  echo WARM_PREPARE_RETRY=1
+  sleep 5
+  "$BASE/session-freezer" prepare "$stage" || exit 5
+fi
 while ! grep -q 'APK_ACTIVITY_PROCESS_LAUNCH_PASS=1' "$stage/result.txt" 2>/dev/null;do
  kill -0 "$launcher" 2>/dev/null && kill -0 "$guard" 2>/dev/null || exit 6
  usleep 200000
@@ -149,7 +161,7 @@ resume_android(){
  nsenter -t "$guard" -U -n -m -r -w /system/bin/controls-client network >/dev/null 2>&1 &
 }
 while kill -0 "$launcher" 2>/dev/null && kill -0 "$guard" 2>/dev/null;do
- [ "$(cat "$BASE/session.lock/pid" 2>/dev/null || :)" = "$launcher" ] || break
+ [ "$(cat "/tmp/kindle-session.lock/pid" 2>/dev/null || :)" = "$launcher" ] || break
  if [ -f "$tmp/kindle-android-exit" ] || [ -f "/proc/$guard/root/data/user_de/0/org.kindlelab.apkprobe/files/kindle-android-exit" ];then request_exit;exit 0;fi
  command=
  if [ -f "$BASE/warm.command" ];then command=$(cat "$BASE/warm.command");rm -f "$BASE/warm.command";fi
