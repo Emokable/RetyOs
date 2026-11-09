@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.kindlelab.apkprobe"
-    android:versionCode="3"
+    android:versionCode="4"
     android:versionName="1.2">
     <uses-sdk android:minSdkVersion="25" android:targetSdkVersion="25" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- The shell wants BOOT_COMPLETED to refresh itself; without it the broadcast is denied and the desktop stays stale. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
     <application android:label="RetyOs" android:hasCode="true"
         android:allowBackup="false" android:debuggable="false"
         android:hardwareAccelerated="false"
@@ -23,10 +26,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".FilesActivity" android:exported="false" android:directBootAware="true" />
-        <activity android:name=".InputTestActivity" android:exported="true" android:directBootAware="true" />
-        <activity android:name=".AppManagerActivity" android:exported="false" android:directBootAware="true" />
-        <activity android:name=".AppPolicyActivity" android:exported="false" android:directBootAware="true" />
+        <activity android:name=".FilesActivity" android:exported="false" android:directBootAware="true" android:theme="@style/ReaderDesktopTheme" />
+        <activity android:name=".InputTestActivity" android:exported="true" android:directBootAware="true" android:theme="@style/ReaderDesktopTheme" />
+        <activity android:name=".AppManagerActivity" android:exported="false" android:directBootAware="true" android:theme="@style/ReaderDesktopTheme" />
+        <activity android:name=".AppPolicyActivity" android:exported="false" android:directBootAware="true" android:theme="@style/ReaderDesktopTheme" />
         <service android:name=".ReaderInputMethod" android:label="阅读键盘"
             android:permission="android.permission.BIND_INPUT_METHOD" android:exported="true" android:directBootAware="true">
             <intent-filter><action android:name="android.view.InputMethod" /></intent-filter>
