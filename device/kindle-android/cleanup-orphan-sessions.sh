@@ -3,7 +3,7 @@ set -u
 
 BASE=/mnt/us/kindle-android
 LOG=$BASE/session-cleanup.log
-LOCK=$BASE/session.lock
+LOCK=/tmp/kindle-session.lock
 
 log() { printf '%s\n' "$*" >> "$LOG"; }
 free_kib() { df -Pk /mnt/us | tail -n 1 | awk '{print $4}'; }
@@ -16,14 +16,29 @@ mounted_below() {
 }
 referenced_by_process() {
     candidate=$1
+    # This walks every process's root/cwd/cmdline and every fd: on a 485MB
+    # device with ~300 processes that can exceed the whole boot budget. Bound
+    # it; an over-budget scan reports "referenced" so nothing is deleted on
+    # incomplete evidence.
+    scan_deadline=$pass_deadline
     for proc in /proc/[0-9]*; do
         [ -d "$proc" ] || continue
+        if [ "$(cut -d ' ' -f1 /proc/uptime | cut -d. -f1)" -gt "$scan_deadline" ]; then
+            log "SESSION_RECLAIM_SCAN_BUDGET_EXCEEDED candidate=$candidate"
+            return 0
+        fi
         root=$(readlink "$proc/root" 2>/dev/null || :)
         case "$root" in "$candidate"|"$candidate"/*) return 0;; esac
         cwd=$(readlink "$proc/cwd" 2>/dev/null || :)
         case "$cwd" in "$candidate"|"$candidate"/*) return 0;; esac
         cmd=$(tr '\000' ' ' < "$proc/cmdline" 2>/dev/null || :)
         case "$cmd" in *"$candidate"*) return 0;; esac
+        # fsp makes every readlink a FUSE round trip; 250+ processes with
+        # thousands of fds pushed this pass to 20-86s and stretched startup.
+        # Cap the work instead of trusting the outer deadline, which only
+        # guards the candidate loop.
+        [ "${ORPHAN_FD_BUDGET:-600}" -gt 0 ] || return 1
+        ORPHAN_FD_BUDGET=$(( ${ORPHAN_FD_BUDGET:-600} - 1 ))
         for fd in "$proc"/fd/*; do
             target=$(readlink "$fd" 2>/dev/null || :)
             case "$target" in
@@ -49,9 +64,17 @@ if [ -e "$BASE/framework-stopped" ]; then
     exit 1
 fi
 
+# One budget for the whole pass: the loop used to hand each candidate its own
+# 45s and, worse, ran `find` over each leftover stage (tens of thousands of
+# files on FUSE) just to classify it. Ten leftovers cost >3 minutes of a tap.
+pass_deadline=$(( $(cut -d ' ' -f1 /proc/uptime | cut -d. -f1) + 20 ))
 before=$(free_kib)
 log "SESSION_RECLAIM_BEGIN host_free_kib=$before"
 for candidate in /mnt/us/kindle-a7-art.* "$BASE"/exited-session-*; do
+    if [ "$(cut -d ' ' -f1 /proc/uptime | cut -d. -f1)" -gt "$pass_deadline" ]; then
+        log "SESSION_RECLAIM_PASS_BUDGET_EXCEEDED path=$candidate (remaining stages left untouched)"
+        break
+    fi
     [ -d "$candidate" ] || continue
     [ ! -L "$candidate" ] || { log "SESSION_RECLAIM_SKIP path=$candidate reason=symlink"; continue; }
     case "$candidate" in
@@ -67,11 +90,17 @@ for candidate in /mnt/us/kindle-a7-art.* "$BASE"/exited-session-*; do
         reclaim_reason=completed_session
     elif [ ! -e "$candidate/rootfs" ] && [ ! -e "$candidate/run.sh" ] &&
          [ ! -e "$candidate/hwtcon-backup-ready" ] &&
-         [ "$(find "$candidate" -type f 2>/dev/null | wc -l | tr -d ' ')" = 1 ] &&
-         [ "$(find "$candidate" -type d 2>/dev/null | wc -l | tr -d ' ')" = 1 ] &&
+         [ "$(ls -A "$candidate" 2>/dev/null | wc -l | tr -d ' ')" = 1 ] &&
          [ -f "$candidate/overlay-cleanup.sh" ]; then
         completed=1
         reclaim_reason=abandoned_overlay_bootstrap
+    elif [ -d "$candidate/rootfs" ] && [ ! -e "$candidate/run.sh" ] &&
+         [ ! -e "$candidate/hwtcon-backup-ready" ]; then
+        # A rootfs skeleton without run.sh/backup marker is pure leftover: an
+        # earlier abort died before the container script was rendered. It has
+        # no state to preserve, and each one costs a full tree on FUSE.
+        completed=1
+        reclaim_reason=abandoned_rootfs_only
     elif [ -f "$candidate/run.sh" ] && [ -d "$candidate/rootfs" ]; then
         completed=1
         reclaim_reason=orphan_session_cleanup
