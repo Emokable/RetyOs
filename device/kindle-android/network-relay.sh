@@ -4,14 +4,21 @@ set -eu
 BASE=/mnt/us/kindle-android
 BIN=$BASE/slirp4netns
 LOG=$BASE/network-relay.log
-LOCK=$BASE/session.lock/pid
+LOCK=/tmp/kindle-session.lock/pid
 stage=${1:-}
 
 case "$stage" in /mnt/us/kindle-a7-art.??????) ;; *) echo NETWORK_RELAY_REFUSED=invalid_stage; exit 2;; esac
 [ -x "$BIN" ] || { echo NETWORK_RELAY_REFUSED=missing_binary; exit 3; }
-[ -r "$LOCK" ] || { echo NETWORK_RELAY_REFUSED=session_missing; exit 4; }
-launcher=$(cat "$LOCK")
-case "$launcher" in ''|*[!0-9]*) echo NETWORK_RELAY_REFUSED=invalid_launcher_pid; exit 5;; esac
+# 2026-11-04 第十轮：把 relay 的寿命与会话锁解耦。
+# 实测（20:5x 现场）：Android 还在正常跑（art-guard 25295/25522、system_server、两个应用），
+# 但 /mnt/us/kindle-android/session.lock/ 整个不见了、start.sh 也已退出，
+# 于是 relay 以 "session_lock_missing" 自杀 → slirp4netns 的 tap0 跟着消失 →
+# 容器 netns 里只剩 lo/sit0/tunl0 → 应用报 "network not available"（微信二维码取不到）。
+# 现在锁只在"存在且内容变化"时才算停止信号，真正的心跳是 art-guard 进程与它的 netns。
+launcher=
+if [ -r "$LOCK" ]; then launcher=$(cat "$LOCK" 2>/dev/null || :); fi
+case "$launcher" in ''|*[!0-9]*) launcher=;; esac
+if [ -z "$launcher" ]; then echo NETWORK_RELAY_SESSION_LOCK_OPTIONAL=1 >> "$LOG"; fi
 
 relay_pid=
 resolver_file=
@@ -32,10 +39,12 @@ echo NETWORK_RELAY_WAITING_FOR_ANDROID=1 >> "$LOG"
 target=
 i=0
 while [ "$i" -lt 180 ]; do
-    [ -r "$LOCK" ] || { echo NETWORK_RELAY_END=session_lock_missing >> "$LOG"; exit 0; }
-    current=$(cat "$LOCK" 2>/dev/null || :)
-    [ "$current" = "$launcher" ] || { echo NETWORK_RELAY_END=launcher_changed >> "$LOG"; exit 0; }
-    kill -0 "$launcher" 2>/dev/null || { echo NETWORK_RELAY_END=launcher_gone >> "$LOG"; exit 0; }
+    if [ -n "$launcher" ]; then
+        [ -r "$LOCK" ] || { echo NETWORK_RELAY_END=session_lock_missing >> "$LOG"; exit 0; }
+        current=$(cat "$LOCK" 2>/dev/null || :)
+        [ "$current" = "$launcher" ] || { echo NETWORK_RELAY_END=launcher_changed >> "$LOG"; exit 0; }
+        kill -0 "$launcher" 2>/dev/null || { echo NETWORK_RELAY_END=launcher_gone >> "$LOG"; exit 0; }
+    fi
     for entry in /proc/[0-9]*; do
         [ -r "$entry/comm" ] || continue
         IFS= read -r name < "$entry/comm" || :
@@ -74,7 +83,7 @@ fi
 netns=$(readlink "/proc/$target/ns/net" 2>/dev/null || :)
 case "$netns" in net:\[*\]) ;; *) echo NETWORK_RELAY_REFUSED=invalid_target_namespace >> "$LOG"; exit 7;; esac
 echo "NETWORK_RELAY_START pid=$target comm=art-guard root=$stage/rootfs netns=$netns mtu=1500 dns=10.0.2.3" >> "$LOG"
-resolver_file=$BASE/resolver-session-$launcher.conf
+resolver_file=$BASE/resolver-session-${launcher:-manual}.conf
 : > "$resolver_file"
 chmod 600 "$resolver_file"
 for server in $(awk '$1 == "nameserver" {print $2}' /etc/resolv.conf 2>/dev/null); do
@@ -144,10 +153,11 @@ hardware_poll() {
 }
 
 while kill -0 "$relay_pid" 2>/dev/null; do
-    [ -r "$LOCK" ] || { stop_reason=session_lock_missing; break; }
-    current=$(cat "$LOCK" 2>/dev/null || :)
-    [ "$current" = "$launcher" ] || { stop_reason=launcher_changed; break; }
-    kill -0 "$launcher" 2>/dev/null || { stop_reason=launcher_gone; break; }
+    # 会话锁只在"存在"时参与判断；它消失不等于会话结束（见文件头第十轮说明）。
+    if [ -n "$launcher" ] && [ -r "$LOCK" ]; then
+        current=$(cat "$LOCK" 2>/dev/null || :)
+        [ "$current" = "$launcher" ] || { stop_reason=launcher_changed; break; }
+    fi
     [ -d "/proc/$target" ] || { stop_reason=android_process_gone; break; }
     [ "$(readlink "/proc/$target/ns/net" 2>/dev/null || :)" = "$netns" ] || { stop_reason=namespace_changed; break; }
     hardware_poll
