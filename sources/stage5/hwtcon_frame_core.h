@@ -59,19 +59,42 @@ struct UpdateRequest {
 
 // Supports the measured ColorSoft RGBA8888 mode. This routine performs no I/O.
 bool ValidateColorSoftLayout(const FrameLayout& layout);
+// 8bpp grayscale framebuffer variant (Kindle 11 / MT8512, measured by
+// fb0-abi-probe: 1072x1448, pitch 1072, virt 2896, hwtcon_v2 driver).
+bool ValidateLayoutGray8(const FrameLayout& layout);
 bool FindDamageRgba8888(const uint8_t* source, uint32_t source_pitch,
                         const uint8_t* destination, const FrameLayout& layout,
                         Rect* damage);
+// Grayscale-8 destination: compares the RGBA8888 source against the
+// quantized luminance already stored in the framebuffer/shadow.
+bool FindDamageGray8(const uint8_t* source, uint32_t source_pitch,
+                     const uint8_t* destination, const FrameLayout& layout,
+                     Rect* damage);
+// Row-range variants (2026-11-04, 第十一轮): the caller proves which rows can
+// possibly have changed (per-row hash of the RGBA frame) and then quantizes /
+// compares only that band. Touching 1.5M pixels twice per frame cost 76-221 ms
+// of `prepare_us` on this Cortex-A7; a tap usually changes a handful of rows.
+bool FindDamageGray8Rows(const uint8_t* source, uint32_t source_pitch,
+                         const uint8_t* destination, const FrameLayout& layout,
+                         uint32_t y0, uint32_t y1, Rect* damage);
 bool CopyDamageRgba8888(const uint8_t* source, uint32_t source_pitch,
                         uint8_t* destination, const FrameLayout& layout,
                         const Rect& damage);
+// Writes quantized luminance bytes into the gray-8 destination.
+bool CopyDamageGray8(const uint8_t* source, uint32_t source_pitch,
+                     uint8_t* destination, const FrameLayout& layout,
+                     const Rect& damage);
 bool MakePartialAutoUpdate(const Rect& damage, uint32_t marker,
                            UpdateRequest* request);
 bool EnableSwipeAnimation(UpdateRequest* request, uint32_t direction,
                           uint32_t steps);
 void ConvertReadingRgba8888(uint8_t* pixels, uint32_t width, uint32_t height,
                             uint32_t pitch, bool monochrome);
+// Same quantization limited to rows [y0, y1) (2026-11-04, 第十一轮).
+void ConvertReadingRgba8888Rows(uint8_t* pixels, uint32_t width, uint32_t pitch,
+                                uint32_t y0, uint32_t y1, bool monochrome);
 bool IsLargePageChange(const Rect& damage);
+bool IsLargePageChangeFor(const FrameLayout& layout, const Rect& damage);
 
 }  // namespace kindle_a71
 
