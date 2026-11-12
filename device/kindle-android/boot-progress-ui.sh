@@ -33,6 +33,13 @@ progress)
     else
         "$FB" -q -w -W GL16 -C BLACK -B WHITE -pm -y 14 "RetyOs  $percent%  |  ${elapsed}s"
     fi
+    if [ "$percent" -ge 58 ]; then
+        # This label sits in a band the desktop window never covers, so e-ink
+        # keeps it forever (the "RetyOs 100%" residue). Erase it ourselves.
+        "$FB" -q -b -B WHITE -k top=0,left=0,width=1072,height=140
+        "$FB" -q -w -W GL16 -s top=0,left=0,width=1072,height=140
+        echo ANDROID_PROGRESS_TEXT_CLEARED=1
+    fi
     ;;
 *) exit 2;;
 esac
