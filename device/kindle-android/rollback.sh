@@ -6,7 +6,7 @@ BACKUP=$BASE/rollback-current
 DOCS=/mnt/us/documents
 [ -d /mnt/base-us/documents ] && DOCS=/mnt/base-us/documents
 
-[ ! -e "$BASE/session.lock" ] || { echo ANDROID_ROLLBACK_REFUSED=session_running; exit 2; }
+[ ! -e "/tmp/kindle-session.lock" ] || { echo ANDROID_ROLLBACK_REFUSED=session_running; exit 2; }
 [ ! -e "$BASE/framework-stopped" ] || { echo ANDROID_ROLLBACK_REFUSED=framework_recovery_pending; exit 3; }
 [ "$(cat "$BACKUP/backup-marker" 2>/dev/null || :)" = KINDLE_ANDROID_ROLLBACK_BACKUP=1 ] || { echo ANDROID_ROLLBACK_REFUSED=backup_marker_invalid; exit 7; }
 [ -d "$BACKUP/kindle-android" ] || { echo ANDROID_ROLLBACK_REFUSED=backup_missing; exit 4; }

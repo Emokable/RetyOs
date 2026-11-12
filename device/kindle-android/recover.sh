@@ -1,8 +1,11 @@
 #!/bin/sh
 set -eu
 BASE=/mnt/us/kindle-android
-if [ -r "$BASE/session.lock/pid" ]; then
-    pid=$(cat "$BASE/session.lock/pid" 2>/dev/null || :)
+if [ -f "$BASE/lib-monitor.sh" ]; then . "$BASE/lib-monitor.sh"; else mon_log() { :; }; fi
+trap 'mon_log recover "recover_done rc=$?"' EXIT
+mon_log recover 'recover_begin'
+if [ -r "/tmp/kindle-session.lock/pid" ]; then
+    pid=$(cat "/tmp/kindle-session.lock/pid" 2>/dev/null || :)
     case "$pid" in ''|*[!0-9]*) :;; *)
         if kill -0 "$pid" 2>/dev/null && [ -r "/proc/$pid/cmdline" ]; then
             command=$(tr '\000' ' ' < "/proc/$pid/cmdline" 2>/dev/null || :)
@@ -23,6 +26,7 @@ for stage in /mnt/us/kindle-a7-art.*; do
     echo "ANDROID_RECOVERY_STAGE=$stage"
     sh "$stage/run.sh" "$stage" --cleanup-only
     [ ! -d "$stage" ] || { echo "ANDROID_RECOVERY_INCOMPLETE=1 stage=$stage"; exit 2; }
+    mon_log recover "stage_cleaned stage=${stage##*/}"
 done
 [ "$found" = 1 ] || echo ANDROID_RECOVERY_NOT_NEEDED=1
 sh "$BASE/restore-framework.sh"
