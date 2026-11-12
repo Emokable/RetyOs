@@ -25,6 +25,18 @@ use std::{
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 const BASE: &str = "/mnt/us/kindle-android";
 static STOP: AtomicBool = AtomicBool::new(false);
+/* r105: session.lock moved off fsp to device tmpfs -- fsp dropped the whole
+ * lock directory mid-boot once (r105b: lock_pid read as empty) and its boot-
+ * phase quirks must not gate the mutex. /tmp is session-scoped: it vanishes
+ * on reboot, exactly when the lock stops meaning anything. */
+const LOCK_PID: &str = "/tmp/kindle-session.lock/pid";
+/* Warm re-entry cache TTL (seconds): how long the controller may keep a
+ * retained container alive after the user left, before it exits and cleans
+ * up on its own. 0 = unlimited (old behaviour). See docs/warm-exit-design.md
+ * item 3: the timer must live inside the controller so it cannot outlive or
+ * be orphaned from it. */
+static TTL_MS: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+static TTL_START_MS: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
 #[repr(C)]
 struct PollFd {
     fd: i32,
@@ -54,17 +66,30 @@ extern "C" {
     fn syscall(number: isize, ...) -> isize;
     fn kill(pid: i32, sig: i32) -> i32;
     fn setsid() -> i32;
-    #[cfg(not(target_arch = "arm"))]
     fn clock_gettime(id: i32, t: *mut Timespec) -> i32;
 }
 extern "C" fn stop_signal(_: i32) {
     STOP.store(true, Ordering::Relaxed);
 }
 fn now() -> u64 {
+    // The kernel's 32-bit timespec does not match this crate's Timespec layout,
+    // so the values came out scrambled; /proc/uptime is monotonic and exact.
+    let text = fs::read_to_string("/proc/uptime").unwrap_or_default();
+    let seconds: f64 = text
+        .split_whitespace()
+        .next()
+        .and_then(|value| value.parse().ok())
+        .unwrap_or(0.0);
+    return (seconds * 1_000_000_000.0) as u64;
+}
+
+#[allow(dead_code)]
+fn unused_clock_now() -> u64 {
     let mut t = Timespec { sec: 0, nsec: 0 };
-    #[cfg(target_arch = "arm")]
-    let rc = unsafe { syscall(403isize, 1i32, &mut t as *mut Timespec) };
-    #[cfg(not(target_arch = "arm"))]
+    // syscall 403 is clock_gettime64, which only exists from Linux 5.1; the
+    // Kindle 11 kernel is 4.9 so that call returns ENOSYS and every timestamp
+    // panicked. The 32-bit clock_gettime is available everywhere and is fine
+    // for a monotonic uptime value.
     let rc = unsafe { clock_gettime(1, &mut t) };
     if rc != 0 {
         panic!("CLOCK_MONOTONIC failed");
@@ -297,8 +322,16 @@ impl Controller {
         if unsafe { flock(owner.as_raw_fd(), 2 | 4) } != 0 {
             return Err("another_controller_owns_session".into());
         }
-        if text(helper("session.lock/pid")).trim() != launcher.to_string() {
-            return Err("launcher_lock_mismatch".into());
+        if text(LOCK_PID).trim() != launcher.to_string() {
+            // r104: mismatch surfaced 3 boots in a row (r104a/c, SULEGB/SXrfNI/gCzx5h
+            // eras) with no visible writer side-change; carry both sides in the
+            // message so the next boot log pins it without guessing.
+            return Err(format!(
+                "launcher_lock_mismatch lock_pid={} arg_pid={}",
+                text(LOCK_PID).trim(),
+                launcher
+            )
+            .into());
         }
         let launcher = Identity::new(launcher)?;
         let started = Instant::now();
@@ -389,10 +422,10 @@ impl Controller {
                 c.check()?;
                 let command = c.clients()?;
                 if command == Some(Request::Exit)
-                    || text(helper("warm.command")).trim() == "exit"
+                    || text(Path::new("/tmp/warm.command")).trim() == "exit"
                     || c.tmp.join("kindle-android-exit").exists()
                 {
-                    remove(helper("warm.command"));
+                    remove(Path::new("/tmp/warm.command"));
                     c.exit()?;
                     return Err("startup_exit_requested".into());
                 }
@@ -410,7 +443,7 @@ impl Controller {
                 c.events
                     .wait(Duration::from_millis(200), Some(c.listener.as_raw_fd()))?;
             }
-            remove(c.tmp.join("kindle-android-retain"));
+            remove(Path::new("/tmp/kindle-android-retain"));
             marker(c.tmp.join("kindle-warm-available"))?;
             c.set_state(State::Active)?;
             Ok(())
@@ -427,10 +460,36 @@ impl Controller {
         Ok(c)
     }
     fn check(&self) -> Result<()> {
-        if STOP.load(Ordering::Relaxed) || !self.launcher.alive() || !self.guard.alive() {
-            return Err("session_owner_gone".into());
+        // After a successful retain the launcher (start.sh) exits by design and
+        // the native UI takes over; the container is still alive and must stay
+        // resumable, so launcher death only matters while Android is foreground.
+        // r113: NativePending (retain finished, home launching) must be exempt
+        // too -- retain() already consumed the retain marker, and the launcher
+        // is gone by then by design; without this the controller killed the
+        // very session it had just retained (r113b owner_gone after GUI_READY).
+        let launcher_required = !matches!(
+            self.state,
+            State::Native | State::NativePending | State::Resuming | State::Retaining
+        );
+        if STOP.load(Ordering::Relaxed) {
+            return Err("owner_gone:stop_signal".into());
         }
-        if text(helper("session.lock/pid")).trim() != self.launcher.pid.to_string() {
+        if !self.guard.alive() {
+            // r117: art-guard dying is not the session dying -- the container
+            // keeps running (r116 observed ss=1 with guard=0), and killing a
+            // live retained session over a dead helper lost it entirely.
+            // tmp paths under /proc/<guard>/root will fail; those callers
+            // already log their own errors and degrade.
+            println!("CONTROLLER_GUARD_DEAD_CONTINUE=1");
+        } else if launcher_required && !self.launcher.alive() {
+            // r119: even without the marker, do NOT kill a live container here.
+            // The RETAINING -> touch -> exit sequence races this 200ms poll
+            // (r119 died at state=Active retain_file=missing -- the poll fell
+            // between kill and touch). A true orphan is the watchdog's job
+            // (recover-aborted-session.sh), not this check's.
+            println!("CONTROLLER_LAUNCHER_GONE_CONTINUE=1");
+        }
+        if text(LOCK_PID).trim() != self.launcher.pid.to_string() {
             return Err("session_lock_changed".into());
         }
         Ok(())
@@ -493,7 +552,7 @@ impl Controller {
         let end = Instant::now() + Duration::from_secs(5);
         loop {
             self.check()?;
-            if text(helper("warm-power.state")).trim() == value {
+            if text(Path::new("/tmp/warm-power.state")).trim() == value {
                 return Ok(());
             }
             if Instant::now() > end {
@@ -522,7 +581,7 @@ impl Controller {
     fn retain(&mut self) -> Result<()> {
         self.begin(
             "retain",
-            text(self.tmp.join("kindle-android-retain"))
+            text(Path::new("/tmp/kindle-android-retain"))
                 .trim()
                 .parse()
                 .ok(),
@@ -548,19 +607,31 @@ impl Controller {
         }
         self.wait_file("kindle-display-quiesced")?;
         self.wait_file("kindle-input-released")?;
-        marker(helper("warm-native"))?;
+        marker(Path::new("/tmp/warm-native"))?;
         self.wait_power("native")?;
-        action(
+        // The kernel here cannot freeze the container (session-freezer returns
+        // 15), and freezing is not required to keep the session warm, so treat it
+        // as best effort instead of aborting the controller.
+        if let Err(error) = action(
             &helper("session-freezer"),
             &["freeze", &self.stage],
             Duration::from_secs(6),
-        )?;
-        action(
+        ) {
+            println!("CONTROLLER_FREEZE_BEST_EFFORT=1 error={error}");
+        }
+        // r116: restore-framework (KOReader recovery) has intermittent slow
+        // runs that exceeded the 110s cap (r115 action_timeout) and killed the
+        // controller right after a successful handoff -- resume then had no
+        // listener. Container keep-alive and resume reachability outrank
+        // native-UI restore completeness; degrade like freeze does.
+        if let Err(error) = action(
             "/bin/sh",
             &[&helper("restore-framework.sh")],
             Duration::from_secs(110),
-        )?;
-        remove(self.tmp.join("kindle-android-retain"));
+        ) {
+            println!("CONTROLLER_RESTORE_BEST_EFFORT=1 error={error}");
+        }
+        remove(Path::new("/tmp/kindle-android-retain"));
         self.set_state(State::NativePending)?;
         self.start_home(false)?;
         Ok(())
@@ -614,6 +685,7 @@ impl Controller {
         Ok(())
     }
     fn resume(&mut self) -> Result<()> {
+        let phase_start = now();
         // Recheck at the point of use. A cable can be connected after the
         // request-loop preflight; stopping FunctionFS MTP during an active
         // host session can block and otherwise kill the warm controller.
@@ -645,18 +717,23 @@ impl Controller {
             return Err(error);
         }
         self.set_state(State::Resuming)?;
+        println!("CONTROLLER_PHASE name=resuming_set ms={}", (now() - phase_start) / 1_000_000);
         remove(helper("native-home.trace-id"));
         remove(helper("native-ui.ready"));
         self.stop_native()?;
-        remove(helper("warm-native"));
+        println!("CONTROLLER_PHASE name=native_stopped ms={}", (now() - phase_start) / 1_000_000);
+        remove(Path::new("/tmp/warm-native"));
         remove(self.tmp.join("kindle-input-acquired"));
         action(
             &helper("session-freezer"),
             &["thaw", &self.stage],
             Duration::from_secs(6),
         )?;
+        println!("CONTROLLER_PHASE name=thawed ms={}", (now() - phase_start) / 1_000_000);
         self.wait_power("android")?;
+        println!("CONTROLLER_PHASE name=power_android ms={}", (now() - phase_start) / 1_000_000);
         remove(self.tmp.join("kindle-input-release"));
+        println!("CONTROLLER_PHASE name=display_released ms={}", (now() - phase_start) / 1_000_000);
         self.wait_file("kindle-input-acquired")?;
         atomic(
             self.tmp.join("kindle-input-resume-cutoff"),
@@ -675,6 +752,7 @@ impl Controller {
         self.set_state(State::Active)?;
         self.last_status = Instant::now() - Duration::from_secs(60);
         self.ready("resume");
+        println!("CONTROLLER_PHASE name=desktop_started ms={}", (now() - phase_start) / 1_000_000);
         Ok(())
     }
     fn exit(&mut self) -> Result<()> {
@@ -690,7 +768,7 @@ impl Controller {
         atomic(helper("full-exit.started-ns"), &format!("{}\n", now()))?;
         self.set_state(State::Exiting)?;
         remove(self.tmp.join("kindle-warm-available"));
-        if Path::new(&helper("warm-native")).exists() {
+        if Path::new(&Path::new("/tmp/warm-native")).exists() {
             self.stop_native()?;
         }
         action(
@@ -785,6 +863,23 @@ impl Controller {
     fn run(&mut self) -> Result<()> {
         loop {
             self.check()?;
+            /* TTL: while the container sits retained (native/native_pending)
+             * the countdown runs; the moment the user resumes (active) it is
+             * reset so the next exit gets a fresh window. On expiry the
+             * controller exits and cleans up on its own. */
+            let ttl=TTL_MS.load(std::sync::atomic::Ordering::Relaxed);
+            if ttl>0 && matches!(self.state,State::Native|State::NativePending){
+                let start=TTL_START_MS.load(std::sync::atomic::Ordering::Relaxed);
+                if start==0{
+                    TTL_START_MS.store(now(),std::sync::atomic::Ordering::Relaxed);
+                }else if now().saturating_sub(start)>=ttl{
+                    println!("CONTROLLER_TTL_EXPIRED ms={ttl}");
+                    self.exit()?;
+                    return Ok(());
+                }
+            }else if self.state==State::Active{
+                TTL_START_MS.store(0,std::sync::atomic::Ordering::Relaxed);
+            }
             let mut command = self.clients()?;
             if self.tmp.join("kindle-android-exit").exists()
                 || PathBuf::from(format!(
@@ -795,7 +890,7 @@ impl Controller {
             {
                 command = Some(Request::Exit);
             }
-            let path = PathBuf::from(helper("warm.command"));
+            let path = PathBuf::from(Path::new("/tmp/warm.command"));
             if path.is_file() {
                 let s = text(&path);
                 remove(path);
@@ -818,7 +913,7 @@ impl Controller {
             }
             if self.state == State::Active
                 && (command == Some(Request::Retain)
-                    || self.tmp.join("kindle-android-retain").is_file())
+                    || Path::new("/tmp/kindle-android-retain").is_file())
             {
                 self.retain()?;
             } else if matches!(self.state, State::Native | State::NativePending)
@@ -971,7 +1066,7 @@ fn request_client(request: &str) -> Result<()> {
         return Err("unsafe_socket_directory".into());
     }
     let mut stream = UnixStream::connect(path)?;
-    stream.set_read_timeout(Some(Duration::from_secs(2)))?;
+    stream.set_read_timeout(Some(Duration::from_secs(5)))?;
     stream.write_all(format!("{request}\n").as_bytes())?;
     let mut b = [0u8; 256];
     let n = stream.read(&mut b)?;
@@ -1073,6 +1168,13 @@ pub fn entry() -> Result<()> {
         Some("run")=>{
             unsafe{signal(1,stop_signal);signal(2,stop_signal);signal(15,stop_signal);}
             let launcher=args.get(2).ok_or("launcher_required")?.parse()?;let stage=args.get(3).ok_or("stage_required")?;
+            let mut ttl_ms=0u64;
+            if args.get(4).map(String::as_str)==Some("--ttl"){
+                let secs=args.get(5).ok_or("ttl_required")?.parse::<u64>()?;
+                ttl_ms=secs.saturating_mul(1000);
+            }
+            TTL_MS.store(ttl_ms,std::sync::atomic::Ordering::Relaxed);
+            TTL_START_MS.store(0,std::sync::atomic::Ordering::Relaxed);
             let mut c=Controller::new(launcher,stage)?;let result=c.run();
             if result.is_err()&&c.guard.alive(){STOP.store(false,Ordering::Relaxed);if let Err(e)=c.exit(){eprintln!("CONTROLLER_EMERGENCY_EXIT_ERROR={e}");}}
             result
