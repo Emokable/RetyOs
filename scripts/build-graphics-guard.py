@@ -75,7 +75,8 @@ subprocess.run(base+['-fPIC','-DASHMEM_FRAMEWORK_RWX_MAX','-c',str(p/'sources/as
 framework=p/'artifacts/libkindleashmem-framework.so'
 subprocess.run([str(zig),'ld.lld','-m','armelf_linux_eabi','-shared','--no-undefined',
                 '-soname','libkindleashmem.so',str(framework_object),
-                str(p/'rootfs-min/system/lib/libc.so'),'-o',str(framework)],check=True)
+                str(p/'rootfs-min/system/lib/libc.so'),
+                str(p/'rootfs-min/system/lib/libdl.so'),'-o',str(framework)],check=True)
 print(framework.name,hashlib.sha256(framework.read_bytes()).hexdigest())
 egl_object=build/'egl-software-properties.o'
 subprocess.run(base+['-fPIC','-c',str(p/'sources/stage3/egl_software_properties.c'),'-o',str(egl_object)],check=True)
