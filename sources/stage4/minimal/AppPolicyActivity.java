@@ -31,5 +31,6 @@ public final class AppPolicyActivity extends Activity {
         stopReturn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){public void onCheckedChanged(CompoundButton button,boolean checked){prefs.edit().putBoolean(STOP_ON_RETURN,checked).commit();}});page.addView(stopReturn);
         TextView note=text("仅结束应用进程，不清除数据库、书籍、设置或下载文件。应用需自行保存阅读进度。",14);note.setTextColor(0xff555555);page.addView(note);
         setContentView(page);
+        DisplayRefresh.onVisible(this);
     }
 }

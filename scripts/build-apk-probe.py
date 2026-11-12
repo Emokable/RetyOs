@@ -108,7 +108,8 @@ report = {
     'activity': 'org.kindlelab.apkprobe.ApkProbeActivity',
     'min_sdk': 25,
     'target_sdk': 25,
-    'permissions': ['android.permission.READ_EXTERNAL_STORAGE', 'android.permission.WRITE_EXTERNAL_STORAGE'],
+    'permissions': ['android.permission.READ_EXTERNAL_STORAGE', 'android.permission.WRITE_EXTERNAL_STORAGE',
+                    'android.permission.RECEIVE_BOOT_COMPLETED'],
     'android_build_tools': '25.0.3 (aapt, zipalign), 37.0.0 (apksigner)',
     'android_platform': '25 / Android 7.1.1',
     'archives': {archive.name: {'size': size, 'sha1': sha1}
